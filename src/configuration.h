@@ -12,4 +12,8 @@ struct configuration
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(configuration, font_path)
 
+extern configuration config;
+
+void load_configuration(const std::string &path);
+
 #endif
