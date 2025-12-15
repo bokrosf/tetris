@@ -9,6 +9,7 @@
 
 void init();
 void shutdown();
+void run();
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
     try
     {
         init();
+        run();
     }
     catch (const std::exception &ex)
     {
@@ -41,4 +43,20 @@ void shutdown()
 {
     render::shutdown();
     event::shutdown();
+}
+
+void run()
+{
+    while (true)
+    {
+        event::read_all();
+
+        if (event::occured(SDL_EVENT_QUIT))
+        {
+            return;
+        }
+
+        // Update game state.
+        // Draw.
+    }
 }
