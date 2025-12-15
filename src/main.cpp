@@ -2,6 +2,7 @@
 #include <exception>
 #include <SDL3/SDL_main.h>
 #include <configuration.h>
+#include <font.h>
 
 void initialize();
 
@@ -25,4 +26,5 @@ int main(int argc, char *argv[])
 void initialize()
 {
     load_configuration("asset/config.json");
+    load_font(config.font_path);
 }
