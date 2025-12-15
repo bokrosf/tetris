@@ -57,6 +57,6 @@ void run()
         }
 
         // Update game state.
-        // Draw.
+        render::draw_frame();
     }
 }

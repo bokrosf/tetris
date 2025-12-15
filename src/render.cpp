@@ -52,4 +52,11 @@ namespace render
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         initialized = false;
     }
+
+    void draw_frame()
+    {
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+        SDL_RenderClear(renderer);
+        SDL_RenderPresent(renderer);
+    }
 }

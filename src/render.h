@@ -5,6 +5,7 @@ namespace render
 {
     void init();
     void shutdown();
+    void draw_frame();
 }
 
 #endif
