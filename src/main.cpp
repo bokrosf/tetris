@@ -5,7 +5,7 @@
 #include <font.h>
 #include <settings.h>
 
-void initialize();
+void init();
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 
     try
     {
-        initialize();
+        init();
     }
     catch (const std::exception &ex)
     {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void initialize()
+void init()
 {
     load_configuration("asset/config.json");
     load_font(config.font_path);
