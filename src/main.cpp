@@ -3,9 +3,11 @@
 #include <SDL3/SDL_main.h>
 #include <configuration.h>
 #include <font.h>
+#include <render.h>
 #include <settings.h>
 
 void init();
+void shutdown();
 
 int main(int argc, char *argv[])
 {
@@ -20,6 +22,8 @@ int main(int argc, char *argv[])
         std::cout << ex.what() << std::endl;
     }
 
+    shutdown();
+
     return 0;
 }
 
@@ -28,5 +32,10 @@ void init()
     load_configuration("asset/config.json");
     load_font(config.font_path);
     load_settings(config.settings_path);
+    render::init();
 }
 
+void shutdown()
+{
+    render::shutdown();
+}
