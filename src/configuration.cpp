@@ -20,7 +20,7 @@ void load_configuration(const std::string &path)
 
     if (!std::filesystem::exists(path))
     {
-        throw std::runtime_error(std::format("File not found: {}", path));
+        throw std::runtime_error(std::format("Configuration file not found: {}", path));
     }
 
     std::ifstream input(path);
