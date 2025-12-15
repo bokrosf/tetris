@@ -3,7 +3,6 @@
 
 #include <string>
 #include <nlohmann/json.hpp>
-#include <SDL3/SDL.h>
 
 struct configuration
 {
