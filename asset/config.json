@@ -1,3 +1,5 @@
 {
-    "font_path": "asset/font.json"
+    "font_path": "asset/font.json",
+    "settings_path": "asset/settings.json"
 }
+

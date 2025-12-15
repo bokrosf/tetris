@@ -7,9 +7,10 @@
 struct configuration
 {
     std::string font_path;
+    std::string settings_path;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(configuration, font_path)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(configuration, font_path, settings_path)
 
 extern configuration config;
 

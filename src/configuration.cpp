@@ -41,6 +41,11 @@ namespace
             errors.emplace_back("font_path missing.");
         }
 
+        if (c.settings_path.empty())
+        {
+            errors.emplace_back("settings_path missing.");
+        }
+
         if (!errors.empty())
         {
             std::ostringstream message;
