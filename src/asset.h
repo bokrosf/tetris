@@ -38,6 +38,7 @@ namespace asset
     }
 
     id_type load_font(const std::string &path);
+    void unload_all();
 }
 
 #endif

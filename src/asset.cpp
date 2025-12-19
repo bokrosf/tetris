@@ -11,8 +11,9 @@ using json = nlohmann::ordered_json;
 namespace
 {
     using namespace asset;
+    const id_type initial_id_value = 0;
 
-    id_type last_id = 0;
+    id_type last_id = initial_id_value;
     std::unordered_map<id_type, font> fonts;
 }
 
@@ -57,5 +58,11 @@ namespace asset
         fonts[last_id] = std::move(loaded);
 
         return last_id;
+    }
+
+    void unload_all()
+    {
+        fonts.clear();
+        last_id = initial_id_value;
     }
 }
