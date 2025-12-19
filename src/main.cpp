@@ -3,7 +3,6 @@
 #include <SDL3/SDL_main.h>
 #include <configuration.h>
 #include <event.h>
-#include <font.h>
 #include <render.h>
 #include <settings.h>
 
@@ -33,7 +32,6 @@ int main(int argc, char *argv[])
 void init()
 {
     load_configuration("asset/config.json");
-    load_font(config.font_path);
     load_settings(config.settings_path);
     event::init();
     render::init();
