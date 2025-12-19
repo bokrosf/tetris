@@ -1,6 +1,7 @@
 #include <iostream>
 #include <exception>
 #include <SDL3/SDL_main.h>
+#include <asset.h>
 #include <configuration.h>
 #include <event.h>
 #include <render.h>
@@ -39,6 +40,7 @@ void init()
 
 void shutdown()
 {
+    asset::unload_all();
     render::shutdown();
     event::shutdown();
 }
