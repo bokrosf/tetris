@@ -39,6 +39,7 @@ namespace asset
 
     id_type load_font(const std::string &path);
     void unload_all();
+    font &font_data(id_type id);
 }
 
 #endif

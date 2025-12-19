@@ -65,4 +65,9 @@ namespace asset
         fonts.clear();
         last_id = initial_id_value;
     }
+
+    font &font_data(id_type id)
+    {
+        return fonts.at(id);
+    }
 }
