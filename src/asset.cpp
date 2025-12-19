@@ -1,9 +1,61 @@
+#include <exception>
+#include <filesystem>
+#include <format>
+#include <fstream>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 #include <asset.h>
 
+using json = nlohmann::ordered_json;
+
+namespace
+{
+    using namespace asset;
+
+    id_type last_id = 0;
+    std::unordered_map<id_type, font> fonts;
+}
+
+namespace asset::storage
+{
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(font_vertex, x, y)
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(symbol, code, vertices)
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(font, width, symbols)
+}
+
 namespace asset
 {
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(storage::font_vertex, x, y)
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(storage::symbol, code, vertices)
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(storage::font, width, symbols)
+    id_type load_font(const std::string &path)
+    {
+        if (!std::filesystem::exists(path))
+        {
+            throw std::runtime_error(std::format("Font asset not existing: {}", path));
+        }
+
+        std::ifstream input(path);
+        json json_data = json::parse(input);
+        storage::font stored = json_data.get<storage::font>();
+        font loaded{.width = stored.width};
+        loaded.symbols.reserve(stored.symbols.size());
+
+        for (const auto &symbol : stored.symbols)
+        {
+            loaded.symbols[symbol.code].reserve(stored.symbols.size());
+
+            for (const auto &v : symbol.vertices)
+            {
+                loaded.symbols[symbol.code].push_back(
+                    SDL_Vertex
+                    {
+                        .position{.x = v.x, .y = v.y},
+                    }
+                );
+            }
+        }
+
+        ++last_id;
+        fonts[last_id] = std::move(loaded);
+
+        return last_id;
+    }
 }

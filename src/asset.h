@@ -8,10 +8,12 @@
 
 namespace asset
 {
+    using id_type = unsigned int;
+
     struct font
     {
         float width;
-        std::unordered_map<char, std::vector<SDL_Vertex>> vertices;
+        std::unordered_map<char, std::vector<SDL_Vertex>> symbols;
     };
 
     namespace storage
@@ -34,6 +36,8 @@ namespace asset
             std::vector<symbol> symbols;
         };
     }
+
+    id_type load_font(const std::string &path);
 }
 
 #endif
