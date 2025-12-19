@@ -1,4 +1,5 @@
 target_sources("${PROJECT_NAME}" PRIVATE
+  asset.cpp
   configuration.cpp
   event.cpp
   main.cpp
