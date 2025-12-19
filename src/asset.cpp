@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include <asset.h>
+#include <font.h>
 
 using json = nlohmann::ordered_json;
 
@@ -14,14 +15,7 @@ namespace
     const id_type initial_id_value = 0;
 
     id_type last_id = initial_id_value;
-    std::unordered_map<id_type, font> fonts;
-}
-
-namespace asset::storage
-{
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(font_vertex, x, y)
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(symbol, code, vertices)
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(font, width, symbols)
+    std::unordered_map<id_type, ui::font> fonts;
 }
 
 namespace asset
@@ -35,8 +29,8 @@ namespace asset
 
         std::ifstream input(path);
         json json_data = json::parse(input);
-        storage::font stored = json_data.get<storage::font>();
-        font loaded{.width = stored.width};
+        ui::storage::font stored = json_data.get<ui::storage::font>();
+        ui::font loaded{.width = stored.width};
         loaded.symbols.reserve(stored.symbols.size());
 
         for (const auto &symbol : stored.symbols)
@@ -66,7 +60,7 @@ namespace asset
         last_id = initial_id_value;
     }
 
-    font &font_data(id_type id)
+    ui::font &font(id_type id)
     {
         return fonts.at(id);
     }
