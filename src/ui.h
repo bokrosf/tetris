@@ -15,6 +15,11 @@ namespace ui
         SDL_FColor color;
         SDL_Point position;
     };
+
+    struct game_layout
+    {
+        label score;
+    };
 }
 
 #endif
