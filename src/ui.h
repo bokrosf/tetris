@@ -13,7 +13,7 @@ namespace ui
         asset::id_type font;
         float font_size;
         SDL_FColor color;
-        SDL_Point position;
+        SDL_FPoint position;
     };
 
     struct game_layout

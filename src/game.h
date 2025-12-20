@@ -3,6 +3,10 @@
 
 namespace game
 {
+    struct game_state
+    {
+    };
+
     void init();
     void run();
 }

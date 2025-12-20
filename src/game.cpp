@@ -6,11 +6,7 @@
 
 namespace
 {
-    struct game_state
-    {
-    };
-
-    game_state state;
+    game::game_state state;
     ui::game_layout view;
 }
 
@@ -20,7 +16,7 @@ namespace game
     {
         asset::id_type font = asset::load_font(config.font_path);
 
-        state = game_state();
+        state = game::game_state();
         view = ui::game_layout
         {
             .score = ui::label
@@ -28,8 +24,8 @@ namespace game
                 .text = "Tetris",
                 .font = font,
                 .font_size = 1,
-                .color = SDL_FColor{.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
-                .position = SDL_Point{.x = 0, .y = 0}
+                .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
+                .position = {.x = 0.0, .y = 0.0}
             }
         };
     }
@@ -38,7 +34,6 @@ namespace game
     {
         // TODO: Update game state.
         // TODO: Update view state.
-        // TODO: Draw game layout.
-        render::draw_frame();
+        render::draw_frame(state, view);
     }
 }
