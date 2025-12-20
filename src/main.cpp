@@ -4,6 +4,7 @@
 #include <asset.h>
 #include <configuration.h>
 #include <event.h>
+#include <game.h>
 #include <render.h>
 #include <settings.h>
 
@@ -36,6 +37,7 @@ void init()
     load_settings(config.settings_path);
     event::init();
     render::init();
+    game::init();
 }
 
 void shutdown()
@@ -57,6 +59,6 @@ void run()
         }
 
         // Update game state.
-        render::draw_frame();
+        game::run();
     }
 }
