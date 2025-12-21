@@ -17,6 +17,8 @@ namespace game
 
     struct game_state
     {
+        tetromino current;
+        tetromino next;
     };
 
     void init();
