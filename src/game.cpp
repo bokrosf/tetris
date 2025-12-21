@@ -11,6 +11,94 @@ namespace
     game_state state;
     ui::game_layout view;
 
+    const tetromino piece_templates[7] =
+    {
+        tetromino
+        {
+            .width = 4,
+            .height = 1,
+            .parts =
+            {
+                {1, 1, 1, 1},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+        tetromino
+        {
+            .width = 3,
+            .height = 2,
+            .parts =
+            {
+                {2, 2, 2, 0},
+                {0, 2, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+        tetromino
+        {
+            .width = 3,
+            .height = 2,
+            .parts =
+            {
+                {3, 3, 3, 0},
+                {0, 0, 3, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+        tetromino
+        {
+            .width = 3,
+            .height = 2,
+            .parts =
+            {
+                {4, 4, 4, 0},
+                {4, 0, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+        tetromino
+        {
+            .width = 2,
+            .height = 2,
+            .parts =
+            {
+                {5, 5, 0, 0},
+                {5, 5, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+        tetromino
+        {
+            .width = 3,
+            .height = 2,
+            .parts =
+            {
+                {6, 6, 0, 0},
+                {0, 6, 6, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+        tetromino
+        {
+            .width = 3,
+            .height = 2,
+            .parts =
+            {
+                {0, 7, 7, 0},
+                {7, 7, 0, 0},
+                {0, 0, 0, 0},
+                {0, 0, 0, 0},
+            }
+        },
+    };
+
     void copy(tetromino &from, tetromino &to)
     {
         to.width = from.width;

@@ -13,8 +13,6 @@ namespace game
         char parts[part_dimension][part_dimension];
     };
 
-    extern tetromino piece_templates[7];
-
     struct game_state
     {
         tetromino current;
