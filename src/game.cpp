@@ -4,10 +4,26 @@
 #include <render.h>
 #include <ui.h>
 
+using namespace game;
+
 namespace
 {
-    game::game_state state;
+    game_state state;
     ui::game_layout view;
+
+    void copy(tetromino &from, tetromino &to)
+    {
+        to.width = from.width;
+        to.height = from.height;
+
+        for (dimension row = 0; row < from.height; ++row)
+        {
+            for (dimension column = 0; column < from.width; ++column)
+            {
+                to.parts[row][column] = from.parts[row][column];
+            }
+        }
+    }
 }
 
 namespace game
@@ -37,3 +53,4 @@ namespace game
         render::draw_frame(state, view);
     }
 }
+
