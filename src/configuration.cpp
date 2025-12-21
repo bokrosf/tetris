@@ -46,13 +46,24 @@ namespace
             errors.emplace_back("settings_path missing.");
         }
 
+        if (c.gameplay.grid_width < 4)
+        {
+            errors.emplace_back("grid_width must be greater than or equal to 4.");
+        }
+
+        if (c.gameplay.grid_height < 5)
+        {
+            errors.emplace_back("grid_height must be greater than or equal to 5");
+        }
+
         if (!errors.empty())
         {
             std::ostringstream message;
+            message << "Configuration errors: " << std::endl;
 
             for (auto &e : errors)
             {
-                message << e << std::endl;
+                message << "  - " << e << std::endl;
             }
 
             throw std::runtime_error(std::move(message.str()));
