@@ -24,6 +24,42 @@ namespace
             }
         }
     }
+
+    void clear_parts(char **parts, dimension width, dimension height)
+    {
+        for (dimension row = 0; row < height; ++row)
+        {
+            for (dimension column = 0; column < width; ++column)
+            {
+                parts[row][column] = 0;
+            }
+        }
+    }
+
+    void rotate(tetromino &t)
+    {
+        tetromino other;
+        clear_parts(reinterpret_cast<char **>(other.parts), part_dimension, part_dimension);
+
+        for (dimension row = 0; row < t.height; ++row)
+        {
+            for (dimension column = 0; column < t.width; ++column)
+            {
+                other.parts[column][t.height - 1 - row] = t.parts[row][column];
+                t.parts[row][column] = ' ';
+            }
+        }
+
+        std::swap(t.width, t.height);
+
+        for (dimension row = 0; row < t.height; ++row)
+        {
+            for (dimension column = 0; column < t.width; ++column)
+            {
+                t.parts[row][column] = other.parts[row][column];
+            }
+        }
+    }
 }
 
 namespace game
