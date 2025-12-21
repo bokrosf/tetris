@@ -99,7 +99,7 @@ namespace
         },
     };
 
-    void copy(tetromino &from, tetromino &to)
+    void copy(const tetromino &from, tetromino &to)
     {
         to.width = from.width;
         to.height = from.height;
