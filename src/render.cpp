@@ -11,9 +11,36 @@ namespace
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
 
+    struct piece_grid
+    {
+        game::dimension width;
+        game::dimension height;
+        const char *parts;
+    };
+
+    piece_grid to_drawable(const game::tetromino &piece)
+    {
+        return piece_grid
+        {
+            .width = piece.width,
+            .height = piece.height,
+            .parts = piece.parts[0]
+        };
+    }
+
+    piece_grid to_drawable(const game::piece_grid &grid)
+    {
+        return piece_grid
+        {
+            .width = grid.width,
+            .height = grid.height,
+            .parts = grid.parts[0]
+        };
+    }
+
     void draw(const ui::label &label);
 
-    void draw(const game::tetromino &piece, const SDL_FPoint &position)
+    void draw(const piece_grid &grid, const SDL_FPoint &position)
     {
         const float width = 30.0;
         const float separator = 5.0;
@@ -29,11 +56,11 @@ namespace
             .h = width,
         };
 
-        for (game::dimension row = 0; row < piece.height; ++row)
+        for (game::dimension row = 0; row < grid.height; ++row)
         {
-            for (game::dimension column = 0; column < piece.width; ++column)
+            for (game::dimension column = 0; column < grid.width; ++column)
             {
-                if (piece.parts[row][column])
+                if (grid.parts[(row * grid.width) + column])
                 {
                     SDL_RenderFillRect(renderer, &area);
                 }
@@ -96,8 +123,9 @@ namespace render
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
         draw(view.score);
-        draw(state.current, view.current);
-        draw(state.next, view.next);
+        draw(to_drawable(state.grid), view.grid);
+        draw(to_drawable(state.current), view.current);
+        draw(to_drawable(state.next), view.next);
         SDL_RenderPresent(renderer);
     }
 }

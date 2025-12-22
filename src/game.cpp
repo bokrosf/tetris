@@ -175,6 +175,14 @@ namespace game
 
         clear_parts(state.grid.parts, state.grid.width, state.grid.height);
 
+        for (dimension row = 0; row < state.grid.height; ++row)
+        {
+            for (dimension column = 0; column < state.grid.width; ++column)
+            {
+                state.grid.parts[row][column] = 1;
+            }
+        }
+
         copy(piece_templates[0], state.current);
         copy(piece_templates[1], state.next);
 
@@ -188,6 +196,7 @@ namespace game
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
                 .position = {.x = 0.0, .y = 0.0}
             },
+            .grid = SDL_FPoint{.x = 500, .y = 900},
             .current = SDL_FPoint{.x = 100, .y = 300},
             .next = SDL_FPoint{.x = 100, .y = 700},
         };
