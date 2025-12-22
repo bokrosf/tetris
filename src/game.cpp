@@ -134,7 +134,7 @@ namespace
             for (dimension column = 0; column < t.width; ++column)
             {
                 other.parts[column][t.height - 1 - row] = t.parts[row][column];
-                t.parts[row][column] = ' ';
+                t.parts[row][column] = 0;
             }
         }
 
