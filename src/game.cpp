@@ -187,7 +187,9 @@ namespace game
                 .font_size = 20.0,
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
                 .position = {.x = 0.0, .y = 0.0}
-            }
+            },
+            .current = SDL_FPoint{.x = 100, .y = 300},
+            .next = SDL_FPoint{.x = 100, .y = 700},
         };
     }
 

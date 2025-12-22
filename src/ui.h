@@ -19,6 +19,8 @@ namespace ui
     struct game_layout
     {
         label score;
+        SDL_FPoint current;
+        SDL_FPoint next;
     };
 }
 

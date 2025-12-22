@@ -12,6 +12,41 @@ namespace
     SDL_Renderer *renderer = nullptr;
 
     void draw(const ui::label &label);
+
+    void draw(const game::tetromino &piece, const SDL_FPoint &position)
+    {
+        const float width = 30.0;
+        const float separator = 5.0;
+        SDL_Color original_color;
+        SDL_GetRenderDrawColor(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+
+        SDL_FRect area
+        {
+            .x = position.x,
+            .y = position.y,
+            .w = width,
+            .h = width,
+        };
+
+        for (game::dimension row = 0; row < piece.height; ++row)
+        {
+            for (game::dimension column = 0; column < piece.width; ++column)
+            {
+                if (piece.parts[row][column])
+                {
+                    SDL_RenderFillRect(renderer, &area);
+                }
+
+                area.x += area.w + separator;
+            }
+
+            area.x = position.x;
+            area.y -= area.h + separator;
+        }
+
+        SDL_SetRenderDrawColor(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
+    }
 }
 
 namespace render
@@ -61,6 +96,8 @@ namespace render
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
         draw(view.score);
+        draw(state.current, view.current);
+        draw(state.next, view.next);
         SDL_RenderPresent(renderer);
     }
 }
