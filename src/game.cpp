@@ -175,6 +175,9 @@ namespace game
 
         clear_parts(state.grid.parts, state.grid.width, state.grid.height);
 
+        copy(piece_templates[0], state.current);
+        copy(piece_templates[1], state.next);
+
         view = ui::game_layout
         {
             .score = ui::label
