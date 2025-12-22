@@ -42,6 +42,7 @@ void init()
 
 void shutdown()
 {
+    game::shutdown();
     asset::unload_all();
     render::shutdown();
     event::shutdown();

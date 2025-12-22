@@ -13,14 +13,23 @@ namespace game
         char parts[part_dimension][part_dimension];
     };
 
+    struct piece_grid
+    {
+        dimension width;
+        dimension height;
+        char **parts;
+    };
+
     struct game_state
     {
         tetromino current;
         tetromino next;
+        piece_grid grid;
     };
 
     void init();
     void run();
+    void shutdown();
 }
 
 #endif

@@ -156,7 +156,25 @@ namespace game
     {
         asset::id_type font = asset::load_font(config.font_path);
 
-        state = game::game_state();
+        state = game::game_state
+        {
+            .grid =
+            {
+                .width = config.gameplay.grid_width,
+                .height = config.gameplay.grid_height,
+            },
+        };
+
+        state.grid.parts = new char *[state.grid.height];
+        state.grid.parts[0] = new char[state.grid.height * state.grid.width];
+
+        for (dimension row = 1; row < state.grid.height; ++row)
+        {
+            state.grid.parts[row] = state.grid.parts[0] + (row * state.grid.width);
+        }
+
+        clear_parts(state.grid.parts, state.grid.width, state.grid.height);
+
         view = ui::game_layout
         {
             .score = ui::label
@@ -175,6 +193,12 @@ namespace game
         // TODO: Update game state.
         // TODO: Update view state.
         render::draw_frame(state, view);
+    }
+
+    void shutdown()
+    {
+        delete[] state.grid.parts[0];
+        delete[] state.grid.parts;
     }
 }
 
