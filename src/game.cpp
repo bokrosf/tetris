@@ -184,7 +184,7 @@ namespace game
             {
                 .text = "Tetris",
                 .font = font,
-                .font_size = 1,
+                .font_size = 20.0,
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
                 .position = {.x = 0.0, .y = 0.0}
             }
