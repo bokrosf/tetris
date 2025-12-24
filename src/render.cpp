@@ -38,7 +38,52 @@ namespace
         };
     }
 
-    void draw(const ui::label &label);
+    void draw(const ui::label &label)
+    {
+        ui::font &font = asset::font(label.font);
+        const float symbol_height = 16 * label.font_size;
+        const float symbol_width = symbol_height * font.width;
+
+        SDL_Texture *texture = SDL_CreateTexture(
+            renderer,
+            SDL_PIXELFORMAT_RGBA8888,
+            SDL_TextureAccess::SDL_TEXTUREACCESS_TARGET,
+            symbol_height,
+            symbol_height
+        );
+
+        SDL_FRect render_area
+        {
+            .x = label.position.x,
+            .y = label.position.y,
+            .w = symbol_width,
+            .h = symbol_height
+        };
+
+        for (auto symbol : label.text)
+        {
+            auto &vertices = font.symbols[symbol];
+
+            for (auto &v : vertices)
+            {
+                v.color = label.color;
+            }
+
+            SDL_SetRenderTarget(renderer, texture);
+            SDL_RenderClear(renderer);
+            SDL_SetRenderScale(renderer, symbol_height, symbol_height);
+            SDL_RenderGeometry(renderer, nullptr, vertices.data(), vertices.size(), nullptr, 0);
+            SDL_SetRenderTarget(renderer, nullptr);
+
+            float empty_offset = 0.5 * (symbol_height - symbol_width);
+            SDL_FRect texture_area{.x = empty_offset, .y = 0, .w = symbol_width, .h = symbol_height};
+            SDL_RenderTexture(renderer, texture, &texture_area, &render_area);
+            render_area.x += symbol_width;
+        }
+
+        SDL_DestroyTexture(texture);
+        SDL_SetRenderTarget(renderer, nullptr);
+    }
 
     void draw(const piece_grid &grid, const SDL_FPoint &position)
     {
@@ -130,52 +175,3 @@ namespace render
     }
 }
 
-namespace
-{
-    void draw(const ui::label &label)
-    {
-        ui::font &font = asset::font(label.font);
-        const float symbol_height = 16 * label.font_size;
-        const float symbol_width = symbol_height * font.width;
-
-        SDL_Texture *texture = SDL_CreateTexture(
-            renderer,
-            SDL_PIXELFORMAT_RGBA8888,
-            SDL_TextureAccess::SDL_TEXTUREACCESS_TARGET,
-            symbol_height,
-            symbol_height
-        );
-
-        SDL_FRect render_area
-        {
-            .x = label.position.x,
-            .y = label.position.y,
-            .w = symbol_width,
-            .h = symbol_height
-        };
-
-        for (auto symbol : label.text)
-        {
-            auto &vertices = font.symbols[symbol];
-
-            for (auto &v : vertices)
-            {
-                v.color = label.color;
-            }
-
-            SDL_SetRenderTarget(renderer, texture);
-            SDL_RenderClear(renderer);
-            SDL_SetRenderScale(renderer, symbol_height, symbol_height);
-            SDL_RenderGeometry(renderer, nullptr, vertices.data(), vertices.size(), nullptr, 0);
-            SDL_SetRenderTarget(renderer, nullptr);
-
-            float empty_offset = 0.5 * (symbol_height - symbol_width);
-            SDL_FRect texture_area{.x = empty_offset, .y = 0, .w = symbol_width, .h = symbol_height};
-            SDL_RenderTexture(renderer, texture, &texture_area, &render_area);
-            render_area.x += symbol_width;
-        }
-
-        SDL_DestroyTexture(texture);
-        SDL_SetRenderTarget(renderer, nullptr);
-    }
-}
