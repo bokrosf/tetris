@@ -7,9 +7,17 @@
 
 namespace
 {
+    struct display_mode
+    {
+        int width;
+        int height;
+        float height_scale;
+    };
+
     bool initialized = false;
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
+    display_mode display;
 
     struct piece_grid
     {
@@ -17,6 +25,11 @@ namespace
         game::dimension height;
         const char *parts;
     };
+
+    float scaled(float value)
+    {
+        return display.height_scale * value;
+    }
 
     piece_grid to_drawable(const game::tetromino &piece)
     {
@@ -41,7 +54,7 @@ namespace
     void draw(const ui::label &label)
     {
         ui::font &font = asset::font(label.font);
-        const float symbol_height = 16 * label.font_size;
+        const float symbol_height = scaled(16.0F * label.font_size);
         const float symbol_width = symbol_height * font.width;
 
         SDL_Texture *texture = SDL_CreateTexture(
@@ -54,8 +67,8 @@ namespace
 
         SDL_FRect render_area
         {
-            .x = label.position.x,
-            .y = label.position.y,
+            .x = scaled(label.position.x),
+            .y = scaled(label.position.y),
             .w = symbol_width,
             .h = symbol_height
         };
@@ -87,16 +100,16 @@ namespace
 
     void draw(const piece_grid &grid, const SDL_FPoint &position)
     {
-        const float width = 30.0;
-        const float separator = 5.0;
+        const float width = scaled(30.0);
+        const float separator = scaled(5.0);
         SDL_Color original_color;
         SDL_GetRenderDrawColor(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
         SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
 
         SDL_FRect area
         {
-            .x = position.x,
-            .y = position.y,
+            .x = scaled(position.x),
+            .y = scaled(position.y),
             .w = width,
             .h = width,
         };
@@ -113,7 +126,7 @@ namespace
                 area.x += area.w + separator;
             }
 
-            area.x = position.x;
+            area.x = scaled(position.x);
             area.y -= area.h + separator;
         }
 
@@ -143,6 +156,18 @@ namespace render
         }
 
         SDL_SetRenderVSync(renderer, settings.vsync_enabled);
+
+        const float base_height = 1080.0F;
+        int display_count;
+        SDL_DisplayID *display_ids = SDL_GetDisplays(&display_count);
+        const SDL_DisplayMode *mode = SDL_GetCurrentDisplayMode(display_ids[0]);
+        display = display_mode
+        {
+            .width = mode->w,
+            .height = mode->h,
+            .height_scale = mode->h / base_height
+        };
+
         initialized = true;
     }
 
