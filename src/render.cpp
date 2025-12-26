@@ -22,8 +22,8 @@ namespace
     {
         return piece_grid
         {
-            .width = piece.width,
-            .height = piece.height,
+            .width = game::part_dimension,
+            .height = game::part_dimension,
             .parts = piece.parts[0]
         };
     }
