@@ -104,9 +104,9 @@ namespace
         to.width = from.width;
         to.height = from.height;
 
-        for (dimension row = 0; row < from.height; ++row)
+        for (dimension row = 0; row < part_dimension; ++row)
         {
-            for (dimension column = 0; column < from.width; ++column)
+            for (dimension column = 0; column < part_dimension; ++column)
             {
                 to.parts[row][column] = from.parts[row][column];
             }
