@@ -126,7 +126,7 @@ namespace
 
     void rotate(tetromino &t)
     {
-        tetromino other;
+        tetromino other{.width = t.height, .height = t.width};
         clear_parts(other.parts[0], part_dimension, part_dimension);
 
         for (dimension row = 0; row < t.height; ++row)
@@ -138,15 +138,7 @@ namespace
             }
         }
 
-        std::swap(t.width, t.height);
-
-        for (dimension row = 0; row < t.height; ++row)
-        {
-            for (dimension column = 0; column < t.width; ++column)
-            {
-                t.parts[row][column] = other.parts[row][column];
-            }
-        }
+        copy(other, t);
     }
 }
 
