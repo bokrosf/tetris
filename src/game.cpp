@@ -113,13 +113,13 @@ namespace
         }
     }
 
-    void clear_parts(char **parts, dimension width, dimension height)
+    void clear_parts(char *parts, dimension width, dimension height)
     {
         for (dimension row = 0; row < height; ++row)
         {
             for (dimension column = 0; column < width; ++column)
             {
-                parts[row][column] = 0;
+                parts[(row * width) + column] = 0;
             }
         }
     }
@@ -127,7 +127,7 @@ namespace
     void rotate(tetromino &t)
     {
         tetromino other;
-        clear_parts(reinterpret_cast<char **>(other.parts), part_dimension, part_dimension);
+        clear_parts(other.parts[0], part_dimension, part_dimension);
 
         for (dimension row = 0; row < t.height; ++row)
         {
@@ -173,7 +173,7 @@ namespace game
             state.grid.parts[row] = state.grid.parts[0] + (row * state.grid.width);
         }
 
-        clear_parts(state.grid.parts, state.grid.width, state.grid.height);
+        clear_parts(state.grid.parts[0], state.grid.width, state.grid.height);
 
         for (dimension row = 0; row < state.grid.height; ++row)
         {
