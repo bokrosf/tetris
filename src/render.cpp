@@ -62,8 +62,7 @@ namespace
             SDL_PIXELFORMAT_RGBA8888,
             SDL_TextureAccess::SDL_TEXTUREACCESS_TARGET,
             symbol_height,
-            symbol_height
-        );
+            symbol_height);
 
         SDL_FRect render_area
         {

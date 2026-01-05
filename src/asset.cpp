@@ -43,8 +43,7 @@ namespace asset
                     SDL_Vertex
                     {
                         .position{.x = v.x, .y = v.y},
-                    }
-                );
+                    });
             }
         }
 
