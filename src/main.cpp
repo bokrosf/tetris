@@ -3,6 +3,7 @@
 #include <SDL3/SDL_main.h>
 #include <asset.h>
 #include <configuration.h>
+#include <display.h>
 #include <event.h>
 #include <game.h>
 #include <render.h>
@@ -35,6 +36,7 @@ void init()
     load_settings(config.settings_path);
     event::init();
     render::init();
+    display::init();
     game::init();
 }
 
