@@ -180,17 +180,17 @@ namespace game
 
         view = ui::game_layout
         {
-            .score = ui::label
+            .score_description = ui::label
             {
-                .text = "Tetris",
+                .text = "SCORE",
                 .font = font,
                 .font_size = 20.0,
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
                 .position = {.x = 0.0, .y = 0.0}
             },
-            .grid = SDL_FPoint{.x = 500, .y = 900},
-            .current = SDL_FPoint{.x = 100, .y = 300},
-            .next = SDL_FPoint{.x = 100, .y = 700},
+            .grid = ui::piece_grid{.position = {.x = 500, .y = 900}},
+            .current = ui::piece_grid{.position = {.x = 100, .y = 300}},
+            .next = ui::piece_grid{.position = {.x = 100, .y = 700}},
         };
     }
 

@@ -97,7 +97,7 @@ namespace
         SDL_SetRenderTarget(renderer, nullptr);
     }
 
-    void draw(const piece_grid &grid, const SDL_FPoint &position)
+    void draw(const piece_grid &grid, const ui::piece_grid &view)
     {
         const float width = scaled(30.0);
         const float separator = scaled(5.0);
@@ -107,8 +107,8 @@ namespace
 
         SDL_FRect area
         {
-            .x = scaled(position.x),
-            .y = scaled(position.y),
+            .x = scaled(view.position.x),
+            .y = scaled(view.position.y),
             .w = width,
             .h = width,
         };
@@ -125,7 +125,7 @@ namespace
                 area.x += area.w + separator;
             }
 
-            area.x = scaled(position.x);
+            area.x = scaled(view.position.x);
             area.y -= area.h + separator;
         }
 
@@ -191,7 +191,7 @@ namespace render
     {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
         SDL_RenderClear(renderer);
-        draw(view.score);
+        draw(view.score_description);
         draw(to_drawable(state.grid), view.grid);
         draw(to_drawable(state.current), view.current);
         draw(to_drawable(state.next), view.next);

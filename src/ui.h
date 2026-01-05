@@ -16,12 +16,24 @@ namespace ui
         SDL_FPoint position;
     };
 
+    struct piece_grid
+    {
+        SDL_FPoint position;
+        float width;
+        float separator;
+    };
+
     struct game_layout
     {
-        label score;
-        SDL_FPoint grid;
-        SDL_FPoint current;
-        SDL_FPoint next;
+        label score_description;
+        label score_value;
+        label level_description;
+        label level_value;
+        label lines_description;
+        label lines_value;
+        piece_grid grid;
+        piece_grid current;
+        piece_grid next;
     };
 }
 
