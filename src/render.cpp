@@ -66,7 +66,7 @@ namespace render
             .x = display::scaled(grid.position.x),
             .y = display::scaled(grid.position.y),
             .w = width,
-            .h = width,
+            .h = -width,
         };
 
         for (game::dimension row = 0; row < grid.height; ++row)
@@ -82,7 +82,7 @@ namespace render
             }
 
             area.x = display::scaled(grid.position.x);
-            area.y -= area.h + separator;
+            area.y -= -area.h + separator;
         }
 
         SDL_SetRenderDrawColor(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
