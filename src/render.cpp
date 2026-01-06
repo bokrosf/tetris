@@ -45,11 +45,11 @@ namespace render
             return;
         }
 
-        SDL_DestroyWindow(window);
-        window = nullptr;
-
         SDL_DestroyRenderer(renderer);
         renderer = nullptr;
+
+        SDL_DestroyWindow(window);
+        window = nullptr;
 
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
         initialized = false;
