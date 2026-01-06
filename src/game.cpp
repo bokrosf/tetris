@@ -140,14 +140,9 @@ namespace
 
         copy(other, t);
     }
-}
 
-namespace game
-{
-    void init()
+    void init_state()
     {
-        asset::id_type font = asset::load_font(config.font_path);
-
         state = game::game_state
         {
             .grid =
@@ -177,6 +172,11 @@ namespace game
 
         copy(piece_templates[0], state.current);
         copy(piece_templates[1], state.next);
+    }
+
+    void init_view()
+    {
+        asset::id_type font = asset::load_font(config.font_path);
 
         view = ui::game_layout
         {
@@ -201,14 +201,23 @@ namespace game
             .current
             {
                 .x = 100,
-                .y = 300
+                .y = 300,
             },
             .next
             {
                 .x = 100,
-                .y = 700
+                .y = 700,
             },
         };
+    }
+}
+
+namespace game
+{
+    void init()
+    {
+        init_state();
+        init_view();
     }
 
     void run()
