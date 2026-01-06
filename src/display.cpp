@@ -14,11 +14,12 @@ namespace
     const float base_height = 1080.0F;
     const float base_font_height = 16.0F;
 
-    display_mode mode;
 }
 
 namespace display
 {
+    display_mode mode;
+
     void init()
     {
         int display_count;
