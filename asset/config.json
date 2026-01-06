@@ -3,7 +3,7 @@
     "settings_path": "asset/settings.json",
     "gameplay": {
         "grid_width": 10,
-        "grid_height": 20
+        "grid_height": 18
     }
 }
 
