@@ -186,11 +186,28 @@ namespace game
                 .font = font,
                 .font_size = 20.0,
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
-                .position = {.x = 0.0, .y = 0.0}
+                .position = {.x = 0.0, .y = 0.0},
             },
-            .grid = ui::piece_grid{.position = {.x = 500, .y = 900}},
-            .current = ui::piece_grid{.position = {.x = 100, .y = 300}},
-            .next = ui::piece_grid{.position = {.x = 100, .y = 700}},
+            .piece_config
+            {
+                .width = 30,
+                .separator = 5.0,
+            },
+            .grid
+            {
+                .x = 500,
+                .y = 900,
+            },
+            .current
+            {
+                .x = 100,
+                .y = 300
+            },
+            .next
+            {
+                .x = 100,
+                .y = 700
+            },
         };
     }
 
@@ -198,7 +215,40 @@ namespace game
     {
         // TODO: Update game state.
         // TODO: Update view state.
-        render::draw_frame(state, view);
+        render::begin_frame();
+        render::draw(view.score_description);
+
+        render::draw(
+            render::piece_grid
+            {
+                .width = game::part_dimension,
+                .height = game::part_dimension,
+                .position = view.current,
+                .arguments = view.piece_config,
+                .parts = state.current.parts[0]
+            });
+
+        render::draw(
+            render::piece_grid
+            {
+                .width = game::part_dimension,
+                .height = game::part_dimension,
+                .position = view.next,
+                .arguments = view.piece_config,
+                .parts = state.next.parts[0]
+            });
+
+        render::draw(
+            render::piece_grid
+            {
+                .width = state.grid.width,
+                .height = state.grid.height,
+                .position = view.grid,
+                .arguments = view.piece_config,
+                .parts = state.grid.parts[0]
+            });
+
+        render::end_frame();
     }
 
     void shutdown()

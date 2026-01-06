@@ -6,9 +6,21 @@
 
 namespace render
 {
+    struct piece_grid
+    {
+        game::dimension width;
+        game::dimension height;
+        SDL_FPoint &position;
+        ui::piece_grid &arguments;
+        const char *parts;
+    };
+
     void init();
     void shutdown();
-    void draw_frame(const game::game_state &state, const ui::game_layout &view);
+    void begin_frame();
+    void end_frame();
+    void draw(const piece_grid &grid);
+    void draw(const ui::label &label);
 }
 
 #endif

@@ -18,7 +18,6 @@ namespace ui
 
     struct piece_grid
     {
-        SDL_FPoint position;
         float width;
         float separator;
     };
@@ -31,9 +30,10 @@ namespace ui
         label level_value;
         label lines_description;
         label lines_value;
-        piece_grid grid;
-        piece_grid current;
-        piece_grid next;
+        piece_grid piece_config;
+        SDL_FPoint grid;
+        SDL_FPoint current;
+        SDL_FPoint next;
     };
 }
 
