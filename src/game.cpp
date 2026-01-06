@@ -1,5 +1,6 @@
 #include <asset.h>
 #include <configuration.h>
+#include <display.h>
 #include <game.h>
 #include <render.h>
 #include <ui.h>
@@ -184,19 +185,18 @@ namespace
             {
                 .text = "SCORE",
                 .font = font,
-                .font_size = 20.0,
+                .font_size = 1.0,
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
                 .position = {.x = 0.0, .y = 0.0},
             },
             .piece_config
             {
-                .width = 30,
-                .separator = 5.0,
+                .width = (static_cast<float>(display::mode.height) - state.grid.height + 1) / state.grid.height,
+                .separator = display::scaled(1.0),
             },
             .grid
             {
-                .x = 500,
-                .y = 900,
+                .y = static_cast<float>(display::mode.height),
             },
             .current
             {
@@ -209,6 +209,8 @@ namespace
                 .y = 700,
             },
         };
+
+        view.grid.x = (display::mode.width * 0.5) - (0.5 * state.grid.width * view.piece_config.width);
     }
 }
 
