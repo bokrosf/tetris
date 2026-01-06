@@ -55,16 +55,16 @@ namespace render
 
     void draw(const piece_grid &grid)
     {
-        const float width = display::scaled(grid.arguments.width);
-        const float separator = display::scaled(grid.arguments.separator);
+        const float width = grid.arguments.width;
+        const float separator = grid.arguments.separator;
         SDL_Color original_color;
         SDL_GetRenderDrawColor(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
         SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
 
         SDL_FRect area
         {
-            .x = display::scaled(grid.position.x),
-            .y = display::scaled(grid.position.y),
+            .x = grid.position.x,
+            .y = grid.position.y,
             .w = width,
             .h = -width,
         };
@@ -81,7 +81,7 @@ namespace render
                 area.x += area.w + separator;
             }
 
-            area.x = display::scaled(grid.position.x);
+            area.x = grid.position.x;
             area.y -= -area.h + separator;
         }
 
