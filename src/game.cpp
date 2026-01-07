@@ -198,9 +198,49 @@ namespace
             {
                 .text = "SCORE",
                 .font = assets.font,
-                .font_size = 1.0,
-                .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
-                .position = {.x = 0.0, .y = 0.0},
+                .font_size = 4.0,
+                .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
+                .position = {.x = display::scaled(1400.0), .y = display::scaled(80.0)},
+            },
+            .score_value
+            {
+                .text = "9999999",
+                .font = assets.font,
+                .font_size = 4.0,
+                .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
+                .position = {.x = display::scaled(1400.0), .y = display::scaled(150.016)},
+            },
+            .level_description
+            {
+                .text = "LEVEL",
+                .font = assets.font,
+                .font_size = 4.0,
+                .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
+                .position = {.x = display::scaled(1400.0), .y = display::scaled(300.0)},
+            },
+            .level_value
+            {
+                .text = "9999999",
+                .font = assets.font,
+                .font_size = 4.0,
+                .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
+                .position = {.x = display::scaled(1400.0), .y = display::scaled(370.016)},
+            },
+            .lines_description
+            {
+                .text = "LINES",
+                .font = assets.font,
+                .font_size = 4.0,
+                .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
+                .position = {.x = display::scaled(1400.0), .y = display::scaled(520.0)},
+            },
+            .lines_value
+            {
+                .text = "9999999",
+                .font = assets.font,
+                .font_size = 4.0,
+                .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
+                .position = {.x = display::scaled(1400.0), .y = display::scaled(590.016)},
             },
             .piece_config
             {
@@ -254,6 +294,11 @@ namespace game
         // TODO: Update view state.
         render::begin_frame();
         render::draw(view.score_description);
+        render::draw(view.score_value);
+        render::draw(view.level_description);
+        render::draw(view.level_value);
+        render::draw(view.lines_description);
+        render::draw(view.lines_value);
 
         render::draw(
             render::piece_grid
