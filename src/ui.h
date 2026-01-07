@@ -22,6 +22,12 @@ namespace ui
         asset::id_type texture;
     };
 
+    struct wall
+    {
+        SDL_FRect area;
+        asset::id_type texture;
+    };
+
     struct game_layout
     {
         label score_description;
@@ -34,6 +40,8 @@ namespace ui
         SDL_FPoint grid;
         SDL_FPoint current;
         SDL_FPoint next;
+        wall left_wall;
+        wall right_wall;
     };
 }
 
