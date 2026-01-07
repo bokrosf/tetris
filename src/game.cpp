@@ -258,8 +258,8 @@ namespace
             },
             .next
             {
-                .x = 100,
-                .y = 700,
+                .x = display::scaled(1450.0),
+                .y = display::scaled(900.0),
             },
         };
 
