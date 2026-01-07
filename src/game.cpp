@@ -178,6 +178,7 @@ namespace
     void init_view()
     {
         asset::id_type font = asset::load_font(config.font_path);
+        asset::id_type texture = asset::load_texture(config.piece_types_texture_path);
 
         view = ui::game_layout
         {
@@ -191,8 +192,8 @@ namespace
             },
             .piece_config
             {
-                .width = (static_cast<float>(display::mode.height) - state.grid.height + 1) / state.grid.height,
-                .separator = display::scaled(1.0),
+                .width = static_cast<float>(display::mode.height) / state.grid.height,
+                .texture = texture,
             },
             .grid
             {
@@ -236,7 +237,7 @@ namespace game
                 .height = game::part_dimension,
                 .position = view.current,
                 .arguments = view.piece_config,
-                .parts = state.current.parts[0]
+                .parts = state.current.parts[0],
             });
 
         render::draw(
@@ -246,7 +247,7 @@ namespace game
                 .height = game::part_dimension,
                 .position = view.next,
                 .arguments = view.piece_config,
-                .parts = state.next.parts[0]
+                .parts = state.next.parts[0],
             });
 
         render::draw(
@@ -256,7 +257,7 @@ namespace game
                 .height = state.grid.height,
                 .position = view.grid,
                 .arguments = view.piece_config,
-                .parts = state.grid.parts[0]
+                .parts = state.grid.parts[0],
             });
 
         render::end_frame();

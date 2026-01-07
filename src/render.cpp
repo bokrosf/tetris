@@ -56,36 +56,35 @@ namespace render
     void draw(const piece_grid &grid)
     {
         const float width = grid.arguments.width;
-        const float separator = grid.arguments.separator;
-        SDL_Color original_color;
-        SDL_GetRenderDrawColor(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
-        SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-
-        SDL_FRect area
-        {
-            .x = grid.position.x,
-            .y = grid.position.y,
-            .w = width,
-            .h = -width,
-        };
+        SDL_Texture &texture = asset::texture(grid.arguments.texture);
+        SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
 
         for (game::dimension row = 0; row < grid.height; ++row)
         {
             for (game::dimension column = 0; column < grid.width; ++column)
             {
-                if (grid.parts[(row * grid.width) + column])
+                if (char piece_type = grid.parts[(row * grid.width) + column])
                 {
-                    SDL_RenderFillRect(renderer, &area);
+                    SDL_FRect texture_area
+                    {
+                        .x = static_cast<float>(texture.h) * (piece_type - 1),
+                        .y = 0,
+                        .w = static_cast<float>(texture.h),
+                        .h = static_cast<float>(texture.h),
+                    };
+
+                    SDL_FRect part_area
+                    {
+                        .x = grid.position.x + (column * width),
+                        .y = grid.position.y - (row * width),
+                        .w = width,
+                        .h = -width,
+                    };
+
+                    SDL_RenderTexture(renderer, &texture, &texture_area, &part_area);
                 }
-
-                area.x += area.w + separator;
             }
-
-            area.x = grid.position.x;
-            area.y -= -area.h + separator;
         }
-
-        SDL_SetRenderDrawColor(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
     }
 
     void draw(const ui::label &label)

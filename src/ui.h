@@ -19,7 +19,7 @@ namespace ui
     struct piece_grid
     {
         float width;
-        float separator;
+        asset::id_type texture;
     };
 
     struct game_layout
