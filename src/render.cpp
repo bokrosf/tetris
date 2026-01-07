@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <cmath>
 #include <exception>
 #include <format>
 #include <SDL3/SDL.h>
@@ -131,6 +133,14 @@ namespace render
 
         SDL_DestroyTexture(texture);
         SDL_SetRenderTarget(renderer, nullptr);
+    }
+
+    void draw_texture(asset::id_type id, const SDL_FRect &area)
+    {
+        SDL_Texture &texture = asset::texture(id);
+        SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
+        float scale = std::round(std::min(area.w / texture.w, area.h / texture.h));
+        SDL_RenderTextureTiled(renderer, &texture, nullptr, scale, &area);
     }
 
     SDL_Texture *load_texture(SDL_Surface *surface)
