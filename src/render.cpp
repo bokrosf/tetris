@@ -133,5 +133,10 @@ namespace render
         SDL_DestroyTexture(texture);
         SDL_SetRenderTarget(renderer, nullptr);
     }
+
+    SDL_Texture *load_texture(SDL_Surface *surface)
+    {
+        return SDL_CreateTextureFromSurface(renderer, surface);
+    }
 }
 

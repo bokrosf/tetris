@@ -1,6 +1,7 @@
 #ifndef TETRIS_RENDER_H
 #define TETRIS_RENDER_H
 
+#include <SDL3/SDL.h>
 #include <game.h>
 #include <ui.h>
 
@@ -21,6 +22,7 @@ namespace render
     void end_frame();
     void draw(const piece_grid &grid);
     void draw(const ui::label &label);
+    SDL_Texture *load_texture(SDL_Surface *surface);
 }
 
 #endif
