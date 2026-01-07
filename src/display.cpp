@@ -31,6 +31,8 @@ namespace display
         }
 
         const SDL_DisplayMode *current = SDL_GetCurrentDisplayMode(display_ids[0]);
+        SDL_free(display_ids);
+
         mode = display_mode
         {
             .width = current->w,
