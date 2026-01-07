@@ -14,6 +14,7 @@ struct configuration
 {
     std::string font_path;
     std::string piece_types_texture_path;
+    std::string wall_texture_path;
     std::string settings_path;
     game_configuration gameplay;
 };
@@ -24,6 +25,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( \
     configuration, \
     font_path, \
     piece_types_texture_path, \
+    wall_texture_path, \
     settings_path, \
     gameplay) \
 
