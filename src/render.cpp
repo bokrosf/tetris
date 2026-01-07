@@ -104,8 +104,8 @@ namespace render
 
         SDL_FRect render_area
         {
-            .x = display::scaled(label.position.x),
-            .y = display::scaled(label.position.y),
+            .x = label.position.x,
+            .y = label.position.y,
             .w = symbol_width,
             .h = symbol_height
         };
