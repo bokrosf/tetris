@@ -9,8 +9,16 @@ using namespace game;
 
 namespace
 {
+    struct asset_keys
+    {
+        asset::id_type font;
+        asset::id_type piece_types;
+        asset::id_type wall;
+    };
+
     game_state state;
     ui::game_layout view;
+    asset_keys assets;
 
     const tetromino piece_templates[7] =
     {
@@ -177,15 +185,19 @@ namespace
 
     void init_view()
     {
-        asset::id_type font = asset::load_font(config.font_path);
-        asset::id_type texture = asset::load_texture(config.piece_types_texture_path);
+        assets =
+        {
+            .font = asset::load_font(config.font_path),
+            .piece_types = asset::load_texture(config.piece_types_texture_path),
+            .wall = asset::load_texture(config.wall_texture_path),
+        };
 
         view = ui::game_layout
         {
             .score_description = ui::label
             {
                 .text = "SCORE",
-                .font = font,
+                .font = assets.font,
                 .font_size = 1.0,
                 .color = {.r = 0.0, .g = 0.0, .b = 1.0, .a = 1.0},
                 .position = {.x = 0.0, .y = 0.0},
@@ -193,7 +205,7 @@ namespace
             .piece_config
             {
                 .width = static_cast<float>(display::mode.height) / state.grid.height,
-                .texture = texture,
+                .texture = assets.piece_types,
             },
             .grid
             {
@@ -212,6 +224,19 @@ namespace
         };
 
         view.grid.x = (display::mode.width * 0.5) - (0.5 * state.grid.width * view.piece_config.width);
+        view.left_wall =
+        {
+            .area =
+            {
+                .x = view.grid.x - view.piece_config.width,
+                .y = 0,
+                .w = view.piece_config.width,
+                .h = static_cast<float>(display::mode.height)
+            },
+            .texture = assets.wall,
+        };
+        view.right_wall = view.left_wall;
+        view.right_wall.area.x = view.grid.x + (state.grid.width * view.piece_config.width);
     }
 }
 
@@ -260,6 +285,8 @@ namespace game
                 .parts = state.grid.parts[0],
             });
 
+        render::draw_texture(assets.wall, view.left_wall.area);
+        render::draw_texture(assets.wall, view.right_wall.area);
         render::end_frame();
     }
 
