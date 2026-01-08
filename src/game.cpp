@@ -32,9 +32,16 @@ namespace
         char **parts;
     };
 
+    struct moving_piece
+    {
+        tetromino piece;
+        unsigned int row;
+        unsigned int column;
+    };
+
     struct game_state
     {
-        tetromino current;
+        moving_piece current;
         tetromino next;
         piece_grid grid;
     };
@@ -173,6 +180,21 @@ namespace
         copy(other, t);
     }
 
+    unsigned int random_piece()
+    {
+        return 0;
+    }
+
+    void spawn_piece()
+    {
+        copy(state.next, state.current.piece);
+        state.current.row = state.grid.height - (state.current.piece.height + 1);
+        unsigned int center = (state.grid.width - 1) / 2;
+        unsigned int offset = (state.current.piece.width / 2) - 1;
+        state.current.column = center - offset;
+        copy(piece_templates[random_piece()], state.next);
+    }
+
     void init_state()
     {
         state = game_state
@@ -202,8 +224,8 @@ namespace
             }
         }
 
-        copy(piece_templates[0], state.current);
-        copy(piece_templates[1], state.next);
+        copy(piece_templates[random_piece()], state.next);
+        spawn_piece();
     }
 
     void init_view()
@@ -330,7 +352,7 @@ namespace game
                 .height = part_dimension,
                 .position = view.current,
                 .arguments = view.piece_config,
-                .parts = state.current.parts[0],
+                .parts = state.current.piece.parts[0],
             });
 
         render::draw(
