@@ -202,7 +202,7 @@ namespace
         copy(state.next, state.current.piece);
         state.current.row = state.grid.height - (state.current.piece.height + 1);
         unsigned int center = state.grid.width / 2;
-        unsigned int offset = state.current.piece.width / 2;
+        unsigned int offset = (state.current.piece.width / 2) + (state.current.piece.width % 2);
         state.current.column = center - offset;
         copy(piece_templates[random_piece()], state.next);
     }
