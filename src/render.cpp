@@ -57,7 +57,6 @@ namespace render
 
     void draw(const piece_grid &grid)
     {
-        const float width = grid.piece.width;
         SDL_Texture &texture = asset::texture(grid.piece.texture);
         SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
 
@@ -77,10 +76,10 @@ namespace render
 
                     SDL_FRect part_area
                     {
-                        .x = grid.position.x + (column * width),
-                        .y = grid.position.y - (row * width),
-                        .w = width,
-                        .h = -width,
+                        .x = grid.position.x + (column * grid.piece.width),
+                        .y = grid.position.y - (row * grid.piece.width),
+                        .w = grid.piece.width,
+                        .h = -grid.piece.width,
                     };
 
                     SDL_RenderTexture(renderer, &texture, &texture_area, &part_area);
