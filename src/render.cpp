@@ -131,7 +131,6 @@ namespace render
         }
 
         SDL_DestroyTexture(texture);
-        SDL_SetRenderTarget(renderer, nullptr);
     }
 
     void draw_texture(asset::id_type id, const SDL_FRect &area)
