@@ -330,21 +330,9 @@ namespace
         view.level_value.text = std::to_string(state.level);
         view.lines_value.text = std::to_string(state.line);
     }
-}
 
-namespace game
-{
-    void init()
+    void render_view()
     {
-        init_state();
-        init_view();
-    }
-
-    void run()
-    {
-        // TODO: Update game state.
-        // TODO: Update view state.
-        update_view();
         render::begin_frame();
         render::draw(view.score_description);
         render::draw(view.score_value);
@@ -386,6 +374,23 @@ namespace game
         render::draw_texture(assets.wall, view.left_wall.area);
         render::draw_texture(assets.wall, view.right_wall.area);
         render::end_frame();
+    }
+}
+
+namespace game
+{
+    void init()
+    {
+        init_state();
+        init_view();
+    }
+
+    void run()
+    {
+        // TODO: Update game state.
+        // TODO: Update view state.
+        update_view();
+        render_view();
     }
 
     void shutdown()
