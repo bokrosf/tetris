@@ -323,6 +323,12 @@ namespace
         view.right_wall = view.left_wall;
         view.right_wall.area.x = view.grid.x + (state.grid.width * view.piece_config.width);
     }
+
+    void update_view()
+    {
+        view.current.x = view.grid.x + (state.current.column * view.piece_config.width);
+        view.current.y = view.grid.y - (state.current.row * view.piece_config.width);
+    }
 }
 
 namespace game
@@ -337,6 +343,7 @@ namespace game
     {
         // TODO: Update game state.
         // TODO: Update view state.
+        update_view();
         render::begin_frame();
         render::draw(view.score_description);
         render::draw(view.score_value);
