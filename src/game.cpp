@@ -2,6 +2,7 @@
 #include <asset.h>
 #include <configuration.h>
 #include <display.h>
+#include <event.h>
 #include <game.h>
 #include <render.h>
 #include <ui.h>
@@ -48,6 +49,13 @@ namespace
         unsigned int score;
         unsigned int level;
         unsigned int line;
+    };
+
+    enum class movement
+    {
+        left,
+        right,
+        down,
     };
 
     game_state state;
@@ -197,6 +205,41 @@ namespace
         unsigned int offset = (state.current.piece.width / 2) - 1;
         state.current.column = center - offset;
         copy(piece_templates[random_piece()], state.next);
+    }
+
+    void move(movement direction)
+    {
+        if (direction == movement::left && state.current.column > 0)
+        {
+            --state.current.column;
+        }
+        else if (direction == movement::right
+            && state.current.column < state.grid.width - state.current.piece.width)
+        {
+            ++state.current.column;
+        }
+        else if (direction == movement::down && state.current.row > 0)
+        {
+            --state.current.row;
+        }
+    }
+
+    void handle_input()
+    {
+        if (event::key_down(SDLK_LEFT))
+        {
+            move(movement::left);
+        }
+
+        if (event::key_down(SDLK_RIGHT))
+        {
+            move(movement::right);
+        }
+
+        if (event::key_down(SDLK_DOWN))
+        {
+            move(movement::down);
+        }
     }
 
     void init_state()
@@ -387,6 +430,7 @@ namespace game
 
     void run()
     {
+        handle_input();
         // TODO: Update game state.
         update_view();
         render_view();
