@@ -215,15 +215,6 @@ namespace
         }
 
         clear_parts(state.grid.parts[0], state.grid.width, state.grid.height);
-
-        for (unsigned int row = 0; row < state.grid.height; ++row)
-        {
-            for (unsigned int column = 0; column < state.grid.width; ++column)
-            {
-                state.grid.parts[row][column] = 1;
-            }
-        }
-
         copy(piece_templates[random_piece()], state.next);
         spawn_piece();
     }
