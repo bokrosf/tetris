@@ -388,7 +388,6 @@ namespace game
     void run()
     {
         // TODO: Update game state.
-        // TODO: Update view state.
         update_view();
         render_view();
     }
