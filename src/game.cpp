@@ -290,7 +290,6 @@ namespace
             },
             .score_value
             {
-                .text = "9999999",
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
@@ -306,7 +305,6 @@ namespace
             },
             .level_value
             {
-                .text = "9999999",
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
@@ -322,7 +320,6 @@ namespace
             },
             .lines_value
             {
-                .text = "9999999",
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
@@ -336,11 +333,6 @@ namespace
             .grid
             {
                 .y = static_cast<float>(display::mode.height),
-            },
-            .current
-            {
-                .x = 100,
-                .y = 300,
             },
             .next
             {
