@@ -10,8 +10,8 @@ namespace render
 {
     struct piece_grid
     {
-        game::dimension width;
-        game::dimension height;
+        unsigned int width;
+        unsigned int height;
         SDL_FPoint &position;
         ui::piece_grid &arguments;
         const char *parts;

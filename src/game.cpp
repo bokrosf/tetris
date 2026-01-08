@@ -16,6 +16,29 @@ namespace
         asset::id_type wall;
     };
 
+    const unsigned int part_dimension = 4;
+
+    struct tetromino
+    {
+        unsigned int width;
+        unsigned int height;
+        char parts[part_dimension][part_dimension];
+    };
+
+    struct piece_grid
+    {
+        unsigned int width;
+        unsigned int height;
+        char **parts;
+    };
+
+    struct game_state
+    {
+        tetromino current;
+        tetromino next;
+        piece_grid grid;
+    };
+
     game_state state;
     ui::game_layout view;
     asset_keys assets;
@@ -113,20 +136,20 @@ namespace
         to.width = from.width;
         to.height = from.height;
 
-        for (dimension row = 0; row < part_dimension; ++row)
+        for (unsigned int row = 0; row < part_dimension; ++row)
         {
-            for (dimension column = 0; column < part_dimension; ++column)
+            for (unsigned int column = 0; column < part_dimension; ++column)
             {
                 to.parts[row][column] = from.parts[row][column];
             }
         }
     }
 
-    void clear_parts(char *parts, dimension width, dimension height)
+    void clear_parts(char *parts, unsigned int width, unsigned int height)
     {
-        for (dimension row = 0; row < height; ++row)
+        for (unsigned int row = 0; row < height; ++row)
         {
-            for (dimension column = 0; column < width; ++column)
+            for (unsigned int column = 0; column < width; ++column)
             {
                 parts[(row * width) + column] = 0;
             }
@@ -138,9 +161,9 @@ namespace
         tetromino other{.width = t.height, .height = t.width};
         clear_parts(other.parts[0], part_dimension, part_dimension);
 
-        for (dimension row = 0; row < t.height; ++row)
+        for (unsigned int row = 0; row < t.height; ++row)
         {
-            for (dimension column = 0; column < t.width; ++column)
+            for (unsigned int column = 0; column < t.width; ++column)
             {
                 other.parts[column][t.height - 1 - row] = t.parts[row][column];
                 t.parts[row][column] = 0;
@@ -152,7 +175,7 @@ namespace
 
     void init_state()
     {
-        state = game::game_state
+        state = game_state
         {
             .grid =
             {
@@ -164,16 +187,16 @@ namespace
         state.grid.parts = new char *[state.grid.height];
         state.grid.parts[0] = new char[state.grid.height * state.grid.width];
 
-        for (dimension row = 1; row < state.grid.height; ++row)
+        for (unsigned int row = 1; row < state.grid.height; ++row)
         {
             state.grid.parts[row] = state.grid.parts[0] + (row * state.grid.width);
         }
 
         clear_parts(state.grid.parts[0], state.grid.width, state.grid.height);
 
-        for (dimension row = 0; row < state.grid.height; ++row)
+        for (unsigned int row = 0; row < state.grid.height; ++row)
         {
-            for (dimension column = 0; column < state.grid.width; ++column)
+            for (unsigned int column = 0; column < state.grid.width; ++column)
             {
                 state.grid.parts[row][column] = 1;
             }
@@ -303,8 +326,8 @@ namespace game
         render::draw(
             render::piece_grid
             {
-                .width = game::part_dimension,
-                .height = game::part_dimension,
+                .width = part_dimension,
+                .height = part_dimension,
                 .position = view.current,
                 .arguments = view.piece_config,
                 .parts = state.current.parts[0],
@@ -313,8 +336,8 @@ namespace game
         render::draw(
             render::piece_grid
             {
-                .width = game::part_dimension,
-                .height = game::part_dimension,
+                .width = part_dimension,
+                .height = part_dimension,
                 .position = view.next,
                 .arguments = view.piece_config,
                 .parts = state.next.parts[0],
