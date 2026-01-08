@@ -44,6 +44,9 @@ namespace
         moving_piece current;
         tetromino next;
         piece_grid grid;
+        unsigned int score;
+        unsigned int level;
+        unsigned int line;
     };
 
     game_state state;
@@ -204,6 +207,9 @@ namespace
                 .width = config.gameplay.grid_width,
                 .height = config.gameplay.grid_height,
             },
+            .score = 0,
+            .level = 0,
+            .line = 0,
         };
 
         state.grid.parts = new char *[state.grid.height];
