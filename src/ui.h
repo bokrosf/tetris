@@ -22,6 +22,12 @@ namespace ui
         asset::id_type texture;
     };
 
+    struct part_grid
+    {
+        SDL_FRect area;
+        SDL_Color color;
+    };
+
     struct wall
     {
         SDL_FRect area;
@@ -37,7 +43,7 @@ namespace ui
         label lines_description;
         label lines_value;
         piece_grid piece_config;
-        SDL_FPoint grid;
+        part_grid grid;
         SDL_FPoint current;
         SDL_FPoint next;
         wall left_wall;
