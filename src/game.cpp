@@ -1,3 +1,4 @@
+#include <string>
 #include <asset.h>
 #include <configuration.h>
 #include <display.h>
@@ -325,6 +326,9 @@ namespace
     {
         view.current.x = view.grid.x + (state.current.column * view.piece_config.width);
         view.current.y = view.grid.y - (state.current.row * view.piece_config.width);
+        view.score_value.text = std::to_string(state.score);
+        view.level_value.text = std::to_string(state.level);
+        view.lines_value.text = std::to_string(state.line);
     }
 }
 
