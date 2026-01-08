@@ -143,6 +143,15 @@ namespace render
         SDL_RenderTextureTiled(renderer, &texture, nullptr, scale, &area);
     }
 
+    void draw_quad(const SDL_FRect &area, const SDL_Color &color)
+    {
+        SDL_Color original_color;
+        SDL_GetRenderDrawColor(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderFillRect(renderer, &area);
+        SDL_SetRenderDrawColor(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
+    }
+
     SDL_Texture *load_texture(SDL_Surface *surface)
     {
         return SDL_CreateTextureFromSurface(renderer, surface);

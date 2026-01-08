@@ -24,6 +24,7 @@ namespace render
     void draw(const piece_grid &grid);
     void draw(const ui::label &label);
     void draw_texture(asset::id_type id, const SDL_FRect &area);
+    void draw_quad(const SDL_FRect &area, const SDL_Color &color);
     SDL_Texture *load_texture(SDL_Surface *surface);
 }
 
