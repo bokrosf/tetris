@@ -16,7 +16,7 @@ namespace ui
         SDL_FPoint position;
     };
 
-    struct piece_grid
+    struct piece_config
     {
         float width;
         asset::id_type texture;
@@ -42,7 +42,7 @@ namespace ui
         label level_value;
         label lines_description;
         label lines_value;
-        piece_grid piece_config;
+        piece_config piece;
         part_grid grid;
         SDL_FPoint current;
         SDL_FPoint next;

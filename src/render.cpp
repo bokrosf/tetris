@@ -57,8 +57,8 @@ namespace render
 
     void draw(const piece_grid &grid)
     {
-        const float width = grid.arguments.width;
-        SDL_Texture &texture = asset::texture(grid.arguments.texture);
+        const float width = grid.piece.width;
+        SDL_Texture &texture = asset::texture(grid.piece.texture);
         SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
 
         for (unsigned int row = 0; row < grid.height; ++row)

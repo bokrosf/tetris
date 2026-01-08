@@ -325,7 +325,7 @@ namespace
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
                 .position = {.x = display::scaled(1400.0), .y = display::scaled(590.016)},
             },
-            .piece_config
+            .piece
             {
                 .width = static_cast<float>(display::mode.height) / state.grid.height,
                 .texture = assets.piece_types,
@@ -345,16 +345,16 @@ namespace
             },
         };
 
-        view.grid.area.w = state.grid.width * view.piece_config.width;
-        view.grid.area.h = -(state.grid.height * view.piece_config.width);
+        view.grid.area.w = state.grid.width * view.piece.width;
+        view.grid.area.h = -(state.grid.height * view.piece.width);
         view.grid.area.x = (display::mode.width * 0.5F) - (0.5F * view.grid.area.w);
         view.left_wall =
         {
             .area =
             {
-                .x = view.grid.area.x - view.piece_config.width,
+                .x = view.grid.area.x - view.piece.width,
                 .y = 0,
-                .w = view.piece_config.width,
+                .w = view.piece.width,
                 .h = static_cast<float>(display::mode.height)
             },
             .texture = assets.wall,
@@ -365,8 +365,8 @@ namespace
 
     void update_view()
     {
-        view.current.x = view.grid.area.x + (state.current.column * view.piece_config.width);
-        view.current.y = view.grid.area.y - (state.current.row * view.piece_config.width);
+        view.current.x = view.grid.area.x + (state.current.column * view.piece.width);
+        view.current.y = view.grid.area.y - (state.current.row * view.piece.width);
         view.score_value.text = std::to_string(state.score);
         view.level_value.text = std::to_string(state.level);
         view.lines_value.text = std::to_string(state.line);
@@ -389,7 +389,7 @@ namespace
                 .width = part_dimension,
                 .height = part_dimension,
                 .position = view.current,
-                .arguments = view.piece_config,
+                .piece = view.piece,
                 .parts = state.current.piece.parts[0],
             });
 
@@ -399,7 +399,7 @@ namespace
                 .width = part_dimension,
                 .height = part_dimension,
                 .position = view.next,
-                .arguments = view.piece_config,
+                .piece = view.piece,
                 .parts = state.next.parts[0],
             });
 
@@ -409,7 +409,7 @@ namespace
                 .width = state.grid.width,
                 .height = state.grid.height,
                 .position = reinterpret_cast<SDL_FPoint &>(view.grid.area),
-                .arguments = view.piece_config,
+                .piece = view.piece,
                 .parts = state.grid.parts[0],
             });
 

@@ -13,7 +13,7 @@ namespace render
         unsigned int width;
         unsigned int height;
         SDL_FPoint &position;
-        ui::piece_grid &arguments;
+        ui::piece_config &piece;
         const char *parts;
     };
 
