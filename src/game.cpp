@@ -253,6 +253,12 @@ namespace
         {
             move(movement::down);
         }
+
+        if (event::key_down(SDLK_SPACE))
+        {
+            commit();
+            spawn_piece();
+        }
     }
 
     void init_state()
