@@ -224,6 +224,38 @@ namespace
         }
     }
 
+    bool landed()
+    {
+        if (state.current.row == 0)
+        {
+            return true;
+        }
+
+        for (unsigned int row = 0; row < state.current.piece.height; ++row)
+        {
+            for (unsigned int column = 0; column < state.current.piece.width; ++column)
+            {
+                if (state.current.piece.parts[row][column]
+                    && state.grid.parts[state.current.row + row - 1][state.current.column + column])
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    void drop()
+    {
+        unsigned int original_row = state.current.row;
+
+        while (!landed())
+        {
+            move(movement::down);
+        }
+    }
+
     void commit()
     {
         for (unsigned int row = 0; row < state.current.piece.height; ++row)
@@ -231,10 +263,10 @@ namespace
             for (unsigned int column = 0; column < state.current.piece.width; ++column)
             {
                 if (state.current.piece.parts[row][column])
-            {
-                unsigned int grid_row = state.current.row + row;
-                unsigned int grid_column = state.current.column + column;
-                state.grid.parts[grid_row][grid_column] = state.current.piece.parts[row][column];
+                {
+                    unsigned int grid_row = state.current.row + row;
+                    unsigned int grid_column = state.current.column + column;
+                    state.grid.parts[grid_row][grid_column] = state.current.piece.parts[row][column];
                 }
             }
         }
@@ -254,7 +286,7 @@ namespace
 
         if (event::key_down(SDLK_DOWN))
         {
-            move(movement::down);
+            drop();
         }
 
         if (event::key_down(SDLK_SPACE))
