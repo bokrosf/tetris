@@ -36,4 +36,4 @@ target_include_directories("${PROJECT_NAME}"
   PRIVATE "${json_BINARY_DIR}/include"
 )
 
-file(CREATE_LINK "${PROJECT_SOURCE_DIR}/asset" asset SYMBOLIC)
+file(CREATE_LINK "${PROJECT_SOURCE_DIR}/asset" "${PROJECT_BINARY_DIR}/asset" SYMBOLIC)
