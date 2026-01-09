@@ -230,9 +230,12 @@ namespace
         {
             for (unsigned int column = 0; column < state.current.piece.width; ++column)
             {
+                if (state.current.piece.parts[row][column])
+            {
                 unsigned int grid_row = state.current.row + row;
                 unsigned int grid_column = state.current.column + column;
                 state.grid.parts[grid_row][grid_column] = state.current.piece.parts[row][column];
+                }
             }
         }
     }
