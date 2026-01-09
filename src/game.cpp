@@ -207,36 +207,14 @@ namespace
         copy(piece_templates[random_piece()], state.next);
     }
 
-    void move(movement direction)
+    bool collides(unsigned int area_row, unsigned int area_column)
     {
-        if (direction == movement::left && state.current.column > 0)
-        {
-            --state.current.column;
-        }
-        else if (direction == movement::right
-            && state.current.column < state.grid.width - state.current.piece.width)
-        {
-            ++state.current.column;
-        }
-        else if (direction == movement::down && state.current.row > 0)
-        {
-            --state.current.row;
-        }
-    }
-
-    bool landed()
-    {
-        if (state.current.row == 0)
-        {
-            return true;
-        }
-
         for (unsigned int row = 0; row < state.current.piece.height; ++row)
         {
             for (unsigned int column = 0; column < state.current.piece.width; ++column)
             {
                 if (state.current.piece.parts[row][column]
-                    && state.grid.parts[state.current.row + row - 1][state.current.column + column])
+                    && state.grid.parts[area_row + row][area_column + column])
                 {
                     return true;
                 }
@@ -246,14 +224,38 @@ namespace
         return false;
     }
 
+    void move(movement direction)
+    {
+        if (direction == movement::left
+            && state.current.column > 0
+            && !collides(state.current.row, state.current.column - 1))
+        {
+            --state.current.column;
+        }
+        else if (direction == movement::right
+            && state.current.column < state.grid.width - state.current.piece.width
+            && !collides(state.current.row, state.current.column + 1))
+        {
+            ++state.current.column;
+        }
+        else if (direction == movement::down
+            && state.current.row > 0
+            && !collides(state.current.row - 1, state.current.column))
+        {
+            --state.current.row;
+        }
+    }
+
     void drop()
     {
-        unsigned int original_row = state.current.row;
+        unsigned int row = state.current.row;
 
-        while (!landed())
+        while (row > 0 && !collides(row - 1, state.current.column))
         {
-            move(movement::down);
+            --row;
         }
+
+        state.current.row = row;
     }
 
     void commit()
