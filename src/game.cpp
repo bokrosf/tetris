@@ -197,7 +197,7 @@ namespace
 
     int random_piece()
     {
-        return 0;
+        return 4;
     }
 
     void spawn_piece()
