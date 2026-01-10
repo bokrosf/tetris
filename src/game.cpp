@@ -220,6 +220,32 @@ namespace
         state.current.rotation %= rotation_count;
     }
 
+    void rotate_right()
+    {
+        tetromino &t = state.current.piece;
+        tetromino other{.width = t.height, .height = t.width};
+        clear_parts(other.parts[0], part_dimension, part_dimension);
+        char type = 0;
+
+        for (int row = 0; row < t.height; ++row)
+        {
+            for (int column = 0; column < t.width; ++column)
+            {
+                type |= t.parts[row][column];
+                other.parts[t.width - 1 - column][row] = t.parts[row][column];
+                t.parts[row][column] = 0;
+            }
+        }
+
+        copy(other, t);
+        --type;
+        ++state.current.rotation;
+        state.current.rotation %= rotation_count;
+        const rotation_offset &offset = rotation_offsets[static_cast<unsigned int>(type)][state.current.rotation];
+        state.current.row += offset.row;
+        state.current.column += offset.column;
+    }
+
     int random_piece()
     {
         return 0;
