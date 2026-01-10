@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <string>
 #include <asset.h>
 #include <configuration.h>
@@ -216,8 +217,11 @@ namespace
         {
             for (int column = 0; column < state.current.piece.width; ++column)
             {
+                int grid_row = std::clamp(area_row + row, 0, state.grid.height - 1);
+                int grid_column = std::clamp(area_column + column, 0, state.grid.width - 1);
+
                 if (state.current.piece.parts[row][column]
-                    && state.grid.parts[area_row + row][area_column + column])
+                    && state.grid.parts[grid_row][grid_column])
                 {
                     return true;
                 }
