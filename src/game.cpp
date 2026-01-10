@@ -321,6 +321,20 @@ namespace
         }
 
         clear_parts(state.grid.parts[0], state.grid.width, state.grid.height);
+
+        // Walls.
+        const char wall = 8;
+        for (int row = 0; row < state.grid.height; ++row)
+        {
+            state.grid.parts[row][0] = wall;
+            state.grid.parts[row][state.grid.width - 1] = wall;
+        }
+
+        for (int column = 1; column < state.grid.width - 1; ++column)
+        {
+            state.grid.parts[0][column] = wall;
+        }
+
         copy(piece_templates[random_piece()], state.next);
         spawn_piece();
     }
@@ -388,10 +402,6 @@ namespace
             },
             .grid
             {
-                .area
-                {
-                    .y = static_cast<float>(display::mode.height),
-                },
                 .color = {0xFF, 0xFF, 0xFF, 0xFF},
             },
             .next
@@ -404,6 +414,8 @@ namespace
         view.grid.area.w = state.grid.width * view.piece.width;
         view.grid.area.h = -(state.grid.height * view.piece.width);
         view.grid.area.x = (display::mode.width * 0.5F) - (0.5F * view.grid.area.w);
+        view.grid.area.y = static_cast<float>(state.grid.height * view.piece.width);
+
         view.left_wall =
         {
             .area =
@@ -468,9 +480,6 @@ namespace
                 .piece = view.piece,
                 .parts = state.grid.parts[0],
             });
-
-        render::draw_texture(assets.wall, view.left_wall.area);
-        render::draw_texture(assets.wall, view.right_wall.area);
 
         render::end_frame();
     }

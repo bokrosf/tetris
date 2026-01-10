@@ -4,8 +4,8 @@
     "wall_texture_path": "asset/textures/wall.bmp",
     "settings_path": "asset/settings.json",
     "gameplay": {
-        "grid_width": 10,
-        "grid_height": 18
+        "grid_width": 12,
+        "grid_height": 19
     }
 }
 
