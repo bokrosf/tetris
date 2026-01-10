@@ -411,6 +411,7 @@ namespace
         if (event::key_down(SDLK_SPACE))
         {
             commit();
+            clear_complete_lines();
             spawn_piece();
         }
     }
