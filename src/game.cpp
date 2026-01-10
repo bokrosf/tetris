@@ -247,7 +247,7 @@ namespace
     {
         int row = state.current.row;
 
-        while (row > 0 && !collides(row - 1, state.current.column))
+        while (!collides(row - 1, state.current.column))
         {
             --row;
         }
