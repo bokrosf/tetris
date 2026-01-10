@@ -18,27 +18,27 @@ namespace
         asset::id_type wall;
     };
 
-    const unsigned int part_dimension = 4;
+    const int part_dimension = 4;
 
     struct tetromino
     {
-        unsigned int width;
-        unsigned int height;
+        int width;
+        int height;
         char parts[part_dimension][part_dimension];
     };
 
     struct piece_grid
     {
-        unsigned int width;
-        unsigned int height;
+        int width;
+        int height;
         char **parts;
     };
 
     struct moving_piece
     {
         tetromino piece;
-        unsigned int row;
-        unsigned int column;
+        int row;
+        int column;
     };
 
     struct game_state
@@ -46,9 +46,9 @@ namespace
         moving_piece current;
         tetromino next;
         piece_grid grid;
-        unsigned int score;
-        unsigned int level;
-        unsigned int line;
+        int score;
+        int level;
+        int line;
     };
 
     enum class movement
@@ -155,20 +155,20 @@ namespace
         to.width = from.width;
         to.height = from.height;
 
-        for (unsigned int row = 0; row < part_dimension; ++row)
+        for (int row = 0; row < part_dimension; ++row)
         {
-            for (unsigned int column = 0; column < part_dimension; ++column)
+            for (int column = 0; column < part_dimension; ++column)
             {
                 to.parts[row][column] = from.parts[row][column];
             }
         }
     }
 
-    void clear_parts(char *parts, unsigned int width, unsigned int height)
+    void clear_parts(char *parts, int width, int height)
     {
-        for (unsigned int row = 0; row < height; ++row)
+        for (int row = 0; row < height; ++row)
         {
-            for (unsigned int column = 0; column < width; ++column)
+            for (int column = 0; column < width; ++column)
             {
                 parts[(row * width) + column] = 0;
             }
@@ -180,9 +180,9 @@ namespace
         tetromino other{.width = t.height, .height = t.width};
         clear_parts(other.parts[0], part_dimension, part_dimension);
 
-        for (unsigned int row = 0; row < t.height; ++row)
+        for (int row = 0; row < t.height; ++row)
         {
-            for (unsigned int column = 0; column < t.width; ++column)
+            for (int column = 0; column < t.width; ++column)
             {
                 other.parts[column][t.height - 1 - row] = t.parts[row][column];
                 t.parts[row][column] = 0;
@@ -192,7 +192,7 @@ namespace
         copy(other, t);
     }
 
-    unsigned int random_piece()
+    int random_piece()
     {
         return 0;
     }
@@ -201,17 +201,17 @@ namespace
     {
         copy(state.next, state.current.piece);
         state.current.row = state.grid.height - (state.current.piece.height + 1);
-        unsigned int center = state.grid.width / 2;
-        unsigned int offset = (state.current.piece.width / 2) + (state.current.piece.width % 2);
+        int center = state.grid.width / 2;
+        int offset = (state.current.piece.width / 2) + (state.current.piece.width % 2);
         state.current.column = center - offset;
         copy(piece_templates[random_piece()], state.next);
     }
 
-    bool collides(unsigned int area_row, unsigned int area_column)
+    bool collides(int area_row, int area_column)
     {
-        for (unsigned int row = 0; row < state.current.piece.height; ++row)
+        for (int row = 0; row < state.current.piece.height; ++row)
         {
-            for (unsigned int column = 0; column < state.current.piece.width; ++column)
+            for (int column = 0; column < state.current.piece.width; ++column)
             {
                 if (state.current.piece.parts[row][column]
                     && state.grid.parts[area_row + row][area_column + column])
@@ -248,7 +248,7 @@ namespace
 
     void drop()
     {
-        unsigned int row = state.current.row;
+        int row = state.current.row;
 
         while (row > 0 && !collides(row - 1, state.current.column))
         {
@@ -260,14 +260,14 @@ namespace
 
     void commit()
     {
-        for (unsigned int row = 0; row < state.current.piece.height; ++row)
+        for (int row = 0; row < state.current.piece.height; ++row)
         {
-            for (unsigned int column = 0; column < state.current.piece.width; ++column)
+            for (int column = 0; column < state.current.piece.width; ++column)
             {
                 if (state.current.piece.parts[row][column])
                 {
-                    unsigned int grid_row = state.current.row + row;
-                    unsigned int grid_column = state.current.column + column;
+                    int grid_row = state.current.row + row;
+                    int grid_column = state.current.column + column;
                     state.grid.parts[grid_row][grid_column] = state.current.piece.parts[row][column];
                 }
             }
@@ -315,7 +315,7 @@ namespace
         state.grid.parts = new char *[state.grid.height];
         state.grid.parts[0] = new char[state.grid.height * state.grid.width];
 
-        for (unsigned int row = 1; row < state.grid.height; ++row)
+        for (int row = 1; row < state.grid.height; ++row)
         {
             state.grid.parts[row] = state.grid.parts[0] + (row * state.grid.width);
         }

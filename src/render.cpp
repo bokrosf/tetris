@@ -60,9 +60,9 @@ namespace render
         SDL_Texture &texture = asset::texture(grid.piece.texture);
         SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
 
-        for (unsigned int row = 0; row < grid.height; ++row)
+        for (int row = 0; row < grid.height; ++row)
         {
-            for (unsigned int column = 0; column < grid.width; ++column)
+            for (int column = 0; column < grid.width; ++column)
             {
                 if (char piece_type = grid.parts[(row * grid.width) + column])
                 {

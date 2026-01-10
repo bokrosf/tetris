@@ -6,8 +6,8 @@
 
 struct game_configuration
 {
-    unsigned int grid_width;
-    unsigned int grid_height;
+    int grid_width;
+    int grid_height;
 };
 
 struct configuration
