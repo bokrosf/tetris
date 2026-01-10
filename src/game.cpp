@@ -231,6 +231,11 @@ namespace
         return false;
     }
 
+    bool collides()
+    {
+        return collides(state.current.row, state.current.column);
+    }
+
     void move(movement direction)
     {
         if (direction == movement::left
@@ -249,6 +254,8 @@ namespace
             --state.current.row;
         }
     }
+
+    void rotate_right();
 
     void rotate_left()
     {
@@ -274,6 +281,11 @@ namespace
         state.current.column -= offset.column;
         --state.current.rotation;
         state.current.rotation %= rotation_count;
+
+        if (collides())
+        {
+            rotate_right();
+        }
     }
 
     void rotate_right()
@@ -300,6 +312,11 @@ namespace
         const rotation_offset &offset = rotation_offsets[static_cast<unsigned int>(type)][state.current.rotation];
         state.current.row += offset.row;
         state.current.column += offset.column;
+
+        if (collides())
+        {
+            rotate_left();
+        }
     }
 
     void drop()
