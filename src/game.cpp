@@ -19,6 +19,13 @@ namespace
     };
 
     const int part_dimension = 4;
+    const unsigned int rotation_count = 4;
+
+    struct rotation_offset
+    {
+        int row;
+        int column;
+    };
 
     struct tetromino
     {
@@ -39,6 +46,7 @@ namespace
         tetromino piece;
         int row;
         int column;
+        unsigned int rotation;
     };
 
     struct game_state
@@ -150,6 +158,17 @@ namespace
         },
     };
 
+    const rotation_offset rotation_offsets[7][rotation_count] =
+    {
+        {{1, -1}, {-1, 1}, {1, -1}, {-1, 1}},
+        {{0, -1}, {0, 0}, {1, 0}, {-1, 1}},
+        {{0, -1}, {0, 0}, {1, 0}, {-1, 1}},
+        {{0, -1}, {0, 0}, {1, 0}, {-1, 1}},
+        {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
+        {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
+        {{0, 0}, {0, 0}, {0, 0}, {0, 0}},
+    };
+
     void copy(const tetromino &from, tetromino &to)
     {
         to.width = from.width;
@@ -175,21 +194,30 @@ namespace
         }
     }
 
-    void rotate(tetromino &t)
+    void rotate_left()
     {
+        tetromino &t = state.current.piece;
         tetromino other{.width = t.height, .height = t.width};
         clear_parts(other.parts[0], part_dimension, part_dimension);
+        char type = 0;
 
         for (int row = 0; row < t.height; ++row)
         {
             for (int column = 0; column < t.width; ++column)
             {
+                type |= t.parts[row][column];
                 other.parts[column][t.height - 1 - row] = t.parts[row][column];
                 t.parts[row][column] = 0;
             }
         }
 
         copy(other, t);
+        --type;
+        const rotation_offset &offset = rotation_offsets[static_cast<unsigned int>(type)][state.current.rotation];
+        state.current.row -= offset.row;
+        state.current.column -= offset.column;
+        --state.current.rotation;
+        state.current.rotation %= rotation_count;
     }
 
     int random_piece()
@@ -204,6 +232,7 @@ namespace
         int center = state.grid.width / 2;
         int offset = (state.current.piece.width / 2) + (state.current.piece.width % 2);
         state.current.column = center - offset;
+        state.current.rotation = 0;
         copy(piece_templates[random_piece()], state.next);
     }
 
