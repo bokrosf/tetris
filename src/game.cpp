@@ -343,6 +343,16 @@ namespace
             drop();
         }
 
+        if (event::key_down(SDLK_A))
+        {
+            rotate_left();
+        }
+
+        if (event::key_down(SDLK_D))
+        {
+            rotate_right();
+        }
+
         if (event::key_down(SDLK_SPACE))
         {
             commit();
