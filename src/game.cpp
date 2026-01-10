@@ -347,6 +347,40 @@ namespace
         }
     }
 
+    void clear_complete_lines()
+    {
+        const int highest_row = state.current.row + state.current.piece.height - 1;
+        int count = 0;
+        bool complete = true;
+
+        for (int row = state.current.row; complete && row <= highest_row; ++row)
+        {
+            int column = 1;
+
+            while (complete && column < state.grid.width - 1)
+            {
+                complete &= state.grid.parts[row][column];
+                ++column;
+            }
+
+            complete &= column == state.grid.width - 1;
+            ++count;
+        }
+
+        if (!complete)
+        {
+            return;
+        }
+
+        for (int row = state.current.row + count; row < state.grid.height; ++row)
+        {
+            for (int column = 1; column < state.grid.width - 1; ++column)
+            {
+                state.grid.parts[row - count][column] = state.grid.parts[row][column];
+            }
+        }
+    }
+
     void handle_input()
     {
         if (event::key_down(SDLK_LEFT))
