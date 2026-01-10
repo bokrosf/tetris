@@ -227,19 +227,16 @@ namespace
     void move(movement direction)
     {
         if (direction == movement::left
-            && state.current.column > 0
             && !collides(state.current.row, state.current.column - 1))
         {
             --state.current.column;
         }
         else if (direction == movement::right
-            && state.current.column < state.grid.width - state.current.piece.width
             && !collides(state.current.row, state.current.column + 1))
         {
             ++state.current.column;
         }
         else if (direction == movement::down
-            && state.current.row > 0
             && !collides(state.current.row - 1, state.current.column))
         {
             --state.current.row;
