@@ -270,7 +270,6 @@ namespace
             {
                 type |= t.parts[row][column];
                 other.parts[column][other.width - 1 - row] = t.parts[row][column];
-                t.parts[row][column] = 0;
             }
         }
 
@@ -301,7 +300,6 @@ namespace
             {
                 type |= t.parts[row][column];
                 other.parts[other.height - 1 - column][row] = t.parts[row][column];
-                t.parts[row][column] = 0;
             }
         }
 
