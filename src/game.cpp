@@ -356,7 +356,7 @@ namespace
 
             while (complete && column < state.grid.width - 1)
             {
-                complete &= state.grid.parts[row][column];
+                complete &= state.grid.parts[row][column] != 0;
                 ++column;
             }
 
