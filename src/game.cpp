@@ -361,10 +361,10 @@ namespace
             }
 
             complete &= column == state.grid.width - 1;
-            ++count;
+            count += complete;
         }
 
-        if (!complete)
+        if (count < 1)
         {
             return;
         }
