@@ -46,11 +46,6 @@ namespace
             errors.emplace_back("piece_types_texture_path missing.");
         }
 
-        if (c.wall_texture_path.empty())
-        {
-            errors.emplace_back("wall_texture_path missing.");
-        }
-
         if (c.settings_path.empty())
         {
             errors.emplace_back("settings_path missing.");

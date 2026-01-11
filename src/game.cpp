@@ -16,7 +16,6 @@ namespace
     {
         asset::id_type font;
         asset::id_type piece_types;
-        asset::id_type wall;
     };
 
     const int part_dimension = 4;
@@ -461,7 +460,6 @@ namespace
         {
             .font = asset::load_font(config.font_path),
             .piece_types = asset::load_texture(config.piece_types_texture_path),
-            .wall = asset::load_texture(config.wall_texture_path),
         };
 
         view = ui::game_layout
@@ -531,20 +529,6 @@ namespace
         view.grid.area.h = -(state.grid.height * view.piece.width);
         view.grid.area.x = (display::mode.width * 0.5F) - (0.5F * view.grid.area.w);
         view.grid.area.y = static_cast<float>(state.grid.height * view.piece.width);
-
-        view.left_wall =
-        {
-            .area =
-            {
-                .x = view.grid.area.x - view.piece.width,
-                .y = 0,
-                .w = view.piece.width,
-                .h = static_cast<float>(display::mode.height)
-            },
-            .texture = assets.wall,
-        };
-        view.right_wall = view.left_wall;
-        view.right_wall.area.x = view.grid.area.x + (view.grid.area.w);
     }
 
     void update_view()

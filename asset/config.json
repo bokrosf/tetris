@@ -1,7 +1,6 @@
 {
     "font_path": "asset/font.json",
     "piece_types_texture_path": "asset/textures/piece_types.bmp",
-    "wall_texture_path": "asset/textures/wall.bmp",
     "settings_path": "asset/settings.json",
     "gameplay": {
         "grid_width": 12,
