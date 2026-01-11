@@ -437,7 +437,6 @@ namespace
 
         clear_parts(state.grid.parts[0], state.grid.width, state.grid.height);
 
-        // Walls.
         const char wall = 8;
         for (int row = 0; row < state.grid.height; ++row)
         {
