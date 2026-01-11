@@ -262,7 +262,7 @@ namespace
         tetromino &t = state.current.piece;
         tetromino other{.width = t.height, .height = t.width};
         clear_parts(other.parts[0], part_dimension, part_dimension);
-        char type = 0;
+        unsigned int type = 0;
 
         for (int row = 0; row < t.height; ++row)
         {
@@ -276,7 +276,7 @@ namespace
 
         copy(other, t);
         --type;
-        const rotation_offset &offset = rotation_offsets[static_cast<unsigned int>(type)][state.current.rotation];
+        const rotation_offset &offset = rotation_offsets[type][state.current.rotation];
         state.current.row -= offset.row;
         state.current.column -= offset.column;
         --state.current.rotation;
@@ -293,7 +293,7 @@ namespace
         tetromino &t = state.current.piece;
         tetromino other{.width = t.height, .height = t.width};
         clear_parts(other.parts[0], part_dimension, part_dimension);
-        char type = 0;
+        unsigned int type = 0;
 
         for (int row = 0; row < t.height; ++row)
         {
@@ -309,7 +309,7 @@ namespace
         --type;
         ++state.current.rotation;
         state.current.rotation %= rotation_count;
-        const rotation_offset &offset = rotation_offsets[static_cast<unsigned int>(type)][state.current.rotation];
+        const rotation_offset &offset = rotation_offsets[type][state.current.rotation];
         state.current.row += offset.row;
         state.current.column += offset.column;
 
