@@ -196,7 +196,7 @@ namespace
 
     int random_piece()
     {
-        return 4;
+        return 1;
     }
 
     void spawn_piece()
@@ -254,8 +254,6 @@ namespace
         }
     }
 
-    void rotate_right();
-
     void rotate_left()
     {
         tetromino &t = state.current.piece;
@@ -279,11 +277,6 @@ namespace
         state.current.column -= offset.column;
         --state.current.rotation;
         state.current.rotation %= rotation_count;
-
-        if (collides())
-        {
-            rotate_right();
-        }
     }
 
     void rotate_right()
@@ -309,11 +302,6 @@ namespace
         const rotation_offset &offset = rotation_offsets[type][state.current.rotation];
         state.current.row += offset.row;
         state.current.column += offset.column;
-
-        if (collides())
-        {
-            rotate_left();
-        }
     }
 
     void drop()
@@ -398,11 +386,21 @@ namespace
         if (event::key_down(SDLK_A))
         {
             rotate_left();
+
+            if (collides())
+            {
+                rotate_right();
+            }
         }
 
         if (event::key_down(SDLK_D))
         {
             rotate_right();
+
+            if (collides())
+            {
+                rotate_left();
+            }
         }
 
         if (event::key_down(SDLK_SPACE))
