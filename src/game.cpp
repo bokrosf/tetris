@@ -54,6 +54,7 @@ namespace
         moving_piece current;
         tetromino next;
         piece_grid grid;
+        int dropped_rows;
         int score;
         int level;
         int line;
@@ -304,34 +305,6 @@ namespace
         state.current.column += offset.column;
     }
 
-    void drop()
-    {
-        int row = state.current.row;
-
-        while (!collides(row - 1, state.current.column))
-        {
-            --row;
-        }
-
-        state.current.row = row;
-    }
-
-    void commit()
-    {
-        for (int row = 0; row < state.current.piece.height; ++row)
-        {
-            for (int column = 0; column < state.current.piece.width; ++column)
-            {
-                if (state.current.piece.parts[row][column])
-                {
-                    int grid_row = state.current.row + row;
-                    int grid_column = state.current.column + column;
-                    state.grid.parts[grid_row][grid_column] = state.current.piece.parts[row][column];
-                }
-            }
-        }
-    }
-
     void clear_complete_lines()
     {
         const int highest_row = state.current.row + state.current.piece.height - 1;
@@ -364,6 +337,40 @@ namespace
                 state.grid.parts[row - count][column] = state.grid.parts[row][column];
             }
         }
+    }
+
+    void commit()
+    {
+        for (int row = 0; row < state.current.piece.height; ++row)
+        {
+            for (int column = 0; column < state.current.piece.width; ++column)
+            {
+                if (state.current.piece.parts[row][column])
+                {
+                    int grid_row = state.current.row + row;
+                    int grid_column = state.current.column + column;
+                    state.grid.parts[grid_row][grid_column] = state.current.piece.parts[row][column];
+                }
+            }
+        }
+
+        state.dropped_rows = 0;
+        // TODO: Compute statistics.
+        // TODO: Animate line ready to be cleared.
+        clear_complete_lines();
+        spawn_piece();
+    }
+
+    void drop()
+    {
+        while (!collides(state.current.row - state.dropped_rows - 1, state.current.column))
+        {
+            ++state.dropped_rows;
+        }
+
+        state.current.row -= state.dropped_rows;
+        // TODO: Animate dropping.
+        commit();
     }
 
     void handle_input()
@@ -402,13 +409,6 @@ namespace
                 rotate_left();
             }
         }
-
-        if (event::key_down(SDLK_SPACE))
-        {
-            commit();
-            clear_complete_lines();
-            spawn_piece();
-        }
     }
 
     void init_state()
@@ -420,6 +420,7 @@ namespace
                 .width = config.gameplay.grid_width,
                 .height = config.gameplay.grid_height,
             },
+            .dropped_rows = 0,
             .score = 0,
             .level = 0,
             .line = 0,
