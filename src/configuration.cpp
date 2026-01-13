@@ -58,7 +58,7 @@ namespace
 
         if (c.gameplay.grid_height < 5)
         {
-            errors.emplace_back("grid_height must be greater than or equal to 5");
+            errors.emplace_back("grid_height must be greater than or equal to 5.");
         }
 
         if (c.gameplay.scoring.max_level < 0)
