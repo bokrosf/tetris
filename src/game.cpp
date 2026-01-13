@@ -6,6 +6,7 @@
 #include <event.h>
 #include <game.h>
 #include <render.h>
+#include <timer.h>
 #include <ui.h>
 
 using namespace game;
@@ -58,6 +59,9 @@ namespace
         int score;
         int level;
         int lines;
+        int fall_speed_ms;
+        timer::time_point frame_start;
+        timer::time_point fall_at;
     };
 
     enum class movement
@@ -209,6 +213,11 @@ namespace
         state.current.column = center - offset;
         state.current.rotation = 0;
         copy(piece_templates[random_piece()], state.next);
+
+        int speed_level = std::clamp(state.level, 0, static_cast<int>(config.gameplay.speed_levels.size()));
+        const double base_interval = 59.73;
+        state.fall_speed_ms = std::round((config.gameplay.speed_levels[speed_level] / base_interval) * 1000);
+        state.fall_at = timer::now() + state.fall_speed_ms;
     }
 
     bool collides(int area_row, int area_column)
@@ -484,7 +493,6 @@ namespace
         }
 
         copy(piece_templates[random_piece()], state.next);
-        spawn_piece();
     }
 
     void init_view()
@@ -564,6 +572,22 @@ namespace
         view.grid.area.y = static_cast<float>(state.grid.height * view.piece.width);
     }
 
+    void update_state()
+    {
+        if (timer::now() >= state.fall_at)
+        {
+            if (collides(state.current.row - 1, state.current.column))
+            {
+                commit();
+            }
+            else
+            {
+                move(movement::down);
+                state.fall_at += state.fall_speed_ms;
+            }
+        }  
+    }
+
     void update_view()
     {
         view.current.x = view.grid.area.x + (state.current.column * view.piece.width);
@@ -624,12 +648,14 @@ namespace game
     {
         init_state();
         init_view();
+        spawn_piece();
     }
 
     void run()
     {
+        state.frame_start = timer::now();
         handle_input();
-        // TODO: Update game state.
+        update_state();
         update_view();
         render_view();
     }
