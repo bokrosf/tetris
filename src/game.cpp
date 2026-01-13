@@ -318,6 +318,26 @@ namespace
         return column == max_bound;
     }
 
+    void update_statistics()
+    {
+        int line_count = 0;
+
+        for (int row = 1; row < state.grid.height; ++row)
+        {
+            line_count += complete_line(row);
+        }
+
+        if (line_count > 0)
+        {
+            state.score += line_count * (state.level + 1) * config.gameplay.scoring.line_values[line_count - 1];
+        }
+
+        state.score += state.dropped_rows;
+        state.line += line_count;
+        state.level = state.line / config.gameplay.scoring.level_line_requirement;
+        state.dropped_rows = 0;
+    }
+
     void clear_complete_lines()
     {
         int row = 1;
@@ -370,8 +390,7 @@ namespace
             }
         }
 
-        // TODO: Compute statistics.
-        state.dropped_rows = 0;
+        update_statistics();
         // TODO: Animate line ready to be cleared.
         clear_complete_lines();
         spawn_piece();
