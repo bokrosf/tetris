@@ -66,6 +66,11 @@ namespace
             errors.emplace_back("scoring.max_level must be greater than or equal to 0.");
         }
 
+        if (c.gameplay.scoring.level_line_requirement < 1)
+        {
+            errors.emplace_back("level_line_requirement must be greater than 0.");
+        }
+
         if (!errors.empty())
         {
             std::ostringstream message;

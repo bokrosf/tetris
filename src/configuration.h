@@ -8,6 +8,7 @@
 struct scoring_configuration
 {
     int max_level;
+    int level_line_requirement;
     std::array<int, 4> line_values;
 };
 
@@ -29,6 +30,7 @@ struct configuration
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     scoring_configuration, \
     max_level, \
+    level_line_requirement, \
     line_values)
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
