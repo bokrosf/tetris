@@ -5,10 +5,8 @@
     "gameplay": {
         "grid_width": 12,
         "grid_height": 19,
-        "scoring": {
-            "level_line_requirement": 10,
-            "line_values": [40, 100, 300, 1200]
-        }
+        "level_line_requirement": 10,
+        "line_values": [40, 100, 300, 1200]
     }
 }
 

@@ -5,17 +5,12 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-struct scoring_configuration
-{
-    int level_line_requirement;
-    std::array<int, 4> line_values;
-};
-
 struct game_configuration
 {
     int grid_width;
     int grid_height;
-    scoring_configuration scoring;
+    int level_line_requirement;
+    std::array<int, 4> line_values;
 };
 
 struct configuration
@@ -26,16 +21,13 @@ struct configuration
     game_configuration gameplay;
 };
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
-    scoring_configuration, \
-    level_line_requirement, \
-    line_values)
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     game_configuration, \
     grid_width, \
     grid_height, \
-    scoring)
+    level_line_requirement, \
+    line_values)
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( \
     configuration, \
