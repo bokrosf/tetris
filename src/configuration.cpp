@@ -61,11 +61,6 @@ namespace
             errors.emplace_back("grid_height must be greater than or equal to 5.");
         }
 
-        if (c.gameplay.scoring.max_level < 0)
-        {
-            errors.emplace_back("max_level must be greater than or equal to 0.");
-        }
-
         if (c.gameplay.scoring.level_line_requirement < 1)
         {
             errors.emplace_back("level_line_requirement must be greater than 0.");

@@ -6,7 +6,6 @@
         "grid_width": 12,
         "grid_height": 19,
         "scoring": {
-            "max_level": 9,
             "level_line_requirement": 10,
             "line_values": [40, 100, 300, 1200]
         }
