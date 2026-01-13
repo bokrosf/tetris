@@ -329,7 +329,7 @@ namespace
 
         if (line_count > 0)
         {
-            state.score += line_count * (state.level + 1) * config.gameplay.line_values[line_count - 1];
+            state.score += line_count * (state.level + 1) * config.gameplay.line_scores[line_count - 1];
         }
 
         state.score += state.dropped_rows;

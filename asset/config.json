@@ -6,7 +6,7 @@
         "grid_width": 12,
         "grid_height": 19,
         "level_line_requirement": 10,
-        "line_values": [40, 100, 300, 1200],
+        "line_scores": [40, 100, 300, 1200],
         "speed_levels": [53, 49, 45, 41, 37, 33, 28, 22, 17, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 3]
     }
 }
