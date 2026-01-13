@@ -370,8 +370,8 @@ namespace
             }
         }
 
-        state.dropped_rows = 0;
         // TODO: Compute statistics.
+        state.dropped_rows = 0;
         // TODO: Animate line ready to be cleared.
         clear_complete_lines();
         spawn_piece();
