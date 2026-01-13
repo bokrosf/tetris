@@ -4,7 +4,11 @@
     "settings_path": "asset/settings.json",
     "gameplay": {
         "grid_width": 12,
-        "grid_height": 19
+        "grid_height": 19,
+        "scoring": {
+            "max_level": 9,
+            "line_values": [40, 100, 300, 1200]
+        }
     }
 }
 

@@ -61,6 +61,11 @@ namespace
             errors.emplace_back("grid_height must be greater than or equal to 5");
         }
 
+        if (c.gameplay.scoring.max_level < 0)
+        {
+            errors.emplace_back("scoring.max_level must be greater than or equal to 0.");
+        }
+
         if (!errors.empty())
         {
             std::ostringstream message;
