@@ -305,36 +305,52 @@ namespace
         state.current.column += offset.column;
     }
 
+    bool complete_line(int row)
+    {
+        const int max_bound = state.grid.width - 1;
+        int column = 1;
+
+        while (column < max_bound && state.grid.parts[row][column] != 0)
+        {
+            ++column;
+        }
+
+        return column == max_bound;
+    }
+
     void clear_complete_lines()
     {
-        const int highest_row = state.current.row + state.current.piece.height - 1;
-        int count = 0;
-        bool complete = true;
+        int row = 1;
 
-        for (int row = state.current.row; complete && row <= highest_row; ++row)
+        while (row < state.grid.height && !complete_line(row))
         {
-            int column = 1;
+            ++row;
+        }
 
-            while (complete && column < state.grid.width - 1)
+        int complete_count = 0;
+
+        while (row < state.grid.height)
+        {
+            if (complete_line(row))
             {
-                complete &= state.grid.parts[row][column] != 0;
-                ++column;
+                ++complete_count;
+            }
+            else
+            {
+                for (int column = 1; column < state.grid.width - 1; ++column)
+                {
+                    state.grid.parts[row - complete_count][column] = state.grid.parts[row][column];
+                }
             }
 
-            complete &= column == state.grid.width - 1;
-            count += complete;
+            ++row;
         }
 
-        if (count < 1)
-        {
-            return;
-        }
-
-        for (int row = state.current.row + count; row < state.grid.height; ++row)
+        for (row = state.grid.height - complete_count; row < state.grid.height; ++row)
         {
             for (int column = 1; column < state.grid.width - 1; ++column)
             {
-                state.grid.parts[row - count][column] = state.grid.parts[row][column];
+                state.grid.parts[row][column] = 0;
             }
         }
     }
