@@ -11,6 +11,7 @@ struct game_configuration
     int grid_height;
     int level_line_requirement;
     std::array<int, 4> line_values;
+    std::array<int, 21> speed_levels;
 };
 
 struct configuration
@@ -27,7 +28,8 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     grid_width, \
     grid_height, \
     level_line_requirement, \
-    line_values)
+    line_values, \
+    speed_levels)
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( \
     configuration, \
