@@ -8,6 +8,7 @@
 #include <game.h>
 #include <render.h>
 #include <settings.h>
+#include <timer.h>
 
 void init();
 void shutdown();
@@ -35,6 +36,7 @@ void init()
     load_configuration("asset/config.json");
     load_settings(config.settings_path);
     event::init();
+    timer::init();
     render::init();
     display::init();
     game::init();
@@ -45,6 +47,7 @@ void shutdown()
     game::shutdown();
     asset::unload_all();
     render::shutdown();
+    timer::shutdown();
     event::shutdown();
 }
 

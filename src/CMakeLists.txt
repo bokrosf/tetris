@@ -7,4 +7,5 @@ target_sources("${PROJECT_NAME}" PRIVATE
   main.cpp
   render.cpp
   settings.cpp
+  timer.cpp
 )
