@@ -57,7 +57,7 @@ namespace
         int dropped_rows;
         int score;
         int level;
-        int line;
+        int lines;
     };
 
     enum class movement
@@ -333,8 +333,8 @@ namespace
         }
 
         state.score += state.dropped_rows;
-        state.line += line_count;
-        state.level = state.line / config.gameplay.level_line_requirement;
+        state.lines += line_count;
+        state.level = state.lines / config.gameplay.level_line_requirement;
         state.dropped_rows = 0;
     }
 
@@ -458,7 +458,7 @@ namespace
             .dropped_rows = 0,
             .score = 0,
             .level = 0,
-            .line = 0,
+            .lines = 0,
         };
 
         state.grid.parts = new char *[state.grid.height];
@@ -570,7 +570,7 @@ namespace
         view.current.y = view.grid.area.y - (state.current.row * view.piece.width);
         view.score_value.text = std::to_string(state.score);
         view.level_value.text = std::to_string(state.level);
-        view.lines_value.text = std::to_string(state.line);
+        view.lines_value.text = std::to_string(state.lines);
     }
 
     void render_view()
