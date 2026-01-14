@@ -59,7 +59,7 @@ namespace
         int score;
         int level;
         int lines;
-        int fall_speed_ms;
+        int fall_interval_ms;
         timer::time_point frame_start;
         timer::time_point fall_at;
     };
@@ -214,10 +214,10 @@ namespace
         state.current.rotation = 0;
         copy(piece_templates[random_piece()], state.next);
 
-        int speed_level = std::clamp(state.level, 0, static_cast<int>(config.gameplay.speed_levels.size()));
+        int fall_level = std::clamp(state.level, 0, static_cast<int>(config.gameplay.fall_intervals.size()));
         const double base_interval = 59.73;
-        state.fall_speed_ms = std::round((config.gameplay.speed_levels[speed_level] / base_interval) * 1000);
-        state.fall_at = timer::now() + state.fall_speed_ms;
+        state.fall_interval_ms = std::round((config.gameplay.fall_intervals[fall_level] / base_interval) * 1000);
+        state.fall_at = timer::now() + state.fall_interval_ms;
     }
 
     bool collides(int area_row, int area_column)
@@ -584,7 +584,7 @@ namespace
         {
             if (move(movement::down))
             {
-                state.fall_at += state.fall_speed_ms;
+                state.fall_at += state.fall_interval_ms;
             }
             else
             {
