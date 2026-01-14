@@ -245,8 +245,11 @@ namespace
         return collides(state.current.row, state.current.column);
     }
 
-    void move(movement direction)
+    bool move(movement direction)
     {
+        int original_row = state.current.row;
+        int original_column = state.current.column;
+        
         if (direction == movement::left
             && !collides(state.current.row, state.current.column - 1))
         {
@@ -262,6 +265,9 @@ namespace
         {
             --state.current.row;
         }
+
+        return state.current.row != original_row
+            || state.current.column != original_column;
     }
 
     void rotate_left()
