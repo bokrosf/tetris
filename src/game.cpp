@@ -582,14 +582,13 @@ namespace
     {
         if (timer::now() >= state.fall_at)
         {
-            if (collides(state.current.row - 1, state.current.column))
+            if (move(movement::down))
             {
-                commit();
+                state.fall_at += state.fall_speed_ms;
             }
             else
             {
-                move(movement::down);
-                state.fall_at += state.fall_speed_ms;
+                commit();
             }
         }  
     }
