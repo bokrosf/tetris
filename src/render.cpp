@@ -133,14 +133,6 @@ namespace render
         SDL_DestroyTexture(texture);
     }
 
-    void draw_texture(asset::id_type id, const SDL_FRect &area)
-    {
-        SDL_Texture &texture = asset::texture(id);
-        SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
-        float scale = std::round(std::min(area.w / texture.w, area.h / texture.h));
-        SDL_RenderTextureTiled(renderer, &texture, nullptr, scale, &area);
-    }
-
     void draw_quad(const SDL_FRect &area, const SDL_Color &color)
     {
         SDL_Color original_color;
