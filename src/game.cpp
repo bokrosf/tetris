@@ -50,18 +50,25 @@ namespace
         unsigned int rotation;
     };
 
+    struct drop_state
+    {
+        bool enabled;
+        bool dropping;
+        int rows;
+    };
+
     struct game_state
     {
         moving_piece current;
         tetromino next;
         piece_grid grid;
-        int dropped_rows;
         int score;
         int level;
         int lines;
         int fall_interval_ms;
         timer::time_point frame_start;
         timer::time_point fall_at;
+        drop_state drop;
     };
 
     enum class movement
@@ -264,6 +271,7 @@ namespace
             && !collides(state.current.row - 1, state.current.column))
         {
             --state.current.row;
+            state.drop.rows += state.drop.dropping;
         }
 
         return state.current.row != original_row
@@ -320,6 +328,13 @@ namespace
         state.current.column += offset.column;
     }
 
+    int fall_interval_ms()
+    {
+        return state.drop.dropping
+            ? std::round((1.0 / 20.0) * state.fall_interval_ms)
+            : state.fall_interval_ms;
+    }
+
     bool complete_line(int row)
     {
         const int max_bound = state.grid.width - 1;
@@ -347,10 +362,9 @@ namespace
             state.score += line_count * (state.level + 1) * config.gameplay.line_scores[line_count - 1];
         }
 
-        state.score += state.dropped_rows;
+        state.score += state.drop.rows;
         state.lines += line_count;
         state.level = state.lines / config.gameplay.level_line_requirement;
-        state.dropped_rows = 0;
     }
 
     void clear_complete_lines()
@@ -408,19 +422,13 @@ namespace
         update_statistics();
         // TODO: Animate line ready to be cleared.
         clear_complete_lines();
-        spawn_piece();
-    }
-
-    void drop()
-    {
-        while (!collides(state.current.row - state.dropped_rows - 1, state.current.column))
+        state.drop =
         {
-            ++state.dropped_rows;
-        }
-
-        state.current.row -= state.dropped_rows;
-        // TODO: Animate dropping.
-        commit();
+            .enabled = !state.drop.dropping,
+            .dropping = false,
+            .rows = 0,
+        };
+        spawn_piece();
     }
 
     void handle_input()
@@ -435,9 +443,20 @@ namespace
             move(movement::right);
         }
 
-        if (event::key_down(SDLK_DOWN))
+        if (event::key_down(SDLK_DOWN) && state.drop.enabled && !state.drop.dropping)
         {
-            drop();
+            state.drop.dropping = true;
+            state.fall_at = timer::now();
+        }
+
+        if (event::key_up(SDLK_DOWN))
+        {
+            state.drop =
+            {
+                .enabled = true,
+                .dropping = false,
+                .rows = 0
+            };
         }
 
         if (event::key_down(SDLK_A))
@@ -470,10 +489,15 @@ namespace
                 .width = config.gameplay.grid_width,
                 .height = config.gameplay.grid_height,
             },
-            .dropped_rows = 0,
             .score = 0,
             .level = 0,
             .lines = 0,
+            .drop =
+            {
+                .enabled = true,
+                .dropping = false,
+                .rows = 0,
+            },
         };
 
         state.grid.parts = new char *[state.grid.height];
@@ -584,7 +608,7 @@ namespace
         {
             if (move(movement::down))
             {
-                state.fall_at += state.fall_interval_ms;
+                state.fall_at = timer::now() + fall_interval_ms();
             }
             else
             {
