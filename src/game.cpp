@@ -582,7 +582,7 @@ namespace
             },
             .piece
             {
-                .width = static_cast<float>(display::mode.height) / state.grid.height,
+                .width = static_cast<float>(display::mode.height) / (state.grid.height - 1),
                 .texture = assets.piece_types,
             },
             .next
