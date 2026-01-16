@@ -585,10 +585,6 @@ namespace
                 .width = static_cast<float>(display::mode.height) / state.grid.height,
                 .texture = assets.piece_types,
             },
-            .grid
-            {
-                .color = {0xFF, 0xFF, 0xFF, 0xFF},
-            },
             .next
             {
                 .x = display::scaled(1450.0),
@@ -596,10 +592,23 @@ namespace
             },
         };
 
-        view.grid.area.w = state.grid.width * view.piece.width;
-        view.grid.area.h = -(state.grid.height * view.piece.width);
-        view.grid.area.x = (display::mode.width * 0.5F) - (0.5F * view.grid.area.w);
-        view.grid.area.y = static_cast<float>(state.grid.height * view.piece.width);
+        view.grid.position =
+        {
+            .x = (display::mode.width * 0.5F) - (0.5F * state.grid.width * view.piece.width),
+            .y = static_cast<float>(state.grid.height * view.piece.width),
+        };
+
+        view.grid.background =
+        {
+            .area =
+            {
+                .x = view.grid.position.x - ((1.0F / 8.0F) * view.piece.width),
+                .y = view.grid.position.y,
+                .w = state.grid.width * view.piece.width + (0.25F * view.piece.width),
+                .h = -(state.grid.height * view.piece.width),
+            },
+            .color = {0xFF, 0xFF, 0xFF, 0xFF},
+        };
     }
 
     void update_state()
@@ -619,8 +628,8 @@ namespace
 
     void update_view()
     {
-        view.current.x = view.grid.area.x + (state.current.column * view.piece.width);
-        view.current.y = view.grid.area.y - (state.current.row * view.piece.width);
+        view.current.x = view.grid.position.x + (state.current.column * view.piece.width);
+        view.current.y = view.grid.position.y - (state.current.row * view.piece.width);
         view.score_value.text = std::to_string(state.score);
         view.level_value.text = std::to_string(state.level);
         view.lines_value.text = std::to_string(state.lines);
@@ -635,7 +644,7 @@ namespace
         render::draw(view.level_value);
         render::draw(view.lines_description);
         render::draw(view.lines_value);
-        render::draw_quad(view.grid.area, view.grid.color);
+        render::draw_quad(view.grid.background.area, view.grid.background.color);
 
         render::draw(
             render::piece_grid
@@ -662,7 +671,7 @@ namespace
             {
                 .width = state.grid.width,
                 .height = state.grid.height,
-                .position = reinterpret_cast<SDL_FPoint &>(view.grid.area),
+                .position = view.grid.position,
                 .piece = view.piece,
                 .parts = state.grid.parts[0],
             });

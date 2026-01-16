@@ -22,10 +22,16 @@ namespace ui
         asset::id_type texture;
     };
 
-    struct part_grid
+    struct colored_area
     {
         SDL_FRect area;
         SDL_Color color;
+    };
+
+    struct part_grid
+    {
+        SDL_FPoint position;
+        colored_area background;
     };
 
     struct game_layout
