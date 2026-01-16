@@ -30,6 +30,7 @@ namespace render
             throw std::runtime_error(std::format("Render init failed: {}", SDL_GetError()));
         }
 
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_SetRenderVSync(renderer, settings.vsync_enabled);
     }
 
