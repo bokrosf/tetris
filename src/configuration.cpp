@@ -66,6 +66,11 @@ namespace
             errors.emplace_back("level_line_requirement must be greater than 0.");
         }
 
+        if (c.gameplay.soft_drop_cells < 1)
+        {
+            errors.emplace_back("soft_drop_cells must be greater than 0.");
+        }
+
         if (!errors.empty())
         {
             std::ostringstream message;

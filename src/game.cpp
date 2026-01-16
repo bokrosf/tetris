@@ -331,7 +331,7 @@ namespace
     int fall_interval_ms()
     {
         return state.drop.dropping
-            ? std::round((1.0 / 20.0) * state.fall_interval_ms)
+            ? std::round((1.0 / config.gameplay.soft_drop_cells) * state.fall_interval_ms)
             : state.fall_interval_ms;
     }
 
