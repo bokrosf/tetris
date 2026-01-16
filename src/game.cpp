@@ -57,6 +57,12 @@ namespace
         int rows;
     };
 
+    struct line_completion
+    {
+        int count;
+        int rows[part_dimension];
+    };
+
     struct game_state
     {
         moving_piece current;
@@ -69,6 +75,7 @@ namespace
         timer::time_point frame_start;
         timer::time_point fall_at;
         drop_state drop;
+        line_completion completion;
     };
 
     enum class movement
@@ -348,14 +355,24 @@ namespace
         return column == max_bound;
     }
 
-    void update_statistics()
+    void detect_complete_lines()
     {
-        int line_count = 0;
+        int count = 0;
 
         for (int row = 1; row < state.grid.height; ++row)
         {
-            line_count += complete_line(row);
+            if (complete_line(row))
+            {
+                state.completion.rows[count++] = row;
+            }
         }
+
+        state.completion.count = count;
+    }
+
+    void update_statistics()
+    {
+        const int line_count = state.completion.count;
 
         if (line_count > 0)
         {
@@ -419,15 +436,24 @@ namespace
             }
         }
 
+        detect_complete_lines();
         update_statistics();
         // TODO: Animate line ready to be cleared.
         clear_complete_lines();
+
+        state.completion =
+        {
+            .count = 0,
+            .rows = {0, 0, 0, 0},
+        };
+
         state.drop =
         {
             .enabled = !state.drop.dropping,
             .dropping = false,
             .rows = 0,
         };
+
         spawn_piece();
     }
 
@@ -497,6 +523,11 @@ namespace
                 .enabled = true,
                 .dropping = false,
                 .rows = 0,
+            },
+            .completion =
+            {
+                .count = 0,
+                .rows = {0, 0, 0, 0}
             },
         };
 
