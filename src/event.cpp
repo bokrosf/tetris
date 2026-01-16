@@ -52,4 +52,14 @@ namespace event
 
         return std::any_of(events.begin(), events.end(), predicate);
     }
+
+    bool key_up(SDL_Keycode key)
+    {
+        auto predicate = [key](const SDL_Event &e)
+        {
+            return e.type == SDL_EVENT_KEY_UP && e.key.key == key;
+        };
+
+        return std::any_of(events.begin(), events.end(), predicate);
+    }
 }

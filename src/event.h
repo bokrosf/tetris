@@ -10,6 +10,7 @@ namespace event
     void read_all();
     bool occured(SDL_EventType type);
     bool key_down(SDL_Keycode key);
+    bool key_up(SDL_Keycode key);
 }
 
 #endif
