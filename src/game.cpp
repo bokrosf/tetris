@@ -495,7 +495,7 @@ namespace
             }
         }
 
-        if (event::key_down(SDLK_D))
+        if (event::key_down(SDLK_S))
         {
             rotate_right();
 
