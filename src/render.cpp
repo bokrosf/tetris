@@ -134,15 +134,6 @@ namespace render
         SDL_DestroyTexture(texture);
     }
 
-    void draw_quad(const SDL_FRect &area, const SDL_Color &color)
-    {
-        SDL_Color original_color;
-        SDL_GetRenderDrawColor(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
-        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-        SDL_RenderFillRect(renderer, &area);
-        SDL_SetRenderDrawColor(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
-    }
-
     void draw_quad(const SDL_FRect &area, const SDL_FColor &color)
     {
         SDL_FColor original_color;

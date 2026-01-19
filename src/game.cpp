@@ -671,7 +671,7 @@ namespace
                 .w = state.grid.width * view.piece.width + (0.25F * view.piece.width),
                 .h = -(state.grid.height * view.piece.width),
             },
-            .color = {0xFF, 0xFF, 0xFF, 0xFF},
+            .color = {1.0, 1.0, 1.0, 1.0},
         };
     }
 

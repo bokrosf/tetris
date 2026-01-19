@@ -25,7 +25,7 @@ namespace ui
     struct colored_area
     {
         SDL_FRect area;
-        SDL_Color color;
+        SDL_FColor color;
     };
 
     struct part_grid
