@@ -87,7 +87,6 @@ namespace
         int level;
         int lines;
         int fall_interval_ms;
-        timer::time_point frame_start;
         timer::time_point fall_at;
         drop_state drop;
         line_completion completion;
@@ -805,7 +804,6 @@ namespace game
 
     void run()
     {
-        state.frame_start = timer::now();
         handle_input();
         update_state();
         update_view();
