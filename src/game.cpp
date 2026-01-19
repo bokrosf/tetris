@@ -732,8 +732,6 @@ namespace
         {
             active_animation.type = animation_type::none;
             end_commit();
-
-            return;
         }
     }
 
