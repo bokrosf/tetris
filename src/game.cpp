@@ -712,7 +712,7 @@ namespace
 
         if (ratio >= 0.75f)
         {
-            color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0};
+            color = view.grid.background.color;
         }
 
         for (int i = 0; i < state.completion.count; ++i)
