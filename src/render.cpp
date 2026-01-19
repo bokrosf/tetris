@@ -143,6 +143,15 @@ namespace render
         SDL_SetRenderDrawColor(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
     }
 
+    void draw_quad(const SDL_FRect &area, const SDL_FColor &color)
+    {
+        SDL_FColor original_color;
+        SDL_GetRenderDrawColorFloat(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
+        SDL_SetRenderDrawColorFloat(renderer, color.r, color.g, color.b, color.a);
+        SDL_RenderFillRect(renderer, &area);
+        SDL_SetRenderDrawColorFloat(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
+    }
+
     SDL_Texture *load_texture(SDL_Surface *surface)
     {
         return SDL_CreateTextureFromSurface(renderer, surface);

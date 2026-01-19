@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <cmath>
+#include <numbers>
 #include <string>
 #include <asset.h>
 #include <configuration.h>
@@ -63,6 +65,19 @@ namespace
         int rows[part_dimension];
     };
 
+    enum class animation_type
+    {
+        none,
+        complete_lines,
+    };
+
+    struct animation
+    {
+        animation_type type;
+        timer::time_point started_at;
+        unsigned long duration;
+    };
+
     struct game_state
     {
         moving_piece current;
@@ -87,6 +102,7 @@ namespace
 
     game_state state;
     ui::game_layout view;
+    animation active_animation;
     asset_keys assets;
 
     const tetromino piece_templates[7] =
@@ -421,6 +437,26 @@ namespace
         }
     }
 
+    void end_commit()
+    {
+        clear_complete_lines();
+
+        state.completion =
+        {
+            .count = 0,
+            .rows = {0, 0, 0, 0},
+        };
+
+        state.drop =
+        {
+            .enabled = !state.drop.dropping,
+            .dropping = false,
+            .rows = 0,
+        };
+
+        spawn_piece();
+    }
+
     void commit()
     {
         for (int row = 0; row < state.current.piece.height; ++row)
@@ -438,23 +474,20 @@ namespace
 
         detect_complete_lines();
         update_statistics();
-        // TODO: Animate line ready to be cleared.
-        clear_complete_lines();
 
-        state.completion =
+        if (state.completion.count > 0)
         {
-            .count = 0,
-            .rows = {0, 0, 0, 0},
-        };
-
-        state.drop =
+            active_animation =
+            {
+                .type = animation_type::complete_lines,
+                .started_at = timer::now(),
+                .duration = 1500,
+            };
+        }
+        else
         {
-            .enabled = !state.drop.dropping,
-            .dropping = false,
-            .rows = 0,
-        };
-
-        spawn_piece();
+            end_commit();
+        }
     }
 
     void handle_input()
@@ -644,6 +677,11 @@ namespace
 
     void update_state()
     {
+        if (active_animation.type != animation_type::none)
+        {
+            return;
+        }
+
         if (timer::now() >= state.fall_at)
         {
             if (move(movement::down))
@@ -654,7 +692,7 @@ namespace
             {
                 commit();
             }
-        }  
+        }
     }
 
     void update_view()
@@ -664,6 +702,51 @@ namespace
         view.score_value.text = std::to_string(state.score);
         view.level_value.text = std::to_string(state.level);
         view.lines_value.text = std::to_string(state.lines);
+    }
+
+    void animate_complete_lines()
+    {
+        float ratio = (timer::now() - active_animation.started_at) / static_cast<float>(active_animation.duration);
+        float alpha = std::abs(std::sin(ratio * 4.0f * std::numbers::pi));
+        SDL_FColor color{.r = 0.66, .g = 0.66, .b = 0.66, .a = alpha};
+
+        if (ratio >= 0.75f)
+        {
+            color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0};
+        }
+
+        for (int i = 0; i < state.completion.count; ++i)
+        {
+            SDL_FRect area
+            {
+                .x = view.grid.position.x + view.piece.width,
+                .y = view.grid.position.y - (state.completion.rows[i] * view.piece.width),
+                .w = (state.grid.width - 2) * view.piece.width,
+                .h = -view.piece.width,
+            };
+
+            render::draw_quad(area, color);
+        }
+
+        if (ratio >= 1.0)
+        {
+            active_animation.type = animation_type::none;
+            end_commit();
+
+            return;
+        }
+    }
+
+    void animate()
+    {
+        switch (active_animation.type)
+        {
+            case animation_type::complete_lines:
+                animate_complete_lines();
+                break;
+            default:
+                break;
+        }
     }
 
     void render_view()
@@ -707,6 +790,7 @@ namespace
                 .parts = state.grid.parts[0],
             });
 
+        animate();
         render::end_frame();
     }
 }
@@ -717,6 +801,7 @@ namespace game
     {
         init_state();
         init_view();
+        active_animation.type = animation_type::none;
         spawn_piece();
     }
 
