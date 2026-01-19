@@ -475,7 +475,7 @@ namespace
             {
                 .type = animation_type::complete_lines,
                 .started_at = timer::now(),
-                .duration = 1500,
+                .duration = config.gameplay.line_animation_duration_ms,
             };
         }
         else

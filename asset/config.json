@@ -8,7 +8,8 @@
         "level_line_requirement": 10,
         "line_scores": [40, 100, 300, 1200],
         "fall_intervals": [53, 49, 45, 41, 37, 33, 28, 22, 17, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 3],
-        "soft_drop_cells": 20
+        "soft_drop_cells": 20,
+        "line_animation_duration_ms": 1500
     }
 }
 
