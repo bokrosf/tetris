@@ -385,20 +385,6 @@ namespace
         state.completion.count = count;
     }
 
-    void update_statistics()
-    {
-        const int line_count = state.completion.count;
-
-        if (line_count > 0)
-        {
-            state.score += line_count * (state.level + 1) * config.gameplay.line_scores[line_count - 1];
-        }
-
-        state.score += state.drop.rows;
-        state.lines += line_count;
-        state.level = state.lines / config.gameplay.level_line_requirement;
-    }
-
     void clear_complete_lines()
     {
         int row = 1;
@@ -438,7 +424,15 @@ namespace
 
     void end_commit()
     {
-        clear_complete_lines();
+        int line_count = state.completion.count;
+
+        if (line_count > 0)
+        {
+            state.score += line_count * (state.level + 1) * config.gameplay.line_scores[line_count - 1];
+        }
+
+        state.lines += line_count;
+        state.level = state.lines / config.gameplay.level_line_requirement;
 
         state.completion =
         {
@@ -453,6 +447,7 @@ namespace
             .rows = 0,
         };
 
+        clear_complete_lines();
         spawn_piece();
     }
 
@@ -472,7 +467,7 @@ namespace
         }
 
         detect_complete_lines();
-        update_statistics();
+        state.score += state.drop.rows;
 
         if (state.completion.count > 0)
         {
