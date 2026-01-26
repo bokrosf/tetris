@@ -1,5 +1,4 @@
 #include <exception>
-#include <filesystem>
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -13,13 +12,13 @@ namespace
 
 settings_state settings;
 
-void load_settings(const std::string &path)
+void load_settings(const std::filesystem::path &path)
 {
     using json = nlohmann::ordered_json;
 
     if (!std::filesystem::exists(path))
     {
-        throw std::runtime_error(std::format("Settings file not found: {}", path));
+        throw std::runtime_error(std::format("Settings file not found: {}", path.c_str()));
     }
 
     std::ifstream input(path);

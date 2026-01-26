@@ -1,7 +1,7 @@
 #ifndef TETRIS_SETTINGS_H
 #define TETRIS_SETTINGS_H
 
-#include <string>
+#include <filesystem>
 #include <nlohmann/json.hpp>
 
 struct settings_state
@@ -13,6 +13,6 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync_enabled)
 
 extern settings_state settings;
 
-void load_settings(const std::string &path);
+void load_settings(const std::filesystem::path &path);
 
 #endif

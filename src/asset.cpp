@@ -1,5 +1,4 @@
 #include <exception>
-#include <filesystem>
 #include <format>
 #include <fstream>
 #include <unordered_map>
@@ -22,11 +21,11 @@ namespace
 
 namespace asset
 {
-    id_type load_font(const std::string &path)
+    id_type load_font(const std::filesystem::path &path)
     {
         if (!std::filesystem::exists(path))
         {
-            throw std::runtime_error(std::format("Font asset not existing: {}", path));
+            throw std::runtime_error(std::format("Font asset not existing: {}", path.c_str()));
         }
 
         std::ifstream input(path);
@@ -55,25 +54,25 @@ namespace asset
         return last_id;
     }
 
-    id_type load_texture(const std::string &path)
+    id_type load_texture(const std::filesystem::path &path)
     {
         if (!std::filesystem::exists(path))
         {
-            throw std::runtime_error(std::format("Texture asset not existing: {}", path));
+            throw std::runtime_error(std::format("Texture asset not existing: {}", path.c_str()));
         }
 
         SDL_Surface *surface = SDL_LoadBMP(path.c_str());
 
         if (!surface)
         {
-            throw std::runtime_error(std::format("Texture asset loading failed. Error: {}, path: {}", SDL_GetError(), path));
+            throw std::runtime_error(std::format("Texture asset loading failed. Error: {}, path: {}", SDL_GetError(), path.c_str()));
         }
 
         SDL_Texture *texture = render::load_texture(surface);
 
         if (!texture)
         {
-            throw std::runtime_error(std::format("Texture asset loading failed. Error: {}, path: {}", SDL_GetError(), path));
+            throw std::runtime_error(std::format("Texture asset loading failed. Error: {}, path: {}", SDL_GetError(), path.c_str()));
         }
 
         SDL_DestroySurface(surface);

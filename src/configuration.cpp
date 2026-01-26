@@ -1,5 +1,4 @@
 #include <exception>
-#include <filesystem>
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -14,13 +13,13 @@ namespace
     void validate(const configuration &c);
 }
 
-void load_configuration(const std::string &path)
+void load_configuration(const std::filesystem::path &path)
 {
     using json = nlohmann::ordered_json;
 
     if (!std::filesystem::exists(path))
     {
-        throw std::runtime_error(std::format("Configuration file not found: {}", path));
+        throw std::runtime_error(std::format("Configuration file not found: {}", path.c_str()));
     }
 
     std::ifstream input(path);

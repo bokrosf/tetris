@@ -2,6 +2,7 @@
 #define TETRIS_CONFIGURATION_H
 
 #include <array>
+#include <filesystem>
 #include <string>
 #include <nlohmann/json.hpp>
 
@@ -18,9 +19,9 @@ struct game_configuration
 
 struct configuration
 {
-    std::string font_path;
-    std::string piece_types_texture_path;
-    std::string settings_path;
+    std::filesystem::path font_path;
+    std::filesystem::path piece_types_texture_path;
+    std::filesystem::path settings_path;
     game_configuration gameplay;
 };
 
@@ -44,6 +45,6 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( \
 
 extern configuration config;
 
-void load_configuration(const std::string &path);
+void load_configuration(const std::filesystem::path &path);
 
 #endif
