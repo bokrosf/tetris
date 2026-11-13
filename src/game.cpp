@@ -69,6 +69,7 @@ namespace
     {
         none,
         complete_lines,
+        game_over,
     };
 
     struct animation
@@ -720,12 +721,36 @@ namespace
         }
     }
 
+    void animate_game_over()
+    {
+        float ratio = (timer::now() - active_animation.started_at) / static_cast<float>(active_animation.duration);
+        int field_size = std::round((state.grid.height - 1) * (state.grid.width  - 2) * ratio);
+        int i = 0;
+
+        for (int row = 1; i < field_size && row < state.grid.height; ++row, ++i)
+        {
+            for (int column = 1; i < field_size && column < state.grid.width - 1; ++column, ++i)
+            {
+                const char cleaner = 9;
+                state.grid.parts[row][column] = cleaner;
+            }
+        }
+
+        if (ratio >= 1)
+        {
+            // TODO enter game ending state, suspend update, switch to game over screen.
+        }
+    }
+
     void animate()
     {
         switch (active_animation.type)
         {
             case animation_type::complete_lines:
                 animate_complete_lines();
+                break;
+            case animation_type::game_over:
+                animate_game_over();
                 break;
             default:
                 break;
