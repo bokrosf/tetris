@@ -103,6 +103,7 @@ namespace
     ui::game_layout view;
     animation active_animation;
     asset_keys assets;
+    SDL_FColor complete_line_color;
 
     const tetromino piece_templates[7] =
     {
@@ -667,6 +668,9 @@ namespace
             },
             .color = {1.0, 1.0, 1.0, 1.0},
         };
+
+        view.grid.complete_line_color = {.r = 0.66, .g = 0.66, .b = 0.66, .a = 0};
+        complete_line_color = view.grid.complete_line_color;
     }
 
     void update_state()
@@ -701,31 +705,18 @@ namespace
     void animate_complete_lines()
     {
         float ratio = (timer::now() - active_animation.started_at) / static_cast<float>(active_animation.duration);
-        float alpha = std::abs(std::sin(ratio * 4.0f * std::numbers::pi));
-        SDL_FColor color{.r = 0.66, .g = 0.66, .b = 0.66, .a = alpha};
+        complete_line_color.a = std::abs(std::sin(ratio * 4.0f * std::numbers::pi));
 
         if (ratio >= 0.75f)
         {
-            color = view.grid.background.color;
-        }
-
-        for (int i = 0; i < state.completion.count; ++i)
-        {
-            SDL_FRect area
-            {
-                .x = view.grid.position.x + view.piece.width,
-                .y = view.grid.position.y - (state.completion.rows[i] * view.piece.width),
-                .w = (state.grid.width - 2) * view.piece.width,
-                .h = -view.piece.width,
-            };
-
-            render::draw_quad(area, color);
+            complete_line_color = view.grid.background.color;
         }
 
         if (ratio >= 1.0)
         {
             active_animation.type = animation_type::none;
             end_commit();
+            complete_line_color = view.grid.complete_line_color;
         }
     }
 
@@ -782,7 +773,19 @@ namespace
                 .parts = state.grid.parts[0],
             });
 
-        animate();
+        for (int i = 0; i < state.completion.count; ++i)
+        {
+            SDL_FRect area
+            {
+                .x = view.grid.position.x + view.piece.width,
+                .y = view.grid.position.y - (state.completion.rows[i] * view.piece.width),
+                .w = (state.grid.width - 2) * view.piece.width,
+                .h = -view.piece.width,
+            };
+
+            render::draw_quad(area, complete_line_color);
+        }
+
         render::end_frame();
     }
 }
@@ -801,6 +804,7 @@ namespace game
     {
         handle_input();
         update_state();
+        animate();
         update_view();
         render_view();
     }

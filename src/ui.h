@@ -32,6 +32,7 @@ namespace ui
     {
         SDL_FPoint position;
         colored_area background;
+        SDL_FColor complete_line_color;
     };
 
     struct game_layout
