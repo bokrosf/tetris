@@ -2,14 +2,21 @@
 #define TETRIS_SETTINGS_H
 
 #include <filesystem>
-#include <nlohmann/json.hpp>
+#include <string>
+#include <unordered_map>
+#include <SDL3/SDL.h>
+
+struct key_binding
+{
+    SDL_Keycode keyboard;
+    SDL_GamepadButton controller;
+};
 
 struct settings_state
 {
     bool vsync_enabled;
+    std::unordered_map<std::string, key_binding> controls;
 };
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync_enabled)
 
 extern settings_state settings;
 

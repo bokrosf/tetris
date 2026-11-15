@@ -1,4 +1,30 @@
 {
-    "vsync_enabled": true
+    "vsync_enabled": true,
+    "controls": {
+        "move_up": {
+            "keyboard": "Up",
+            "controller": "dpup"
+        },
+        "move_down": {
+            "keyboard": "Down",
+            "controller": "dpdown"
+        },
+        "move_left": {
+            "keyboard": "Left",
+            "controller": "dpleft"
+        },
+        "move_right": {
+            "keyboard": "Right",
+            "controller": "dpright"
+        },
+        "rotate_left": {
+            "keyboard": "A",
+            "controller": "a"
+        },
+        "rotate_right": {
+            "keyboard": "S",
+            "controller": "b"
+        }
+    }
 }
 

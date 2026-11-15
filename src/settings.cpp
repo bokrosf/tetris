@@ -2,8 +2,29 @@
 #include <format>
 #include <fstream>
 #include <sstream>
-#include <settings.h>
+#include <string>
+#include <unordered_map>
 #include <vector>
+#include <nlohmann/json.hpp>
+#include <settings.h>
+
+namespace storage
+{
+    struct key_binding
+    {
+        std::string keyboard;
+        std::string controller;
+    };
+
+    struct settings_state
+    {
+        bool vsync_enabled;
+        std::unordered_map<std::string, key_binding> controls;
+    };
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(key_binding, keyboard, controller)
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync_enabled, controls)
+}
 
 namespace
 {
@@ -23,10 +44,17 @@ void load_settings(const std::filesystem::path &path)
 
     std::ifstream input(path);
     json json_data = json::parse(input);
-    settings_state settings_data = json_data.get<settings_state>();
-    validate(settings_data);
+    storage::settings_state stored = json_data.get<storage::settings_state>();
+    settings.vsync_enabled = stored.vsync_enabled;
 
-    settings = std::move(settings_data);
+    for (auto &[action, binding] : stored.controls)
+    {
+        settings.controls[action] = key_binding
+        {
+            .keyboard = SDL_GetKeyFromName(binding.keyboard.c_str()),
+            .controller = SDL_GetGamepadButtonFromString(binding.controller.c_str()),
+        };
+    }
 }
 
 namespace
