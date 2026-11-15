@@ -42,7 +42,7 @@ void load_settings(const std::filesystem::path &path)
     storage::settings_state stored = json_data.get<storage::settings_state>();
     settings.vsync_enabled = stored.vsync_enabled;
 
-    for (auto &[action, binding] : stored.controls)
+    for (const auto &[action, binding] : stored.controls)
     {
         settings.controls[action] = key_binding
         {
