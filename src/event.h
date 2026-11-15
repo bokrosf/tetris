@@ -11,6 +11,8 @@ namespace event
     bool occured(SDL_EventType type);
     bool key_down(SDL_Keycode key);
     bool key_up(SDL_Keycode key);
+    bool button_down(SDL_GamepadButton button);
+    bool button_up(SDL_GamepadButton button);
 }
 
 #endif

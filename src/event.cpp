@@ -85,4 +85,26 @@ namespace event
 
         return std::any_of(events.begin(), events.end(), predicate);
     }
+
+    bool button_down(SDL_GamepadButton button)
+    {
+        auto predicate = [button](const SDL_Event &e)
+        {
+            return e.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN
+                && e.gbutton.button == button;
+        };
+
+        return std::any_of(events.begin(), events.end(), predicate);
+    }
+
+    bool button_up(SDL_GamepadButton button)
+    {
+        auto predicate = [button](const SDL_Event &e)
+        {
+            return e.type == SDL_EVENT_GAMEPAD_BUTTON_UP
+                && e.gbutton.button == button;
+        };
+
+        return std::any_of(events.begin(), events.end(), predicate);
+    }
 }
