@@ -5,16 +5,19 @@
 #include <SDL3/SDL.h>
 #include <event.h>
 
+#include <iostream>
+
 namespace
 {
     std::vector<SDL_Event> events;
+    std::vector<SDL_Gamepad *> gamepads;
 }
 
 namespace event
 {
     void init()
     {
-        if (!SDL_InitSubSystem(SDL_INIT_EVENTS))
+        if (!SDL_InitSubSystem(SDL_INIT_EVENTS | SDL_INIT_GAMEPAD))
         {
             throw std::runtime_error(std::format("Events Subsystem init failed: {}", SDL_GetError()));
         }
@@ -22,7 +25,12 @@ namespace event
 
     void shutdown()
     {
-        SDL_QuitSubSystem(SDL_INIT_EVENTS);
+        for (auto gp : gamepads)
+        {
+            SDL_CloseGamepad(gp);
+        }
+
+        SDL_QuitSubSystem(SDL_INIT_EVENTS | SDL_INIT_GAMEPAD);
     }
 
     void read_all()
@@ -33,6 +41,21 @@ namespace event
         while (SDL_PollEvent(&event))
         {
             events.push_back(event);
+
+            if (event.type == SDL_EVENT_GAMEPAD_ADDED)
+            {
+                gamepads.push_back(SDL_OpenGamepad(event.gdevice.which));
+            }
+
+            // TODO Remove after debugging.
+            if (event.type == SDL_EVENT_KEY_DOWN)
+            {
+                std::cout << "kb: " << SDL_GetKeyName(event.key.key) << " | " << event.key.key << std::endl;
+            }
+            else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN)
+            {
+                std::cout << "ct: " << SDL_GetGamepadStringForButton((SDL_GamepadButton)event.gbutton.button) << " | " << static_cast<int>(event.gbutton.button) << std::endl;
+            }
         }
     }
 
