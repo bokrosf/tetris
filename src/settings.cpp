@@ -26,11 +26,6 @@ namespace storage
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync_enabled, controls)
 }
 
-namespace
-{
-    void validate(const settings_state &s);
-}
-
 settings_state settings;
 
 void load_settings(const std::filesystem::path &path)
@@ -57,24 +52,3 @@ void load_settings(const std::filesystem::path &path)
     }
 }
 
-namespace
-{
-    void validate(const settings_state &s)
-    {
-        std::vector<std::string> errors;
-
-        // Implement value checks.
-
-        if (!errors.empty())
-        {
-            std::ostringstream message("Invalid settings. ");
-
-            for (const auto &e : errors)
-            {
-                message << e << std::endl;
-            }
-
-            throw std::runtime_error(std::move(message.str()));
-        }
-    }
-}
