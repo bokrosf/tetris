@@ -26,7 +26,6 @@ struct configuration
     game_configuration gameplay;
 };
 
-
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     game_configuration, \
     grid_width, \
