@@ -5,8 +5,8 @@
 #include <asset.h>
 #include <configuration.h>
 #include <display.h>
-#include <event.h>
 #include <game.h>
+#include <input.h>
 #include <render.h>
 #include <timer.h>
 #include <ui.h>
@@ -87,9 +87,11 @@ namespace
         int score;
         int level;
         int lines;
+        timer::time_point strafe_at;
         int fall_interval_ms;
         timer::time_point fall_at;
         drop_state drop;
+        bool rotation_enabled;
         line_completion completion;
     };
 
@@ -247,8 +249,10 @@ namespace
 
         int fall_level = std::clamp(state.level, 0, static_cast<int>(config.gameplay.fall_intervals.size()));
         const double base_interval = 59.73;
+        state.strafe_at = timer::now();
         state.fall_interval_ms = std::round((config.gameplay.fall_intervals[fall_level] / base_interval) * 1000);
         state.fall_at = timer::now() + state.fall_interval_ms;
+        state.rotation_enabled = true;
     }
 
     bool collides(int area_row, int area_column)
@@ -488,23 +492,25 @@ namespace
 
     void handle_input()
     {
-        if (event::key_down(SDLK_LEFT))
+        if (input::active("move_left") && timer::now() >= state.strafe_at)
         {
             move(movement::left);
+            state.strafe_at = timer::now() + config.gameplay.strafe_interval;
         }
 
-        if (event::key_down(SDLK_RIGHT))
+        if (input::active("move_right") && timer::now() >= state.strafe_at)
         {
             move(movement::right);
+            state.strafe_at = timer::now() + config.gameplay.strafe_interval;
         }
 
-        if (event::key_down(SDLK_DOWN) && state.drop.enabled && !state.drop.dropping)
+        if (input::active("move_down") && state.drop.enabled && !state.drop.dropping)
         {
             state.drop.dropping = true;
             state.fall_at = timer::now();
         }
 
-        if (event::key_up(SDLK_DOWN))
+        if (input::finished("move_down"))
         {
             state.drop =
             {
@@ -514,7 +520,7 @@ namespace
             };
         }
 
-        if (event::key_down(SDLK_A))
+        if (input::active("rotate_left") && state.rotation_enabled)
         {
             rotate_left();
 
@@ -522,9 +528,13 @@ namespace
             {
                 rotate_right();
             }
+            else
+            {
+                state.rotation_enabled = false;
+            }
         }
 
-        if (event::key_down(SDLK_S))
+        if (input::active("rotate_right") && state.rotation_enabled)
         {
             rotate_right();
 
@@ -532,6 +542,15 @@ namespace
             {
                 rotate_left();
             }
+            else
+            {
+                state.rotation_enabled = false;
+            }
+        }
+
+        if (input::finished("rotate_left") || input::finished("rotate_right"))
+        {
+            state.rotation_enabled = true;
         }
     }
 

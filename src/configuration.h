@@ -12,6 +12,7 @@ struct game_configuration
     int grid_height;
     int level_line_requirement;
     std::array<int, 4> line_scores;
+    unsigned int strafe_interval;
     std::array<int, 21> fall_intervals;
     int soft_drop_cells;
     unsigned int line_animation_duration_ms;
@@ -32,6 +33,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     grid_height, \
     level_line_requirement, \
     line_scores, \
+    strafe_interval, \
     fall_intervals, \
     soft_drop_cells, \
     line_animation_duration_ms)
