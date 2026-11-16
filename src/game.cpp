@@ -492,13 +492,13 @@ namespace
 
     void handle_input()
     {
-        if (input::active("move_left") && timer::now() >= state.strafe_at)
+        if (input::active("strafe_left") && timer::now() >= state.strafe_at)
         {
             move(movement::left);
             state.strafe_at = timer::now() + config.gameplay.strafe_interval;
         }
 
-        if (input::active("move_right") && timer::now() >= state.strafe_at)
+        if (input::active("strafe_right") && timer::now() >= state.strafe_at)
         {
             move(movement::right);
             state.strafe_at = timer::now() + config.gameplay.strafe_interval;

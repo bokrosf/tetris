@@ -1,19 +1,15 @@
 {
     "vsync_enabled": true,
     "controls": {
-        "move_up": {
-            "keyboard": "Up",
-            "controller": "dpup"
-        },
         "move_down": {
             "keyboard": "Down",
             "controller": "dpdown"
         },
-        "move_left": {
+        "strafe_left": {
             "keyboard": "Left",
             "controller": "dpleft"
         },
-        "move_right": {
+        "strafe_right": {
             "keyboard": "Right",
             "controller": "dpright"
         },
