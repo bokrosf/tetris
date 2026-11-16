@@ -6,6 +6,7 @@
 #include <display.h>
 #include <event.h>
 #include <game.h>
+#include <input.h>
 #include <render.h>
 #include <settings.h>
 #include <timer.h>
@@ -39,6 +40,7 @@ void init()
     timer::init();
     render::init();
     display::init();
+    input::track_actions();
     game::init();
 }
 
@@ -62,7 +64,7 @@ void run()
             return;
         }
 
-        // Update game state.
+        input::react_to_events();
         game::run();
     }
 }
