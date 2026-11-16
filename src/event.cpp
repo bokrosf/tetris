@@ -66,6 +66,11 @@ namespace event
         return std::any_of(events.begin(), events.end(), predicate);
     }
 
+    const std::vector<SDL_Event> &queue()
+    {
+        return events;
+    }
+
     bool key_down(SDL_Keycode key)
     {
         auto predicate = [key](const SDL_Event &e)
