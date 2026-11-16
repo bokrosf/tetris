@@ -46,16 +46,6 @@ namespace event
             {
                 gamepads.push_back(SDL_OpenGamepad(event.gdevice.which));
             }
-
-            // TODO Remove after debugging.
-            if (event.type == SDL_EVENT_KEY_DOWN)
-            {
-                std::cout << "kb: " << SDL_GetKeyName(event.key.key) << " | " << event.key.key << std::endl;
-            }
-            else if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN)
-            {
-                std::cout << "ct: " << SDL_GetGamepadStringForButton((SDL_GamepadButton)event.gbutton.button) << " | " << static_cast<int>(event.gbutton.button) << std::endl;
-            }
         }
     }
 
