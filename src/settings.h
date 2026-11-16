@@ -14,7 +14,7 @@ struct key_binding
 
 struct settings_state
 {
-    bool vsync_enabled;
+    bool vsync;
     std::unordered_map<std::string, key_binding> controls;
 };
 

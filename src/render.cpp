@@ -31,7 +31,7 @@ namespace render
         }
 
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderVSync(renderer, settings.vsync_enabled);
+        SDL_SetRenderVSync(renderer, settings.vsync);
     }
 
     void shutdown()

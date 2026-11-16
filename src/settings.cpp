@@ -18,12 +18,12 @@ namespace storage
 
     struct settings_state
     {
-        bool vsync_enabled;
+        bool vsync;
         std::unordered_map<std::string, key_binding> controls;
     };
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(key_binding, keyboard, controller)
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync_enabled, controls)
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync, controls)
 }
 
 settings_state settings;
@@ -40,7 +40,7 @@ void load_settings(const std::filesystem::path &path)
     std::ifstream input(path);
     json json_data = json::parse(input);
     storage::settings_state stored = json_data.get<storage::settings_state>();
-    settings.vsync_enabled = stored.vsync_enabled;
+    settings.vsync = stored.vsync;
 
     for (const auto &[action, binding] : stored.controls)
     {

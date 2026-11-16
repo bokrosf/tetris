@@ -1,5 +1,5 @@
 {
-    "vsync_enabled": true,
+    "vsync": true,
     "controls": {
         "move_down": {
             "keyboard": "Down",
