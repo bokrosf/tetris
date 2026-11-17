@@ -237,24 +237,6 @@ namespace
         return 1;
     }
 
-    void spawn_piece()
-    {
-        copy(state.next, state.current.piece);
-        state.current.row = state.grid.height - (state.current.piece.height + 1);
-        int center = state.grid.width / 2;
-        int offset = (state.current.piece.width / 2) + (state.current.piece.width % 2);
-        state.current.column = center - offset;
-        state.current.rotation = 0;
-        copy(piece_templates[random_piece()], state.next);
-
-        int fall_level = std::clamp(state.level, 0, static_cast<int>(config.gameplay.fall_intervals.size()));
-        const double base_interval = 59.73;
-        state.strafe_at = timer::now();
-        state.fall_interval_ms = std::round((config.gameplay.fall_intervals[fall_level] / base_interval) * 1000);
-        state.fall_at = timer::now() + state.fall_interval_ms;
-        state.rotation_enabled = true;
-    }
-
     bool collides(int area_row, int area_column)
     {
         for (int row = 0; row < state.current.piece.height; ++row)
@@ -278,6 +260,36 @@ namespace
     bool collides()
     {
         return collides(state.current.row, state.current.column);
+    }
+
+    void spawn_piece()
+    {
+        copy(state.next, state.current.piece);
+        state.current.row = state.grid.height - (state.current.piece.height + 1);
+        int center = state.grid.width / 2;
+        int offset = (state.current.piece.width / 2) + (state.current.piece.width % 2);
+        state.current.column = center - offset;
+        state.current.rotation = 0;
+        copy(piece_templates[random_piece()], state.next);
+
+        if (collides())
+        {
+            active_animation =
+            {
+                .type = animation_type::game_over,
+                .started_at = timer::now(),
+                .duration = 500,
+            };
+
+            return;
+        }
+
+        int fall_level = std::clamp(state.level, 0, static_cast<int>(config.gameplay.fall_intervals.size()));
+        const double base_interval = 59.73;
+        state.strafe_at = timer::now();
+        state.fall_interval_ms = std::round((config.gameplay.fall_intervals[fall_level] / base_interval) * 1000);
+        state.fall_at = timer::now() + state.fall_interval_ms;
+        state.rotation_enabled = true;
     }
 
     bool move(movement direction)
@@ -492,6 +504,17 @@ namespace
 
     void handle_input()
     {
+        if (active_animation.type == animation_type::game_over && input::active("move_down"))
+        {
+            init();
+            return;
+        }
+
+        if (active_animation.type != animation_type::none)
+        {
+            return;
+        }
+
         if (input::active("strafe_left") && timer::now() >= state.strafe_at)
         {
             move(movement::left);
