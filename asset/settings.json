@@ -3,23 +3,23 @@
     "controls": {
         "move_down": {
             "keyboard": "Down",
-            "controller": "dpdown"
+            "gamepad": "dpdown"
         },
         "strafe_left": {
             "keyboard": "Left",
-            "controller": "dpleft"
+            "gamepad": "dpleft"
         },
         "strafe_right": {
             "keyboard": "Right",
-            "controller": "dpright"
+            "gamepad": "dpright"
         },
         "rotate_left": {
             "keyboard": "A",
-            "controller": "a"
+            "gamepad": "a"
         },
         "rotate_right": {
             "keyboard": "S",
-            "controller": "b"
+            "gamepad": "b"
         }
     }
 }

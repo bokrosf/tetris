@@ -13,7 +13,7 @@ namespace storage
     struct key_binding
     {
         std::string keyboard;
-        std::string controller;
+        std::string gamepad;
     };
 
     struct settings_state
@@ -22,7 +22,7 @@ namespace storage
         std::unordered_map<std::string, key_binding> controls;
     };
 
-    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(key_binding, keyboard, controller)
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(key_binding, keyboard, gamepad)
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(settings_state, vsync, controls)
 }
 
@@ -47,7 +47,7 @@ void load_settings(const std::filesystem::path &path)
         settings.controls[action] = key_binding
         {
             .keyboard = SDL_GetKeyFromName(binding.keyboard.c_str()),
-            .controller = SDL_GetGamepadButtonFromString(binding.controller.c_str()),
+            .gamepad = SDL_GetGamepadButtonFromString(binding.gamepad.c_str()),
         };
     }
 }

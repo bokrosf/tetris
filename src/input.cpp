@@ -48,7 +48,7 @@ namespace input
                         break;
                     case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
                     case SDL_EVENT_GAMEPAD_BUTTON_UP:
-                        if (it->gbutton.button == settings.controls[name].controller)
+                        if (it->gbutton.button == settings.controls[name].gamepad)
                         {
                             new_state = it->gbutton.down ? action_state::active : action_state::finished;
                         }

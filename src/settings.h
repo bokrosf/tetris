@@ -9,7 +9,7 @@
 struct key_binding
 {
     SDL_Keycode keyboard;
-    SDL_GamepadButton controller;
+    SDL_GamepadButton gamepad;
 };
 
 struct settings_state
