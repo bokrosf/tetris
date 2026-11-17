@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cmath>
 #include <numbers>
+#include <random>
 #include <string>
 #include <asset.h>
 #include <configuration.h>
@@ -102,6 +103,8 @@ namespace
         down,
     };
 
+    std::random_device generator;
+    std::uniform_int_distribution piece_distribution(0, 6);
     game_state state;
     ui::game_layout view;
     animation active_animation;
@@ -234,7 +237,7 @@ namespace
 
     int random_piece()
     {
-        return 1;
+        return piece_distribution(generator);
     }
 
     bool collides(int area_row, int area_column)
@@ -861,6 +864,7 @@ namespace game
 {
     void init()
     {
+        piece_distribution.reset();
         init_state();
         init_view();
         active_animation.type = animation_type::none;
