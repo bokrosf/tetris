@@ -507,13 +507,13 @@ namespace
 
     void handle_input()
     {
-        if (active_animation.type == animation_type::game_over && input::active("move_down"))
+        if (active_animation.type == animation_type::game_over && input::active("drop"))
         {
             init();
             return;
         }
 
-        if (input::finished("move_down"))
+        if (input::finished("drop"))
         {
             state.drop =
             {
@@ -540,7 +540,7 @@ namespace
             state.strafe_at = timer::now() + config.gameplay.strafe_interval;
         }
 
-        if (input::active("move_down"))
+        if (input::active("drop"))
         {
             if (state.drop.enabled && !state.drop.dropping)
             {

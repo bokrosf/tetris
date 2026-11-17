@@ -1,7 +1,7 @@
 {
     "vsync": true,
     "controls": {
-        "move_down": {
+        "drop": {
             "keyboard": "Down",
             "gamepad": "dpdown"
         },
