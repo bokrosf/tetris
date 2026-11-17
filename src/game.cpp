@@ -513,6 +513,16 @@ namespace
             return;
         }
 
+        if (input::finished("move_down"))
+        {
+            state.drop =
+            {
+                .enabled = true,
+                .dropping = false,
+                .rows = 0
+            };
+        }
+
         if (active_animation.type != animation_type::none)
         {
             return;
@@ -530,20 +540,13 @@ namespace
             state.strafe_at = timer::now() + config.gameplay.strafe_interval;
         }
 
-        if (input::active("move_down") && state.drop.enabled && !state.drop.dropping)
+        if (input::active("move_down"))
         {
-            state.drop.dropping = true;
-            state.fall_at = timer::now();
-        }
-
-        if (input::finished("move_down"))
-        {
-            state.drop =
+            if (state.drop.enabled && !state.drop.dropping)
             {
-                .enabled = true,
-                .dropping = false,
-                .rows = 0
-            };
+                state.drop.dropping = true;
+                state.fall_at = timer::now();
+            }
         }
 
         if (input::active("rotate_left") && state.rotation_enabled)
