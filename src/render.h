@@ -2,8 +2,6 @@
 #define TETRIS_RENDER_H
 
 #include <SDL3/SDL.h>
-#include <asset.h>
-#include <game.h>
 #include <ui.h>
 
 namespace render
@@ -19,6 +17,8 @@ namespace render
 
     void init();
     void shutdown();
+    void adapt_to_window();
+    void toggle_fullscreen();
     void begin_frame();
     void end_frame();
     void draw(const piece_grid &grid);

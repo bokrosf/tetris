@@ -4,7 +4,7 @@
 #include <format>
 #include <SDL3/SDL.h>
 #include <asset.h>
-#include <display.h>
+#include <configuration.h>
 #include <render.h>
 #include <settings.h>
 
@@ -12,6 +12,13 @@ namespace
 {
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
+    float scalar = 1.0F;
+    bool fullscreen = true;
+
+    float scaled_font_height(float height)
+    {
+        return scalar * config.ui.font_height * height;
+    }
 }
 
 namespace render
@@ -23,7 +30,7 @@ namespace render
             throw std::runtime_error(std::format("Video Subsystem init failed: {}", SDL_GetError()));
         }
 
-        SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN;
+        SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE;
 
         if (!SDL_CreateWindowAndRenderer(nullptr, 0, 0, flags, &window, &renderer))
         {
@@ -43,6 +50,36 @@ namespace render
         window = nullptr;
 
         SDL_QuitSubSystem(SDL_INIT_VIDEO);
+    }
+
+    void adapt_to_window()
+    {
+        int window_width = 0;
+        int window_height = 0;
+        SDL_GetWindowSize(window, &window_width, &window_height);
+        int unit = window_height / config.ui.aspect_ratio.height;
+
+        if (unit * config.ui.aspect_ratio.width > window_width)
+        {
+            unit = window_width / config.ui.aspect_ratio.width;
+        }
+
+        SDL_Rect viewport
+        {
+            .w = unit * config.ui.aspect_ratio.width,
+            .h = unit * config.ui.aspect_ratio.height,
+        };
+
+        viewport.x = (window_width - viewport.w) / 2;
+        viewport.y = (window_height - viewport.h) / 2;
+        SDL_SetRenderViewport(renderer, &viewport);
+        scalar = (viewport.h * 1.0F) / config.ui.design_height;
+    }
+
+    void toggle_fullscreen()
+    {
+        SDL_SetWindowFullscreen(window, !fullscreen);
+        fullscreen = !fullscreen;
     }
 
     void begin_frame()
@@ -77,10 +114,10 @@ namespace render
 
                     SDL_FRect part_area
                     {
-                        .x = grid.position.x + (column * grid.piece.width),
-                        .y = grid.position.y - (row * grid.piece.width),
-                        .w = grid.piece.width,
-                        .h = -grid.piece.width,
+                        .x = scalar * (grid.position.x + (column * grid.piece.width)),
+                        .y = scalar * (grid.position.y - (row * grid.piece.width)),
+                        .w = scalar * grid.piece.width,
+                        .h = scalar * -grid.piece.width,
                     };
 
                     SDL_RenderTexture(renderer, &texture, &texture_area, &part_area);
@@ -92,7 +129,7 @@ namespace render
     void draw(const ui::label &label)
     {
         ui::font &font = asset::font(label.font);
-        const float symbol_height = display::scaled_font_height(label.font_size);
+        const float symbol_height = scaled_font_height(label.font_size);
         const float symbol_width = symbol_height * font.width;
 
         SDL_Texture *texture = SDL_CreateTexture(
@@ -104,8 +141,8 @@ namespace render
 
         SDL_FRect render_area
         {
-            .x = label.position.x,
-            .y = label.position.y,
+            .x = scalar * label.position.x,
+            .y = scalar * label.position.y,
             .w = symbol_width,
             .h = symbol_height
         };
@@ -139,7 +176,16 @@ namespace render
         SDL_FColor original_color;
         SDL_GetRenderDrawColorFloat(renderer, &original_color.r, &original_color.g, &original_color.b, &original_color.a);
         SDL_SetRenderDrawColorFloat(renderer, color.r, color.g, color.b, color.a);
-        SDL_RenderFillRect(renderer, &area);
+        
+        SDL_FRect scaled_area
+        {
+            .x = scalar * area.x,
+            .y = scalar * area.y,
+            .w = scalar * area.w,
+            .h = scalar * area.h,
+        };
+
+        SDL_RenderFillRect(renderer, &scaled_area);
         SDL_SetRenderDrawColorFloat(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
     }
 

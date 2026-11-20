@@ -50,16 +50,6 @@ namespace
             errors.emplace_back("settings_path missing.");
         }
 
-        if (c.gameplay.grid_width < 4)
-        {
-            errors.emplace_back("grid_width must be greater than or equal to 4.");
-        }
-
-        if (c.gameplay.grid_height < 5)
-        {
-            errors.emplace_back("grid_height must be greater than or equal to 5.");
-        }
-
         if (c.gameplay.level_line_requirement < 1)
         {
             errors.emplace_back("level_line_requirement must be greater than 0.");
@@ -68,6 +58,26 @@ namespace
         if (c.gameplay.soft_drop_cells < 1)
         {
             errors.emplace_back("soft_drop_cells must be greater than 0.");
+        }
+
+        if (c.ui.design_height < 1)
+        {
+            errors.emplace_back("design_height must be greater than 0.");
+        }
+
+        if (c.ui.font_height < 1)
+        {
+            errors.emplace_back("font_height must be greater than 0.");
+        }
+
+        if (c.ui.aspect_ratio.width < 1)
+        {
+            errors.emplace_back("aspect_ratio.width must be greater than 0.");
+        }
+
+        if (c.ui.aspect_ratio.height < 1)
+        {
+            errors.emplace_back("aspect_ratio.height must be greater than 0.");
         }
 
         if (!errors.empty())

@@ -8,8 +8,6 @@
 
 struct game_configuration
 {
-    int grid_width;
-    int grid_height;
     int level_line_requirement;
     std::array<int, 4> line_scores;
     unsigned int strafe_interval;
@@ -18,18 +16,30 @@ struct game_configuration
     unsigned int line_animation_duration_ms;
 };
 
+struct aspect_ratio_configuration
+{
+    int width;
+    int height;
+};
+
+struct ui_configuration
+{
+    int design_height;
+    float font_height;
+    aspect_ratio_configuration aspect_ratio;
+};
+
 struct configuration
 {
     std::filesystem::path font_path;
     std::filesystem::path piece_types_texture_path;
     std::filesystem::path settings_path;
     game_configuration gameplay;
+    ui_configuration ui;
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     game_configuration, \
-    grid_width, \
-    grid_height, \
     level_line_requirement, \
     line_scores, \
     strafe_interval, \
@@ -37,12 +47,24 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
     soft_drop_cells, \
     line_animation_duration_ms)
 
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+    aspect_ratio_configuration, \
+    width, \
+    height)
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+    ui_configuration, \
+    design_height, \
+    font_height, \
+    aspect_ratio)
+
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( \
     configuration, \
     font_path, \
     piece_types_texture_path, \
     settings_path, \
-    gameplay) \
+    gameplay, \
+    ui)
 
 extern configuration config;
 

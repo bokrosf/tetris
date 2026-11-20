@@ -3,7 +3,6 @@
 #include <SDL3/SDL_main.h>
 #include <asset.h>
 #include <configuration.h>
-#include <display.h>
 #include <event.h>
 #include <game.h>
 #include <input.h>
@@ -39,7 +38,6 @@ void init()
     event::init();
     timer::init();
     render::init();
-    display::init();
     input::track_actions();
     game::init();
 }
@@ -62,6 +60,16 @@ void run()
         if (event::occured(SDL_EVENT_QUIT))
         {
             return;
+        }
+
+        if (event::occured(SDL_EVENT_WINDOW_RESIZED))
+        {
+            render::adapt_to_window();
+        }
+
+        if (event::key_down(SDLK_F1))
+        {
+            render::toggle_fullscreen();
         }
 
         input::react_to_events();

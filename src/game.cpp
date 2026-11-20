@@ -5,7 +5,6 @@
 #include <string>
 #include <asset.h>
 #include <configuration.h>
-#include <display.h>
 #include <game.h>
 #include <input.h>
 #include <render.h>
@@ -589,8 +588,8 @@ namespace
         {
             .grid =
             {
-                .width = config.gameplay.grid_width,
-                .height = config.gameplay.grid_height,
+                .width = 12,
+                .height = 19,
             },
             .score = 0,
             .level = 0,
@@ -649,14 +648,14 @@ namespace
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
-                .position = {.x = display::scaled(1400.0), .y = display::scaled(80.0)},
+                .position = {.x = 860.0, .y = 80.0},
             },
             .score_value
             {
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
-                .position = {.x = display::scaled(1400.0), .y = display::scaled(150.016)},
+                .position = {.x = 860.0, .y = 150.016},
             },
             .level_description
             {
@@ -664,14 +663,14 @@ namespace
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
-                .position = {.x = display::scaled(1400.0), .y = display::scaled(300.0)},
+                .position = {.x = 860.0, .y = 300.0},
             },
             .level_value
             {
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
-                .position = {.x = display::scaled(1400.0), .y = display::scaled(370.016)},
+                .position = {.x = 860.0, .y = 370.016},
             },
             .lines_description
             {
@@ -679,31 +678,31 @@ namespace
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
-                .position = {.x = display::scaled(1400.0), .y = display::scaled(520.0)},
+                .position = {.x = 860.0, .y = 520.0},
             },
             .lines_value
             {
                 .font = assets.font,
                 .font_size = 4.0,
                 .color = {.r = 1.0, .g = 1.0, .b = 1.0, .a = 1.0},
-                .position = {.x = display::scaled(1400.0), .y = display::scaled(590.016)},
+                .position = {.x = 860.0, .y = 590.016},
             },
             .piece
             {
-                .width = static_cast<float>(display::mode.height) / (state.grid.height - 1),
+                .width = 60,
                 .texture = assets.piece_types,
             },
             .next
             {
-                .x = display::scaled(1450.0),
-                .y = display::scaled(900.0),
+                .x = 860.0,
+                .y = 900.0,
             },
         };
 
         view.grid.position =
         {
-            .x = (display::mode.width * 0.5F) - (0.5F * state.grid.width * view.piece.width),
-            .y = static_cast<float>(state.grid.height * view.piece.width),
+            .x = 0,
+            .y = 1140,
         };
 
         view.grid.background =
