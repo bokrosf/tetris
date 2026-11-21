@@ -2,6 +2,7 @@
     "font_path": "asset/font.json",
     "piece_types_texture_path": "asset/textures/piece_types.bmp",
     "settings_path": "asset/settings.json",
+    "views_path": "asset/views",
     "gameplay": {
         "level_line_requirement": 10,
         "line_scores": [40, 100, 300, 1200],

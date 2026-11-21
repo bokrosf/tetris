@@ -1,0 +1,130 @@
+{
+    "score_description": {
+        "text": "SCORE",
+        "font": 1,
+        "font_size": 4.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 860.0,
+            "y": 80.0
+        }
+    },
+    "score_value": {
+        "text": "",
+        "font": 1,
+        "font_size": 4.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 860.0,
+            "y": 150.01600646972656
+        }
+    },
+    "level_description": {
+        "text": "LEVEL",
+        "font": 1,
+        "font_size": 4.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 860.0,
+            "y": 300.0
+        }
+    },
+    "level_value": {
+        "text": "",
+        "font": 1,
+        "font_size": 4.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 860.0,
+            "y": 370.0159912109375
+        }
+    },
+    "lines_description": {
+        "text": "LINES",
+        "font": 1,
+        "font_size": 4.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 860.0,
+            "y": 520.0
+        }
+    },
+    "lines_value": {
+        "text": "",
+        "font": 1,
+        "font_size": 4.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 860.0,
+            "y": 590.0159912109375
+        }
+    },
+    "piece": {
+        "width": 60.0,
+        "texture": 2
+    },
+    "grid": {
+        "position": {
+            "x": 0.0,
+            "y": 1140.0
+        },
+        "background": {
+            "area": {
+                "x": -7.5,
+                "y": 1140.0,
+                "h": -1140.0,
+                "w": 735.0
+            },
+            "color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            }
+        },
+        "complete_line_color": {
+            "r": 0.6600000262260437,
+            "g": 0.6600000262260437,
+            "b": 0.6600000262260437,
+            "a": 0.0
+        }
+    },
+    "current": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "next": {
+        "x": 860.0,
+        "y": 900.0
+    }
+}
