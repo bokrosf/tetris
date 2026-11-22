@@ -157,6 +157,10 @@ namespace render
             .h = symbol_height
         };
 
+        SDL_FColor color;
+        SDL_GetRenderDrawColorFloat(renderer, &color.r, &color.g, &color.b, &color.a);
+        SDL_SetRenderDrawColorFloat(renderer, 0, 0, 0, 0);
+
         for (auto symbol : label.text)
         {
             auto &vertices = font.symbols[symbol];
@@ -178,6 +182,7 @@ namespace render
             render_area.x += symbol_width;
         }
 
+        SDL_SetRenderDrawColorFloat(renderer, color.r, color.g, color.b, color.a);
         SDL_DestroyTexture(texture);
     }
 
