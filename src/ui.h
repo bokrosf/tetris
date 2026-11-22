@@ -61,6 +61,8 @@ namespace ui
         part_grid grid;
         ui::piece current;
         ui::piece next;
+        label game_over;
+        label top_score;
     };
 
     template<typename T>
@@ -121,7 +123,9 @@ namespace ui
         piece, \
         grid, \
         current, \
-        next)
+        next, \
+        game_over, \
+        top_score)
 }
 
 #endif

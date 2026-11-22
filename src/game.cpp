@@ -675,6 +675,8 @@ namespace
         view.lines_value.text = std::to_string(state.lines);
         view.current.visible = state.phase < simulation_phase::gameover_fill;
         view.next.visible = state.phase < simulation_phase::gameover_fill;
+        view.game_over.visible = state.phase == simulation_phase::gameover_summary;
+        view.top_score.visible = state.phase == simulation_phase::gameover_summary;
     }
 
     void animate_complete_lines()
@@ -824,6 +826,8 @@ namespace
             render::draw_quad(area, complete_line_color);
         }
 
+        render::draw(view.game_over);
+        render::draw(view.top_score);
         render::end_frame();
     }
 }

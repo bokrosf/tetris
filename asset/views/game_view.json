@@ -139,5 +139,37 @@
             "x": 860.0,
             "y": 900.0
         }
+    },
+    "game_over": {
+        "visible": false,
+        "text": "GAME OVER",
+        "font": 1,
+        "font_size": 5.0,
+        "color": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 135.0,
+            "y": 200
+        }
+    },
+    "top_score": {
+        "visible": false,
+        "text": "TOP SCORE",
+        "font": 1,
+        "font_size": 5.0,
+        "color": {
+            "r": 0.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 135.0,
+            "y": 400
+        }
     }
 }
