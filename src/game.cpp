@@ -508,7 +508,7 @@ namespace
 
     void handle_input()
     {
-        if (state.phase == simulation_phase::gameover_summary && input::active("drop"))
+        if (state.phase == simulation_phase::gameover_summary && input::active("ok"))
         {
             init();
             return;

@@ -20,6 +20,10 @@
         "rotate_right": {
             "keyboard": "S",
             "gamepad": "b"
+        },
+        "ok": {
+            "keyboard": "RETURN",
+            "gamepad": "a"
         }
     }
 }
