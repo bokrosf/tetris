@@ -8,6 +8,7 @@ namespace render
 {
     struct piece_grid
     {
+        bool visible;
         int width;
         int height;
         SDL_FPoint &position;

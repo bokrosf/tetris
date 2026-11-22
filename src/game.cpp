@@ -65,22 +65,24 @@ namespace
         int rows[part_dimension];
     };
 
-    enum class animation_type
-    {
-        none,
-        complete_lines,
-        game_over,
-    };
-
     struct animation
     {
-        animation_type type;
         timer::time_point started_at;
         unsigned long duration;
     };
 
+    enum class simulation_phase
+    {
+        dropping,
+        clearing_complete_lines,
+        gameover_fill,
+        gameover_clear,
+        gameover_summary,
+    };
+
     struct game_state
     {
+        simulation_phase phase;
         moving_piece current;
         tetromino next;
         piece_grid grid;
@@ -276,11 +278,11 @@ namespace
 
         if (collides())
         {
+            state.phase = simulation_phase::gameover_fill;
             active_animation =
             {
-                .type = animation_type::game_over,
                 .started_at = timer::now(),
-                .duration = 500,
+                .duration = config.gameplay.field_fill_animation_duration_ms,
             };
 
             return;
@@ -491,9 +493,9 @@ namespace
 
         if (state.completion.count > 0)
         {
+            state.phase = simulation_phase::clearing_complete_lines;
             active_animation =
             {
-                .type = animation_type::complete_lines,
                 .started_at = timer::now(),
                 .duration = config.gameplay.line_animation_duration_ms,
             };
@@ -506,7 +508,7 @@ namespace
 
     void handle_input()
     {
-        if (active_animation.type == animation_type::game_over && input::active("drop"))
+        if (state.phase == simulation_phase::gameover_summary && input::active("drop"))
         {
             init();
             return;
@@ -522,7 +524,7 @@ namespace
             };
         }
 
-        if (active_animation.type != animation_type::none)
+        if (state.phase != simulation_phase::dropping)
         {
             return;
         }
@@ -586,6 +588,7 @@ namespace
     {
         state = game_state
         {
+            .phase = simulation_phase::dropping,
             .grid =
             {
                 .width = 12,
@@ -646,12 +649,7 @@ namespace
 
     void update_state()
     {
-        if (active_animation.type != animation_type::none)
-        {
-            return;
-        }
-
-        if (timer::now() >= state.fall_at)
+        if (state.phase == simulation_phase::dropping && timer::now() >= state.fall_at)
         {
             if (move(movement::down))
             {
@@ -666,11 +664,17 @@ namespace
 
     void update_view()
     {
-        view.current.x = view.grid.position.x + (state.current.column * view.piece.width);
-        view.current.y = view.grid.position.y - (state.current.row * view.piece.width);
+        view.current.position =
+        {
+            .x = view.grid.position.x + (state.current.column * view.piece.width),
+            .y = view.grid.position.y - (state.current.row * view.piece.width),
+        };
+
         view.score_value.text = std::to_string(state.score);
         view.level_value.text = std::to_string(state.level);
         view.lines_value.text = std::to_string(state.lines);
+        view.current.visible = state.phase < simulation_phase::gameover_fill;
+        view.next.visible = state.phase < simulation_phase::gameover_fill;
     }
 
     void animate_complete_lines()
@@ -685,42 +689,78 @@ namespace
 
         if (ratio >= 1.0)
         {
-            active_animation.type = animation_type::none;
+            state.phase = simulation_phase::dropping;
             end_commit();
             complete_line_color = view.grid.complete_line_color;
         }
     }
 
-    void animate_game_over()
+    void animate_gameover_fill()
+    {
+        timer::time_point elapsed = timer::now() - active_animation.started_at;
+
+        if (elapsed <= active_animation.duration / 2)
+        {
+            float ratio = elapsed / (0.5F * active_animation.duration);
+            int field_size = std::round((state.grid.height - 1) * (state.grid.width  - 2) * ratio);
+            int i = 0;
+
+            for (int row = 1; i < field_size && row < state.grid.height; ++row)
+            {
+                for (int column = 1; i < field_size && column < state.grid.width - 1; ++column, ++i)
+                {
+                    const char filler = 9;
+                    state.grid.parts[row][column] = filler;
+                }
+            }
+        }
+        else if (elapsed >= active_animation.duration)
+        {
+            state.phase = simulation_phase::gameover_clear;
+            active_animation =
+            {
+                .started_at = timer::now(),
+                .duration = config.gameplay.field_clear_animation_duration_ms,
+            };
+        }
+    }
+
+    void animate_gameover_clear()
     {
         float ratio = (timer::now() - active_animation.started_at) / static_cast<float>(active_animation.duration);
         int field_size = std::round((state.grid.height - 1) * (state.grid.width  - 2) * ratio);
         int i = 0;
 
-        for (int row = 1; i < field_size && row < state.grid.height; ++row, ++i)
+        for (int row = 1; i < field_size && row < state.grid.height; ++row)
         {
             for (int column = 1; i < field_size && column < state.grid.width - 1; ++column, ++i)
             {
-                const char cleaner = 9;
+                const char cleaner = 0;
                 state.grid.parts[row][column] = cleaner;
             }
         }
 
         if (ratio >= 1)
         {
-            // TODO enter game ending state, suspend update, switch to game over screen.
+            state.phase = simulation_phase::gameover_summary;
+            // TODO
+            // - read statistics
+            // - display labels: gameover, scores
         }
     }
 
     void animate()
     {
-        switch (active_animation.type)
+        switch (state.phase)
         {
-            case animation_type::complete_lines:
+            case simulation_phase::clearing_complete_lines:
                 animate_complete_lines();
                 break;
-            case animation_type::game_over:
-                animate_game_over();
+            case simulation_phase::gameover_fill:
+                animate_gameover_fill();
+                break;
+            case simulation_phase::gameover_clear:
+                animate_gameover_clear();
                 break;
             default:
                 break;
@@ -741,9 +781,10 @@ namespace
         render::draw(
             render::piece_grid
             {
+                .visible = view.current.visible,
                 .width = part_dimension,
                 .height = part_dimension,
-                .position = view.current,
+                .position = view.current.position,
                 .piece = view.piece,
                 .parts = state.current.piece.parts[0],
             });
@@ -751,9 +792,10 @@ namespace
         render::draw(
             render::piece_grid
             {
+                .visible = view.next.visible,
                 .width = part_dimension,
                 .height = part_dimension,
-                .position = view.next,
+                .position = view.next.position,
                 .piece = view.piece,
                 .parts = state.next.parts[0],
             });
@@ -761,6 +803,7 @@ namespace
         render::draw(
             render::piece_grid
             {
+                .visible = view.grid.visible,
                 .width = state.grid.width,
                 .height = state.grid.height,
                 .position = view.grid.position,
@@ -792,7 +835,6 @@ namespace game
         piece_distribution.reset();
         init_state();
         init_view();
-        active_animation.type = animation_type::none;
         spawn_piece();
     }
 

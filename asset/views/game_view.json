@@ -1,5 +1,6 @@
 {
     "score_description": {
+        "visible": true,
         "text": "SCORE",
         "font": 1,
         "font_size": 4.0,
@@ -15,6 +16,7 @@
         }
     },
     "score_value": {
+        "visible": true,
         "text": "",
         "font": 1,
         "font_size": 4.0,
@@ -30,6 +32,7 @@
         }
     },
     "level_description": {
+        "visible": true,
         "text": "LEVEL",
         "font": 1,
         "font_size": 4.0,
@@ -45,6 +48,7 @@
         }
     },
     "level_value": {
+        "visible": true,
         "text": "",
         "font": 1,
         "font_size": 4.0,
@@ -60,6 +64,7 @@
         }
     },
     "lines_description": {
+        "visible": true,
         "text": "LINES",
         "font": 1,
         "font_size": 4.0,
@@ -75,6 +80,7 @@
         }
     },
     "lines_value": {
+        "visible": true,
         "text": "",
         "font": 1,
         "font_size": 4.0,
@@ -94,6 +100,7 @@
         "texture": 2
     },
     "grid": {
+        "visible": true,
         "position": {
             "x": 0.0,
             "y": 1140.0
@@ -120,11 +127,17 @@
         }
     },
     "current": {
-        "x": 0.0,
-        "y": 0.0
+        "visible": true,
+        "position": {
+            "x": 0.0,
+            "y": 0.0
+        }
     },
     "next": {
-        "x": 860.0,
-        "y": 900.0
+        "visible": true,
+        "position": {
+            "x": 860.0,
+            "y": 900.0
+        }
     }
 }

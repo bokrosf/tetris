@@ -15,6 +15,7 @@ namespace ui
 {
     struct label
     {
+        bool visible;
         std::string text;
         asset::id_type font;
         float font_size;
@@ -36,9 +37,16 @@ namespace ui
 
     struct part_grid
     {
+        bool visible;
         SDL_FPoint position;
         colored_area background;
         SDL_FColor complete_line_color;
+    };
+
+    struct piece
+    {
+        bool visible;
+        SDL_FPoint position;
     };
 
     struct game_layout
@@ -51,8 +59,8 @@ namespace ui
         label lines_value;
         piece_config piece;
         part_grid grid;
-        SDL_FPoint current;
-        SDL_FPoint next;
+        ui::piece current;
+        ui::piece next;
     };
 
     template<typename T>
@@ -73,6 +81,7 @@ namespace ui
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         label, \
+        visible, \
         text, \
         font, \
         font_size, \
@@ -91,9 +100,15 @@ namespace ui
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         part_grid, \
+        visible, \
         position, \
         background, \
         complete_line_color)
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        piece, \
+        visible, \
+        position)
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         game_layout, \

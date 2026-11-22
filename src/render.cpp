@@ -95,6 +95,11 @@ namespace render
 
     void draw(const piece_grid &grid)
     {
+        if (!grid.visible)
+        {
+            return;
+        }
+
         SDL_Texture &texture = asset::texture(grid.piece.texture);
         SDL_SetTextureScaleMode(&texture, SDL_SCALEMODE_NEAREST);
 
@@ -128,6 +133,11 @@ namespace render
 
     void draw(const ui::label &label)
     {
+        if (!label.visible)
+        {
+            return;
+        }
+
         ui::font &font = asset::font(label.font);
         const float symbol_height = scaled_font_height(label.font_size);
         const float symbol_width = symbol_height * font.width;
