@@ -169,7 +169,26 @@
         },
         "position": {
             "x": 135.0,
-            "y": 400
+            "y": 425
         }
+    },
+    "scores": {
+        "item_template": {
+            "visible": true,
+            "text": "",
+            "font": 1,
+            "font_size": 4.0,
+            "color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "position": {
+                "x": 180.0,
+                "y": 580
+            }
+        },
+        "spacing": 100
     }
 }

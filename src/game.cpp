@@ -729,6 +729,14 @@ namespace
             score_table scores = scores::load();
             scores::insert(scores, state.score);
             scores::save(scores);
+
+            for (size_t i = 0; i < scores.size(); ++i)
+            {
+                ui::label l = view.scores.item_template;
+                l.text = std::to_string(scores[i]);
+                l.position.y += i * view.scores.spacing;
+                view.scores.items.push_back(l);
+            }
         }
     }
 
@@ -828,6 +836,11 @@ namespace
             };
 
             render::draw_quad(area, complete_line_color);
+        }
+
+        for (size_t i = 0; i < view.scores.items.size(); ++i)
+        {
+            render::draw(view.scores.items[i]);
         }
 
         render::end_frame();

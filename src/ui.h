@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <string>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include <SDL3/SDL.h>
 #include <asset.h>
@@ -46,6 +47,13 @@ namespace ui
         SDL_FPoint position;
     };
 
+    struct score_list
+    {
+        label item_template;
+        std::vector<label> items;
+        int spacing;
+    };
+
     struct game_layout
     {
         label score_description;
@@ -60,6 +68,7 @@ namespace ui
         ui::piece next;
         label game_over;
         label top_score;
+        score_list scores;
     };
 
     template<typename T>
@@ -110,6 +119,11 @@ namespace ui
         position)
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        score_list, \
+        item_template, \
+        spacing)
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         game_layout, \
         score_description, \
         score_value, \
@@ -122,7 +136,8 @@ namespace ui
         current, \
         next, \
         game_over, \
-        top_score)
+        top_score, \
+        scores)
 }
 
 #endif
