@@ -1,5 +1,17 @@
 {
-    "vsync": true,
+    "graphics": {
+        "vsync": true,
+        "crt_filter": {
+            "enabled": true,
+            "spacing": 5,
+            "color": {
+                "r": 0.0,
+                "g": 0.2,
+                "b": 0.0,
+                "a": 0.2
+            }
+        }
+    },
     "controls": {
         "drop": {
             "keyboard": "Down",

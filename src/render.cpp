@@ -38,7 +38,7 @@ namespace render
         }
 
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderVSync(renderer, settings.vsync);
+        SDL_SetRenderVSync(renderer, settings.graphics.vsync);
     }
 
     void shutdown()
@@ -90,6 +90,47 @@ namespace render
 
     void end_frame()
     {
+        if (settings.graphics.crt_filter.enabled)
+        {
+            crt_filter_settings &settings = ::settings.graphics.crt_filter;
+
+            SDL_FColor original_color;
+            SDL_GetRenderDrawColorFloat(
+                renderer,
+                &original_color.r,
+                &original_color.g,
+                &original_color.b,
+                &original_color.a);
+
+            SDL_SetRenderDrawColorFloat(
+                renderer, 
+                settings.color.r,
+                settings.color.g,
+                settings.color.b,
+                settings.color.a);
+
+            SDL_Rect viewport;
+            SDL_GetRenderViewport(renderer, &viewport);
+            int density = static_cast<int>(std::round(scalar * settings.spacing));
+
+            for (int i = 0; i <= viewport.w; i += density)
+            {
+                SDL_RenderLine(renderer, i, 0, i, viewport.h);
+            }
+
+            for (int i = 0; i <= viewport.h; i += density)
+            {
+                SDL_RenderLine(renderer, 0, i, viewport.w, i);
+            }
+
+            SDL_SetRenderDrawColorFloat(
+                renderer,
+                original_color.r,
+                original_color.g,
+                original_color.b,
+                original_color.a);
+        }
+
         SDL_RenderPresent(renderer);
     }
 

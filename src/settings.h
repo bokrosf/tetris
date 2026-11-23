@@ -6,6 +6,19 @@
 #include <unordered_map>
 #include <SDL3/SDL.h>
 
+struct crt_filter_settings
+{
+    bool enabled;
+    float spacing;
+    SDL_FColor color;
+};
+
+struct graphics_settings
+{
+    bool vsync;
+    crt_filter_settings crt_filter;
+};
+
 struct key_binding
 {
     SDL_Keycode keyboard;
@@ -14,7 +27,7 @@ struct key_binding
 
 struct settings_state
 {
-    bool vsync;
+    graphics_settings graphics;
     std::unordered_map<std::string, key_binding> controls;
 };
 
