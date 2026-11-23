@@ -3,6 +3,7 @@
     "piece_types_texture_path": "asset/textures/piece_types.bmp",
     "settings_path": "asset/settings.json",
     "views_path": "asset/views",
+    "scores_path": "scores.json",
     "gameplay": {
         "level_line_requirement": 10,
         "line_scores": [40, 100, 300, 1200],

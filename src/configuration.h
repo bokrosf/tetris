@@ -37,6 +37,7 @@ struct configuration
     std::filesystem::path piece_types_texture_path;
     std::filesystem::path settings_path;
     std::filesystem::path views_path;
+    std::filesystem::path scores_path;
     game_configuration gameplay;
     ui_configuration ui;
 };
@@ -69,6 +70,7 @@ NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE( \
     piece_types_texture_path, \
     settings_path, \
     views_path, \
+    scores_path, \
     gameplay, \
     ui)
 

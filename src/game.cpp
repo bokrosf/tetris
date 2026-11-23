@@ -8,6 +8,7 @@
 #include <game.h>
 #include <input.h>
 #include <render.h>
+#include <scores.h>
 #include <timer.h>
 #include <ui.h>
 
@@ -724,6 +725,10 @@ namespace
                 .started_at = timer::now(),
                 .duration = config.gameplay.field_clear_animation_duration_ms,
             };
+
+            score_table scores = scores::load();
+            scores::insert(scores, state.score);
+            scores::save(scores);
         }
     }
 
@@ -745,9 +750,6 @@ namespace
         if (ratio >= 1)
         {
             state.phase = simulation_phase::gameover_summary;
-            // TODO
-            // - read statistics
-            // - display labels: gameover, scores
         }
     }
 

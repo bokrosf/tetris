@@ -6,6 +6,7 @@ target_sources("${PROJECT_NAME}" PRIVATE
   input.cpp
   main.cpp
   render.cpp
+  scores.cpp
   settings.cpp
   timer.cpp
 )
