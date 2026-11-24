@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <numbers>
 #include <random>
@@ -86,6 +87,7 @@ namespace
         simulation_phase phase;
         moving_piece current;
         tetromino next;
+        std::vector<int> piece_bag;
         piece_grid grid;
         int score;
         int level;
@@ -106,14 +108,14 @@ namespace
     };
 
     std::random_device generator;
-    std::uniform_int_distribution piece_distribution(0, 6);
     game_state state;
     ui::game_layout view;
     animation active_animation;
     asset_keys assets;
     SDL_FColor complete_line_color;
 
-    const tetromino piece_templates[7] =
+    const int piece_count = 7;
+    const tetromino piece_templates[piece_count] =
     {
         tetromino
         {
@@ -201,7 +203,7 @@ namespace
         },
     };
 
-    const rotation_offset rotation_offsets[7][rotation_count] =
+    const rotation_offset rotation_offsets[piece_count][rotation_count] =
     {
         {{1, -1}, {-1, 1}, {1, -1}, {-1, 1}},
         {{0, -1}, {0, 0}, {1, 0}, {-1, 1}},
@@ -239,7 +241,20 @@ namespace
 
     int random_piece()
     {
-        return piece_distribution(generator);
+        if (state.piece_bag.empty())
+        {
+            for (int i = 0; i < piece_count; ++i)
+            {
+                state.piece_bag.push_back(i);
+            }
+
+            std::shuffle(state.piece_bag.begin(), state.piece_bag.end(), generator);
+        }
+
+        int piece = state.piece_bag.back();
+        state.piece_bag.pop_back();
+
+        return piece;
     }
 
     bool collides(int area_row, int area_column)
@@ -611,6 +626,7 @@ namespace
             },
         };
 
+        state.piece_bag.reserve(piece_count);
         state.grid.parts = new char *[state.grid.height];
         state.grid.parts[0] = new char[state.grid.height * state.grid.width];
 
@@ -851,7 +867,6 @@ namespace game
 {
     void init()
     {
-        piece_distribution.reset();
         init_state();
         init_view();
         spawn_piece();
