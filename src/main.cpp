@@ -10,27 +10,6 @@
 #include <settings.h>
 #include <timer.h>
 
-void init();
-void shutdown();
-void run();
-
-int main(int argc, char *argv[])
-{
-    try
-    {
-        init();
-        run();
-    }
-    catch (const std::exception &ex)
-    {
-        std::cout << ex.what() << std::endl;
-    }
-
-    shutdown();
-
-    return 0;
-}
-
 void init()
 {
     load_configuration("asset/config.json");
@@ -78,4 +57,21 @@ void run()
         navigation::top().run();
         navigation::commit();
     }
+}
+
+int main(int argc, char *argv[])
+{
+    try
+    {
+        init();
+        run();
+    }
+    catch (const std::exception &ex)
+    {
+        std::cout << ex.what() << std::endl;
+    }
+
+    shutdown();
+
+    return 0;
 }
