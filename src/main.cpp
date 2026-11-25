@@ -15,20 +15,20 @@ void init()
     load_configuration("asset/config.json");
     load_settings(config.settings_path);
     event::init();
-    timer::init();
     render::init();
     input::track_actions();
     navigation::init();
     navigation::push(navigation::scene::game);
     navigation::commit();
+    timer::init();
 }
 
 void shutdown()
 {
+    timer::shutdown();
     navigation::shutdown();
     asset::unload_all();
     render::shutdown();
-    timer::shutdown();
     event::shutdown();
 }
 
@@ -56,6 +56,7 @@ void run()
         input::react_to_events();
         navigation::top().run();
         navigation::commit();
+        timer::advance();
     }
 }
 

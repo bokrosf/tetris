@@ -7,6 +7,7 @@ namespace timer
 
     void init();
     void shutdown();
+    void advance();
     time_point now();
 }
 
