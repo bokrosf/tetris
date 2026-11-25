@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <game.h>
 #include <navigation.h>
+#include <timer.h>
 
 namespace
 {
@@ -79,11 +80,21 @@ namespace
         }
     }
 
+    void pop_context()
+    {
+        if (context_count > 0)
+        {
+            context &c = contexts[--context_count];
+            c.shutdown();
+            timer::remove_context(c.id);
+        }
+    }
+
     void shutdown_all_contexts()
     {
-        for (int i = context_count - 1; i >= 0; --i)
+        while (context_count > 0)
         {
-            contexts[i].shutdown();
+            pop_context();
         }
     }
 }
@@ -157,10 +168,7 @@ namespace navigation
                     push_context(requests[i].scene);
                     break;
                 case action::pop:
-                    if (context_count > 0)
-                    {
-                        contexts[--context_count].shutdown();
-                    }
+                    pop_context();
                     break;
                 case action::root:
                     shutdown_all_contexts();

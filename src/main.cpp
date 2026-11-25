@@ -15,12 +15,12 @@ void init()
     load_configuration("asset/config.json");
     load_settings(config.settings_path);
     event::init();
+    timer::init();
     render::init();
     input::track_actions();
     navigation::init();
     navigation::push(navigation::scene::game);
     navigation::commit();
-    timer::init();
 }
 
 void shutdown()
@@ -53,6 +53,7 @@ void run()
             render::toggle_fullscreen();
         }
 
+        timer::switch_context(navigation::top().id);
         input::react_to_events();
         navigation::top().run();
         navigation::commit();

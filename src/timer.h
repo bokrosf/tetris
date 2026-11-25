@@ -9,6 +9,8 @@ namespace timer
     void shutdown();
     void advance();
     time_point now();
+    void switch_context(int id);
+    void remove_context(int id);
 }
 
 #endif
