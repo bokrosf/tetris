@@ -2,12 +2,53 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <configuration.h>
+#include <input.h>
+#include <navigation.h>
+#include <render.h>
 #include <scores.h>
+#include <ui.h>
 
 using json = nlohmann::ordered_json;
 
+namespace
+{
+    ui::scores_layout view;
+}
+
 namespace scores
 {
+    void init()
+    {
+        score_table table = load();
+        view = ui::load_view<ui::scores_layout>(config.views_path / "scores_view.json");
+
+        for (size_t i = 0; i < table.size(); ++i)
+        {
+            ui::label l = view.scores.item_template;
+            l.text = std::to_string(table[i]);
+            l.position.y += i * view.scores.spacing;
+            view.scores.items.push_back(l);
+        }
+    }
+
+    void run()
+    {
+        if (input::active("ok") || input::active("cancel"))
+        {
+            navigation::pop();
+        }
+
+        render::begin_frame();
+        render::draw(view.title);
+
+        for (const auto &item : view.scores.items)
+        {
+            render::draw(item);
+        }
+
+        render::end_frame();
+    }
+
     score_table load()
     {
         if (!std::filesystem::exists(config.scores_path))
@@ -23,7 +64,7 @@ namespace scores
 
     void insert(score_table &table, int score)
     {
-        int i = 0;
+        size_t i = 0;
 
         while (i < table.size() && table[i] >= score)
         {
@@ -35,7 +76,7 @@ namespace scores
             return;
         }
 
-        for (int j = table.size() - 1; j > i; --j)
+        for (size_t j = table.size() - 1; j > i; --j)
         {
             table[j] = table[j - 1];
         }

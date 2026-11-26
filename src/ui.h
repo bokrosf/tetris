@@ -71,6 +71,12 @@ namespace ui
         score_list scores;
     };
 
+    struct scores_layout
+    {
+        label title;
+        score_list scores;
+    };
+
     template<typename T>
     T load_view(const std::filesystem::path &path)
     {
@@ -136,6 +142,11 @@ namespace ui
         next, \
         game_over, \
         top_score, \
+        scores)
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        scores_layout, \
+        title, \
         scores)
 }
 

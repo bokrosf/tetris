@@ -36,6 +36,10 @@
         "ok": {
             "keyboard": "RETURN",
             "gamepad": "a"
+        },
+        "cancel": {
+            "keyboard": "ESCAPE",
+            "gamepad": "b"
         }
     }
 }

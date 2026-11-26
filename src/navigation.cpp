@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <game.h>
 #include <navigation.h>
+#include <scores.h>
 #include <timer.h>
 
 namespace
@@ -61,8 +62,8 @@ namespace
                 c.shutdown = nullptr;
                 break;
             case scene::scores:
-                c.init = nullptr;
-                c.run = nullptr;
+                c.init = scores::init;
+                c.run = scores::run;
                 c.shutdown = nullptr;
                 break;
             default:
@@ -90,7 +91,12 @@ namespace
         if (context_count > 0)
         {
             context &c = contexts[--context_count];
-            c.shutdown();
+
+            if (c.shutdown)
+            {
+                c.shutdown();
+            }
+
             timer::remove_context(c.id);
         }
     }
