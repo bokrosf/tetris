@@ -1,6 +1,11 @@
+#ifndef TETRIS_SERIALIZATION_H
+#define TETRIS_SERIALIZATION_H
+
 #include <nlohmann/json.hpp>
 #include <SDL3/SDL.h>
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SDL_FColor, r, g, b, a)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SDL_FPoint, x, y)
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SDL_FRect, x, y, h, w)
+
+#endif
