@@ -12,6 +12,7 @@ namespace
         push,
         pop,
         root,
+        reload,
     };
 
     struct request
@@ -31,7 +32,11 @@ namespace
 
     context create_context(scene s)
     {
-        context c{.id = ++last_id};
+        context c
+        {
+            .id = ++last_id,
+            .scene = s,
+        };
 
         switch (s)
         {
@@ -87,6 +92,24 @@ namespace
             context &c = contexts[--context_count];
             c.shutdown();
             timer::remove_context(c.id);
+        }
+    }
+
+    void reload_context(scene s)
+    {
+        for (int i = 0; i < context_count; ++i)
+        {
+            context &c = contexts[i];
+
+            if (c.scene == s)
+            {
+                if (c.shutdown)
+                {
+                    c.shutdown();
+                }
+
+                c.init();
+            }
         }
     }
 
@@ -148,6 +171,18 @@ namespace navigation
         }
     }
 
+    void reload(scene s)
+    {
+        if (request_count < max_request_count)
+        {
+            requests[request_count++] =
+            {
+                .action = action::reload,
+                .scene = s,
+            };
+        }
+    }
+
     context &top()
     {
         if (context_count < 1)
@@ -173,6 +208,9 @@ namespace navigation
                 case action::root:
                     shutdown_all_contexts();
                     push_context(requests[i].scene);
+                    break;
+                case action::reload:
+                    reload_context(requests[i].scene);
                     break;
                 default:
                     break;

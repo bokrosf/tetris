@@ -8,6 +8,7 @@
 #include <configuration.h>
 #include <game.h>
 #include <input.h>
+#include <navigation.h>
 #include <render.h>
 #include <scores.h>
 #include <timer.h>
@@ -519,8 +520,7 @@ namespace
     {
         if (state.phase == simulation_phase::gameover_summary && input::active("ok"))
         {
-            shutdown();
-            init();
+            navigation::reload(navigation::scene::game);
             return;
         }
 

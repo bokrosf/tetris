@@ -17,6 +17,7 @@ namespace navigation
     struct context
     {
         int id;
+        navigation::scene scene;
         operation init;
         operation run;
         operation shutdown;
@@ -27,6 +28,7 @@ namespace navigation
     void push(scene s);
     void pop();
     void root(scene s);
+    void reload(scene s);
     context &top();
     void commit();
 }
