@@ -35,4 +35,7 @@ extern settings_state settings;
 
 void load_settings(const std::filesystem::path &path);
 
+void init_settings();
+void run_settings();
+
 #endif

@@ -2,6 +2,7 @@
 #include <game.h>
 #include <navigation.h>
 #include <scores.h>
+#include <settings.h>
 #include <timer.h>
 
 namespace
@@ -52,8 +53,8 @@ namespace
                 c.shutdown = game::shutdown;
                 break;
             case scene::settings:
-                c.init = nullptr;
-                c.run = nullptr;
+                c.init = init_settings;
+                c.run = run_settings;
                 c.shutdown = nullptr;
                 break;
             case scene::pause:

@@ -13,7 +13,7 @@
 void init()
 {
     load_configuration("asset/config.json");
-    load_settings(config.settings_path);
+    init_settings();
     event::init();
     timer::init();
     render::init();
