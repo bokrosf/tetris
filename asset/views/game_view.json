@@ -96,8 +96,7 @@
         }
     },
     "piece": {
-        "width": 60.0,
-        "texture": 2
+        "width": 60.0
     },
     "grid": {
         "visible": true,

@@ -98,8 +98,7 @@ namespace ui
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         piece_config, \
-        width, \
-        texture)
+        width)
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         colored_area, \

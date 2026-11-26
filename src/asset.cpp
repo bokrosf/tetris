@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <nlohmann/json.hpp>
 #include <asset.h>
+#include <configuration.h>
 #include <font.h>
 #include <render.h>
 
@@ -14,13 +15,19 @@ namespace
     using namespace asset;
     const id_type initial_id_value = 0;
 
-    id_type last_id = initial_id_value;
+    id_type last_id;
     std::unordered_map<id_type, ui::font> fonts;
     std::unordered_map<id_type, SDL_Texture *> textures;
 }
 
 namespace asset
 {
+    void init()
+    {
+        last_id = initial_id_value;
+        load_font(config.font_path);
+    }
+
     id_type load_font(const std::filesystem::path &path)
     {
         if (!std::filesystem::exists(path))
@@ -82,6 +89,15 @@ namespace asset
         return last_id;
     }
 
+    void unload_texture(id_type id)
+    {
+        if (textures.contains(id))
+        {
+            render::unload_texture(textures[id]);
+            textures.erase(id);
+        }
+    }
+
     void unload_all()
     {
         fonts.clear();
@@ -90,8 +106,6 @@ namespace asset
         {
             SDL_DestroyTexture(t);
         }
-
-        last_id = initial_id_value;
     }
 
     ui::font &font(id_type id)

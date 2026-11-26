@@ -18,6 +18,7 @@ void init()
     timer::init();
     render::init();
     input::track_actions();
+    asset::init();
     navigation::init();
     navigation::push(navigation::scene::game);
     navigation::commit();
@@ -25,10 +26,10 @@ void init()
 
 void shutdown()
 {
-    timer::shutdown();
     navigation::shutdown();
     asset::unload_all();
     render::shutdown();
+    timer::shutdown();
     event::shutdown();
 }
 

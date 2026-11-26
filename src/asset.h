@@ -9,9 +9,11 @@ namespace asset
 {
     using id_type = unsigned int;
 
+    void init();
     id_type load_font(const std::filesystem::path &path);
     id_type load_texture(const std::filesystem::path &path);
     void unload_all();
+    void unload_texture(id_type id);
     ui::font &font(id_type id);
     SDL_Texture &texture(id_type id);
 }

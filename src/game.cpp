@@ -17,12 +17,6 @@ using namespace game;
 
 namespace
 {
-    struct asset_keys
-    {
-        asset::id_type font;
-        asset::id_type piece_types;
-    };
-
     const int part_dimension = 4;
     const unsigned int rotation_count = 4;
 
@@ -111,7 +105,6 @@ namespace
     game_state state;
     ui::game_layout view;
     animation active_animation;
-    asset_keys assets;
     SDL_FColor complete_line_color;
 
     const int piece_count = 7;
@@ -526,6 +519,7 @@ namespace
     {
         if (state.phase == simulation_phase::gameover_summary && input::active("ok"))
         {
+            shutdown();
             init();
             return;
         }
@@ -654,13 +648,8 @@ namespace
 
     void init_view()
     {
-        assets =
-        {
-            .font = asset::load_font(config.font_path),
-            .piece_types = asset::load_texture(config.piece_types_texture_path),
-        };
-
         view = ui::load_view<ui::game_layout>(config.views_path / "game_view.json");
+        view.piece.texture = asset::load_texture(config.piece_types_texture_path);
         complete_line_color = view.grid.complete_line_color;
     }
 
@@ -883,6 +872,7 @@ namespace game
 
     void shutdown()
     {
+        asset::unload_texture(view.piece.texture);
         delete[] state.grid.parts[0];
         delete[] state.grid.parts;
     }
