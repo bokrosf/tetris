@@ -249,5 +249,15 @@ namespace render
     {
         return SDL_CreateTextureFromSurface(renderer, surface);
     }
+
+    void unload_texture(SDL_Texture *texture)
+    {
+        if (!texture)
+        {
+            return;
+        }
+
+        SDL_DestroyTexture(texture);
+    }
 }
 
