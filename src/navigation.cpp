@@ -178,5 +178,7 @@ namespace navigation
                     break;
             }
         }
+
+        request_count = 0;
     }
 }
