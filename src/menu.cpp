@@ -1,5 +1,4 @@
 #include <string>
-#include <configuration.h>
 #include <input.h>
 #include <main.h>
 #include <menu.h>
@@ -44,7 +43,7 @@ namespace
 
     void init_view(const std::string &name)
     {
-        context.view = ui::load_view<ui::menu_layout>(config.views_path / name);
+        context.view = ui::load_view<ui::menu_layout>(name);
         
         for (int i = 0; i < context.count; ++i)
         {

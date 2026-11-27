@@ -74,7 +74,7 @@ void load_settings(const std::filesystem::path &path)
 void init_settings()
 {
     load_settings(config.settings_path);
-    view = ui::load_view<ui::settings_layout>(config.views_path / "settings.json");
+    view = ui::load_view<ui::settings_layout>("settings.json");
 }
 
 void run_settings()

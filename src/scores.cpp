@@ -20,7 +20,7 @@ namespace scores
     void init()
     {
         score_table table = load();
-        view = ui::load_view<ui::scores_layout>(config.views_path / "scores.json");
+        view = ui::load_view<ui::scores_layout>("scores.json");
 
         for (size_t i = 0; i < table.size(); ++i)
         {

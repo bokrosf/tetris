@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 #include <SDL3/SDL.h>
 #include <asset.h>
+#include <configuration.h>
 #include <serialization.h>
 
 namespace ui
@@ -90,9 +91,10 @@ namespace ui
     };
 
     template<typename T>
-    T load_view(const std::filesystem::path &path)
+    T load_view(const std::filesystem::path &relative_path)
     {
         using json = nlohmann::ordered_json;
+        auto path = config.views_path / relative_path;
 
         if (!std::filesystem::exists(path))
         {
