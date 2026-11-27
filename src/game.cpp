@@ -648,7 +648,7 @@ namespace
 
     void init_view()
     {
-        view = ui::load_view<ui::game_layout>(config.views_path / "game_view.json");
+        view = ui::load_view<ui::game_layout>(config.views_path / "game.json");
         view.piece.texture = asset::load_texture(config.piece_types_texture_path);
         complete_line_color = view.grid.complete_line_color;
     }

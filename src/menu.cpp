@@ -127,7 +127,7 @@ namespace menu
             .input_enabled = true,
         };
 
-        init_view("main_menu_view.json");
+        init_view("main_menu.json");
     }
 
     void init_pause()
@@ -141,7 +141,7 @@ namespace menu
             .input_enabled = true,
         };
 
-        init_view("pause_menu_view.json");
+        init_view("pause_menu.json");
     }
 
     void run()
