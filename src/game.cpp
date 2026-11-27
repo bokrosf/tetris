@@ -797,6 +797,11 @@ namespace
         render::draw(view.game_over);
         render::draw(view.top_score);
 
+        for (size_t i = 0; i < view.scores.items.size(); ++i)
+        {
+            render::draw(view.scores.items[i]);
+        }
+
         render::draw(
             render::piece_grid
             {
@@ -841,11 +846,6 @@ namespace
             };
 
             render::draw_quad(area, complete_line_color);
-        }
-
-        for (size_t i = 0; i < view.scores.items.size(); ++i)
-        {
-            render::draw(view.scores.items[i]);
         }
 
         render::end_frame();
