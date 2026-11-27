@@ -13,13 +13,15 @@ namespace
         finished,
     };
 
+    bool tracking;
     std::unordered_map<std::string, action_state> actions;
 }
 
 namespace input
 {
-    void track_actions()
+    void init()
     {
+        tracking = true;
         actions.clear();
 
         for (const auto &[name, _] : settings.controls)
@@ -30,6 +32,11 @@ namespace input
 
     void react_to_events()
     {
+        if (!tracking)
+        {
+            return;
+        }
+
         for (auto &[name, state] : actions)
         {
             auto it = event::queue().crbegin();
@@ -82,5 +89,24 @@ namespace input
         auto it = actions.find(action);
 
         return it != actions.end() && it->second == action_state::finished;
+    }
+
+
+    void suspend_tracking()
+    {
+        tracking = false;
+    }
+
+    void continue_tracking()
+    {
+        tracking = true;
+    }
+
+    void finish_all_actions()
+    {
+        for (auto &[_, state] : actions)
+        {
+            state = action_state::finished;
+        }
     }
 }

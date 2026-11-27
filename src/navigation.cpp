@@ -1,5 +1,7 @@
 #include <stdexcept>
+#include <event.h>
 #include <game.h>
+#include <input.h>
 #include <menu.h>
 #include <navigation.h>
 #include <scores.h>
@@ -223,6 +225,13 @@ namespace navigation
                 default:
                     break;
             }
+        }
+
+        if (request_count > 0)
+        {
+            event::clear();
+            input::suspend_tracking();
+            input::finish_all_actions();
         }
 
         request_count = 0;

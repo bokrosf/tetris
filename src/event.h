@@ -9,6 +9,7 @@ namespace event
     void init();
     void shutdown();
     void read_all();
+    void clear();
     bool occured(SDL_EventType type);
     const std::vector<SDL_Event> &queue();
     bool key_down(SDL_Keycode key);

@@ -21,6 +21,8 @@ namespace event
         {
             throw std::runtime_error(std::format("Events Subsystem init failed: {}", SDL_GetError()));
         }
+
+        clear();
     }
 
     void shutdown()
@@ -47,6 +49,11 @@ namespace event
                 gamepads.push_back(SDL_OpenGamepad(event.gdevice.which));
             }
         }
+    }
+
+    void clear()
+    {
+        events.clear();
     }
 
     bool occured(SDL_EventType type)

@@ -523,6 +523,11 @@ namespace
             navigation::reload(navigation::scene::game);
             return;
         }
+        else if (state.phase == simulation_phase::gameover_summary && input::active("cancel"))
+        {
+            navigation::root(navigation::scene::main_menu);
+            return;
+        }
 
         if (input::finished("drop"))
         {
@@ -532,6 +537,12 @@ namespace
                 .dropping = false,
                 .rows = 0
             };
+        }
+
+        if (input::active("pause"))
+        {
+            navigation::push(navigation::scene::pause);
+            return;
         }
 
         if (state.phase != simulation_phase::dropping)
@@ -551,13 +562,10 @@ namespace
             state.strafe_at = timer::now() + config.gameplay.strafe_interval;
         }
 
-        if (input::active("drop"))
+        if (input::active("drop") && state.drop.enabled && !state.drop.dropping)
         {
-            if (state.drop.enabled && !state.drop.dropping)
-            {
-                state.drop.dropping = true;
-                state.fall_at = timer::now();
-            }
+            state.drop.dropping = true;
+            state.fall_at = timer::now();
         }
 
         if (input::active("rotate_left") && state.rotation_enabled)

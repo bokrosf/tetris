@@ -69,6 +69,7 @@ void load_settings(const std::filesystem::path &path)
     settings.controls["menu_up"] = {.keyboard = SDLK_UP, .gamepad = SDL_GAMEPAD_BUTTON_DPAD_UP};
     settings.controls["ok"] = {.keyboard = SDLK_RETURN, .gamepad = SDL_GAMEPAD_BUTTON_SOUTH};
     settings.controls["cancel"] = {.keyboard = SDLK_ESCAPE, .gamepad = SDL_GAMEPAD_BUTTON_EAST};
+    settings.controls["pause"] = {.keyboard = SDLK_ESCAPE, .gamepad = SDL_GAMEPAD_BUTTON_START};
 }
 
 void init_settings()

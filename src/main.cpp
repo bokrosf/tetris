@@ -22,7 +22,7 @@ namespace
         event::init();
         timer::init();
         render::init();
-        input::track_actions();
+        input::init();
         asset::init();
         navigation::init();
         navigation::push(navigation::scene::main_menu);
@@ -62,6 +62,7 @@ namespace
             timer::switch_context(navigation::top().id);
             input::react_to_events();
             navigation::top().run();
+            input::continue_tracking();
             navigation::commit();
             timer::advance();
         }
