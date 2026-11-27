@@ -27,6 +27,7 @@ namespace render
     void draw_quad(const SDL_FRect &area, const SDL_FColor &color);
     SDL_Texture *load_texture(SDL_Surface *surface);
     void unload_texture(SDL_Texture *texture);
+    void apply_settings();
 }
 
 #endif

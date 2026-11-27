@@ -15,6 +15,7 @@ struct crt_filter_settings
 
 struct graphics_settings
 {
+    bool fullscreen;
     bool vsync;
     crt_filter_settings crt_filter;
 };
@@ -34,6 +35,7 @@ struct settings_state
 extern settings_state settings;
 
 void load_settings(const std::filesystem::path &path);
+void save_settings();
 
 void init_settings();
 void run_settings();

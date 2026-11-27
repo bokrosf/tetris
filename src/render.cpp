@@ -30,7 +30,7 @@ namespace render
             throw std::runtime_error(std::format("Video Subsystem init failed: {}", SDL_GetError()));
         }
 
-        SDL_WindowFlags flags = SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE;
+        SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
 
         if (!SDL_CreateWindowAndRenderer(nullptr, 0, 0, flags, &window, &renderer))
         {
@@ -38,7 +38,7 @@ namespace render
         }
 
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderVSync(renderer, settings.graphics.vsync);
+        apply_settings();
     }
 
     void shutdown()
@@ -258,6 +258,12 @@ namespace render
         }
 
         SDL_DestroyTexture(texture);
+    }
+
+    void apply_settings()
+    {
+        SDL_SetWindowFullscreen(window, settings.graphics.fullscreen);
+        SDL_SetRenderVSync(renderer, settings.graphics.vsync);
     }
 }
 

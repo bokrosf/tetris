@@ -15,7 +15,7 @@
 #include <ui.h>
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(crt_filter_settings, enabled, spacing, color)
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(graphics_settings, vsync, crt_filter)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(graphics_settings, fullscreen, vsync, crt_filter)
 
 namespace storage
 {
@@ -42,10 +42,10 @@ namespace
 
 settings_state settings;
 
+using json = nlohmann::ordered_json;
+
 void load_settings(const std::filesystem::path &path)
 {
-    using json = nlohmann::ordered_json;
-
     if (!std::filesystem::exists(path))
     {
         throw std::runtime_error(std::format("Settings file not found: {}", path.c_str()));
@@ -70,6 +70,11 @@ void load_settings(const std::filesystem::path &path)
     settings.controls["ok"] = {.keyboard = SDLK_RETURN, .gamepad = SDL_GAMEPAD_BUTTON_SOUTH};
     settings.controls["cancel"] = {.keyboard = SDLK_ESCAPE, .gamepad = SDL_GAMEPAD_BUTTON_EAST};
     settings.controls["pause"] = {.keyboard = SDLK_ESCAPE, .gamepad = SDL_GAMEPAD_BUTTON_START};
+}
+
+void save_settings()
+{
+    render::apply_settings();
 }
 
 void init_settings()

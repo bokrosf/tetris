@@ -1,5 +1,6 @@
 {
     "graphics": {
+        "fullscreen": true,
         "vsync": true,
         "crt_filter": {
             "enabled": true,
