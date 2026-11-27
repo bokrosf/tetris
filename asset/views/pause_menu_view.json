@@ -1,0 +1,43 @@
+{
+    "title": {
+        "visible": true,
+        "text": "PAUSE",
+        "font": 1,
+        "font_size": 5.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 385.0,
+            "y": 200
+        }
+    },
+    "items": {
+        "item_template": {
+            "visible": true,
+            "text": "",
+            "font": 1,
+            "font_size": 4.0,
+            "color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            },
+            "position": {
+                "x": 430.0,
+                "y": 400
+            }
+        },
+        "spacing": 100
+    },
+    "selected_color": {
+        "r": 0.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 1.0
+    }
+}

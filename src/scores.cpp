@@ -33,7 +33,7 @@ namespace scores
 
     void run()
     {
-        if (input::active("ok") || input::active("cancel"))
+        if (input::active("cancel"))
         {
             navigation::pop();
         }

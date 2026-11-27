@@ -5,6 +5,7 @@ target_sources("${PROJECT_NAME}" PRIVATE
   game.cpp
   input.cpp
   main.cpp
+  menu.cpp
   navigation.cpp
   render.cpp
   scores.cpp

@@ -47,11 +47,18 @@ namespace ui
         SDL_FPoint position;
     };
 
-    struct score_list
+    struct item_list
     {
         label item_template;
         std::vector<label> items;
         int spacing;
+    };
+
+    struct menu_layout
+    {
+        label title;
+        item_list items;
+        SDL_FColor selected_color;
     };
 
     struct game_layout
@@ -68,13 +75,13 @@ namespace ui
         ui::piece next;
         label game_over;
         label top_score;
-        score_list scores;
+        item_list scores;
     };
 
     struct scores_layout
     {
         label title;
-        score_list scores;
+        item_list scores;
     };
 
     struct settings_layout
@@ -129,9 +136,15 @@ namespace ui
         position)
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
-        score_list, \
+        item_list, \
         item_template, \
         spacing)
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        menu_layout, \
+        title, \
+        items, \
+        selected_color)
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         game_layout, \

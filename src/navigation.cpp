@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <game.h>
+#include <menu.h>
 #include <navigation.h>
 #include <scores.h>
 #include <settings.h>
@@ -43,8 +44,8 @@ namespace
         switch (s)
         {
             case scene::main_menu:
-                c.init = nullptr;
-                c.run = nullptr;
+                c.init = menu::init_main;
+                c.run = menu::run;
                 c.shutdown = nullptr;
                 break;
             case scene::game:
@@ -58,8 +59,8 @@ namespace
                 c.shutdown = nullptr;
                 break;
             case scene::pause:
-                c.init = nullptr;
-                c.run = nullptr;
+                c.init = menu::init_pause;
+                c.run = menu::run;
                 c.shutdown = nullptr;
                 break;
             case scene::scores:

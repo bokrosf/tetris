@@ -5,61 +5,72 @@
 #include <configuration.h>
 #include <event.h>
 #include <input.h>
+#include <main.h>
 #include <navigation.h>
 #include <render.h>
 #include <settings.h>
 #include <timer.h>
 
-void init()
+namespace
 {
-    load_configuration("asset/config.json");
-    init_settings();
-    event::init();
-    timer::init();
-    render::init();
-    input::track_actions();
-    asset::init();
-    navigation::init();
-    navigation::push(navigation::scene::game);
-    navigation::commit();
-}
+    bool running = true;
 
-void shutdown()
-{
-    navigation::shutdown();
-    asset::unload_all();
-    render::shutdown();
-    timer::shutdown();
-    event::shutdown();
-}
-
-void run()
-{
-    while (true)
+    void init()
     {
-        event::read_all();
-
-        if (event::occured(SDL_EVENT_QUIT))
-        {
-            return;
-        }
-
-        if (event::occured(SDL_EVENT_WINDOW_RESIZED))
-        {
-            render::adapt_to_window();
-        }
-
-        if (event::key_down(SDLK_F1))
-        {
-            render::toggle_fullscreen();
-        }
-
-        timer::switch_context(navigation::top().id);
-        input::react_to_events();
-        navigation::top().run();
+        load_configuration("asset/config.json");
+        init_settings();
+        event::init();
+        timer::init();
+        render::init();
+        input::track_actions();
+        asset::init();
+        navigation::init();
+        navigation::push(navigation::scene::main_menu);
         navigation::commit();
-        timer::advance();
     }
+
+    void shutdown()
+    {
+        navigation::shutdown();
+        asset::unload_all();
+        render::shutdown();
+        timer::shutdown();
+        event::shutdown();
+    }
+
+    void run()
+    {
+        while (running)
+        {
+            event::read_all();
+
+            if (event::occured(SDL_EVENT_QUIT))
+            {
+                return;
+            }
+
+            if (event::occured(SDL_EVENT_WINDOW_RESIZED))
+            {
+                render::adapt_to_window();
+            }
+
+            if (event::key_down(SDLK_F1))
+            {
+                render::toggle_fullscreen();
+            }
+
+            timer::switch_context(navigation::top().id);
+            input::react_to_events();
+            navigation::top().run();
+            navigation::commit();
+            timer::advance();
+        }
+    }
+}
+
+void exit_app()
+{
+    running = false;
 }
 
 int main(int argc, char *argv[])

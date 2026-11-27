@@ -7,6 +7,8 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 #include <configuration.h>
+#include <input.h>
+#include <navigation.h>
 #include <serialization.h>
 #include <settings.h>
 #include <render.h>
@@ -53,7 +55,7 @@ void load_settings(const std::filesystem::path &path)
     json json_data = json::parse(input);
     storage::settings_state stored = json_data.get<storage::settings_state>();
     settings.graphics = stored.graphics;
-
+    
     for (const auto &[action, binding] : stored.controls)
     {
         settings.controls[action] = key_binding
@@ -62,6 +64,11 @@ void load_settings(const std::filesystem::path &path)
             .gamepad = SDL_GetGamepadButtonFromString(binding.gamepad.c_str()),
         };
     }
+
+    settings.controls["menu_down"] = {.keyboard = SDLK_DOWN, .gamepad = SDL_GAMEPAD_BUTTON_DPAD_DOWN};
+    settings.controls["menu_up"] = {.keyboard = SDLK_UP, .gamepad = SDL_GAMEPAD_BUTTON_DPAD_UP};
+    settings.controls["ok"] = {.keyboard = SDLK_RETURN, .gamepad = SDL_GAMEPAD_BUTTON_SOUTH};
+    settings.controls["cancel"] = {.keyboard = SDLK_ESCAPE, .gamepad = SDL_GAMEPAD_BUTTON_EAST};
 }
 
 void init_settings()
@@ -72,6 +79,11 @@ void init_settings()
 
 void run_settings()
 {
+    if (input::active("cancel"))
+    {
+        navigation::pop();
+    }
+
     render::begin_frame();
     render::draw(view.title);
     render::end_frame();
