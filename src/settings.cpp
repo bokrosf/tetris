@@ -38,6 +38,15 @@ namespace storage
 namespace
 {
     ui::settings_layout view;
+
+    ui::checkbox *create_checkbox(bool *tracked)
+    {
+        ui::checkbox *cb = new ui::checkbox;
+        *cb = view.checkbox_template;
+        cb->checked = tracked;
+
+        return cb;
+    }
 }
 
 settings_state settings;
@@ -81,6 +90,32 @@ void init_settings()
 {
     load_settings(config.settings_path);
     view = ui::load_view<ui::settings_layout>("settings.json");
+
+    view.options.push_back(
+        {
+            .toggle = create_checkbox(&settings.graphics.fullscreen),
+            .binding = nullptr,
+        }
+    );
+
+    view.options.push_back(
+        {
+            .toggle = create_checkbox(&settings.graphics.vsync),
+            .binding = nullptr,
+        }
+    );
+
+    view.options.push_back(
+        {
+            .toggle = create_checkbox(&settings.graphics.crt_filter.enabled),
+            .binding = nullptr,
+        }
+    );
+
+    for (size_t i = 0; i < view.options.size(); ++i)
+    {
+        view.options[i].toggle->position.y += i * view.spacing;
+    }
 }
 
 void run_settings()
@@ -92,5 +127,32 @@ void run_settings()
 
     render::begin_frame();
     render::draw(view.title);
+    render::draw(view.graphics);
+    render::draw(view.controls);
+
+    for (const auto &item : view.options)
+    {
+        if (item.toggle)
+        {
+            render::draw(*item.toggle);
+        }
+        else if (item.binding)
+        {
+
+        }
+    }
+
     render::end_frame();
+}
+
+void shutdown_settings()
+{
+    for (auto &item : view.options)
+    {
+        delete item.toggle;
+        item.toggle = nullptr;
+
+        delete item.binding;
+        item.binding = nullptr;
+    }
 }

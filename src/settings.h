@@ -39,5 +39,6 @@ void save_settings();
 
 void init_settings();
 void run_settings();
+void shutdown_settings();
 
 #endif

@@ -19,6 +19,19 @@ namespace
     {
         return scalar * config.ui.font_height * height;
     }
+
+    SDL_FColor draw_color()
+    {
+        SDL_FColor color;
+        SDL_GetRenderDrawColorFloat(renderer, &color.r, &color.g, &color.b, &color.a);
+
+        return color;
+    }
+
+    void draw_color(const SDL_FColor &color)
+    {
+        SDL_SetRenderDrawColorFloat(renderer, color.r, color.g, color.b, color.a);
+    }
 }
 
 namespace render
@@ -243,6 +256,42 @@ namespace render
 
         SDL_RenderFillRect(renderer, &scaled_area);
         SDL_SetRenderDrawColorFloat(renderer, original_color.r, original_color.g, original_color.b, original_color.a);
+    }
+
+    void draw(const ui::checkbox checkbox)
+    {
+        SDL_FColor original = draw_color();
+        draw_color(checkbox.color);
+
+        SDL_FRect area
+        {
+            .x = scalar * checkbox.position.x,
+            .y = scalar * checkbox.position.y,
+            .w = scalar * checkbox.width,
+            .h = scalar * checkbox.width,
+        };
+
+        SDL_RenderFillRect(renderer, &area);
+
+        draw_color(original);
+        float border_width = scalar * checkbox.width * 0.125F;
+        area.x += scalar * border_width;
+        area.y += scalar * border_width;
+        area.w -= scalar * 2 * border_width;
+        area.h -= scalar * 2 * border_width;
+        SDL_RenderFillRect(renderer, &area);
+
+        if (*checkbox.checked)
+        {
+            draw_color(checkbox.color);
+            area.x += scalar * border_width;
+            area.y += scalar * border_width;
+            area.w -= scalar * 2 * border_width;
+            area.h -= scalar * 2 * border_width;
+            SDL_RenderFillRect(renderer, &area);
+        }
+
+        draw_color(original);
     }
 
     SDL_Texture *load_texture(SDL_Surface *surface)

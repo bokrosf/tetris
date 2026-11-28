@@ -22,6 +22,14 @@ namespace ui
         SDL_FPoint position;
     };
 
+    struct checkbox
+    {
+        SDL_FColor color;
+        SDL_FPoint position;
+        bool *checked;
+        float width;
+    };
+
     struct piece_config
     {
         float width;
@@ -53,6 +61,19 @@ namespace ui
         label item_template;
         std::vector<label> items;
         int spacing;
+    };
+
+    struct key_binding
+    {
+        SDL_FPoint position;
+        std::string keyboard;
+        std::string gamepad;
+    };
+
+    struct setting_option
+    {
+        ui::checkbox *toggle;
+        ui::key_binding *binding;
     };
 
     struct menu_layout
@@ -88,6 +109,13 @@ namespace ui
     struct settings_layout
     {
         label title;
+        label graphics;
+        label controls;
+        label label_template;
+        checkbox checkbox_template;
+        int spacing;
+        SDL_FColor selected_color;
+        std::vector<setting_option> options;
     };
 
     template<typename T>
@@ -115,6 +143,12 @@ namespace ui
         font_size, \
         color, \
         position)
+
+    NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
+        checkbox, \
+        color, \
+        position, \
+        width)
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         piece_config, \
@@ -171,7 +205,13 @@ namespace ui
 
     NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(
         settings_layout, \
-        title)
+        title, \
+        graphics, \
+        controls, \
+        label_template, \
+        checkbox_template, \
+        spacing, \
+        selected_color)
 }
 
 #endif

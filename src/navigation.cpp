@@ -58,7 +58,7 @@ namespace
             case scene::settings:
                 c.init = init_settings;
                 c.run = run_settings;
-                c.shutdown = nullptr;
+                c.shutdown = shutdown_settings;
                 break;
             case scene::pause:
                 c.init = menu::init_pause;

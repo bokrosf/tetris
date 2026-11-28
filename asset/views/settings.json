@@ -11,8 +11,76 @@
             "a": 1.0
         },
         "position": {
-            "x": 385.0,
+            "x": 385,
             "y": 200
         }
+    },
+    "graphics": {
+        "visible": true,
+        "text": "GRAPHICS",
+        "font": 1,
+        "font_size": 3.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 50,
+            "y": 350
+        }
+    },
+    "controls": {
+        "visible": true,
+        "text": "CONTROLS",
+        "font": 1,
+        "font_size": 3.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 50,
+            "y": 650
+        }
+    },
+    "label_template": {
+        "visible": true,
+        "text": "",
+        "font": 1,
+        "font_size": 5.0,
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 200.0,
+            "y": 0
+        }
+    },
+    "checkbox_template": {
+        "color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "position": {
+            "x": 600,
+            "y": 425
+        },
+        "width": 50
+    },
+    "spacing": 75,
+    "selected_color": {
+        "r": 0.0,
+        "g": 1.0,
+        "b": 0.0,
+        "a": 1.0
     }
 }
